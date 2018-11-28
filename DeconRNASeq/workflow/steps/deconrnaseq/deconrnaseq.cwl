@@ -13,8 +13,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    #dockerPull: quay.io/cri-iatlas/deconrnaseq
-    dockerPull: deconrnaseq 
+    dockerPull: quay.io/cri-iatlas/deconrnaseq
 
 inputs:
 

@@ -1,8 +1,13 @@
 library(DeconRNASeq)
 library(argparse)
+library(readr)
+library(tibble)
+library(magrittr)
 
 parser = ArgumentParser(description = "Deconvolute tumor samples with DeconRNASeq")
 
+
+print("test1")
 # required args
 parser$add_argument(
     "--input_expression_file",
@@ -14,13 +19,13 @@ parser$add_argument(
     type = "character",
     required = TRUE,
     help = "Path to input matrix of signature data, tab seperated. Signature matrix from different tissue/cell types, genes (transcripts) by cell types. For gene counts, the user can choose the appropriate counts, RPKM, FPKM etc..")
+
+# with defaults
 parser$add_argument(
     "--output_file",
     type = "character",
-    required = TRUE,
+    default = "./output_file.RDS",
     help = "path to write output file")
-
-# with defaults
 parser$add_argument(
     "--input_proportions_file",
     default = NULL,
@@ -45,25 +50,21 @@ parser$add_argument(
 
 args = parser$parse_args()
 
+tsv_file_to_df <- function(file){
+    file %>% 
+        readr::read_tsv() %>% 
+        as.data.frame() %>% 
+        tibble::column_to_rownames(., colnames(.)[[1]])
+}
 
-datasets <- read.table(
-    args$input_expression_file,
-    sep = "\t",
-    stringsAsFactors = FALSE,
-    header = TRUE)
+datasets <-  tsv_file_to_df(args$input_expression_file)
 
-signatures <- read.table(
-    args$input_signature_file,
-    sep = "\t",
-    stringsAsFactors = FALSE,
-    header = TRUE)
+signatures <- tsv_file_to_df(args$input_signature_file)
+
+print("test2")
 
 if(is.character(args$input_proportions_file)){
-    proportions <- read.table(
-        args$input_proportions_file,
-        sep = "\t",
-        stringsAsFactors = FALSE,
-        header = TRUE)
+    proportions <- tsv_file_to_matrix(args$input_proportions_file)
 } else {
     proportions <- NULL
 }

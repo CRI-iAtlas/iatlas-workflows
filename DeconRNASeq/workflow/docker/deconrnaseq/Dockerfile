@@ -1,8 +1,9 @@
-FROM bioconductor/release_core2
+FROM rocker/tidyverse
 
-RUN echo "r <- getOption('repos'); r['CRAN'] <- 'http://cran.us.r-project.org'; options(repos = r);" > ~/.Rprofile
 RUN Rscript -e "install.packages('argparse')"
-RUN Rscript -e "source('https://bioconductor.org/biocLite.R');biocLite('DeconRNASeq')"
+RUN Rscript -e "install.packages('BiocManager')"
+
+RUN Rscript -e "BiocManager::install('DeconRNASeq', version = '3.8')"
 
 COPY bin/deconrnaseq.R /usr/local/bin/
 RUN chmod a+x /usr/local/bin/deconrnaseq.R
