@@ -13,8 +13,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    #dockerPull: quay.io/cri-iatlas/mcpcounter 
-    dockerPull: mcpcounter 
+    dockerPull: quay.io/cri-iatlas/mcpcounter
 
 inputs:
 
