@@ -25,7 +25,7 @@ steps:
     out: [output_file]
     
   md5sum:
-    run: ../utils/R_utils/CWL/md5sum_checker.cwl
+    run: checker/md5sum_checker.cwl
     in: 
       file1: mcpcounter/output_file
       file2: output_file
