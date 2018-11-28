@@ -10,8 +10,7 @@ doc: "run MCPcounter"
 
 hints:
   DockerRequirement:
-    #dockerPull: quay.io/cri-iatlas/tidy_utils
-    dockerPull: tidy_utils  
+    dockerPull: quay.io/cri-iatlas/tidy_utils
 
 stdout: status.txt
 
