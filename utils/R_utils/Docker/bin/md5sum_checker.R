@@ -6,7 +6,7 @@ sum2 <- tools::md5sum(args[2])
 if(sum1 == sum2){
     result <- "Pass"  
 } else { 
-    result <- "Fail"
+    stop("md5sums not equal")
 }
 
 write(result, stdout())
