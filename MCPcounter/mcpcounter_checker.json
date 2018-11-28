@@ -1,0 +1,10 @@
+{
+    "input_expression_file": {
+        "path": "sample_expression.tsv", 
+        "class": "File"
+    },
+    "output_file": {
+        "path": "sample_output.tsv", 
+        "class": "File"
+    }
+}
