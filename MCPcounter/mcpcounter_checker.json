@@ -4,7 +4,7 @@
         "class": "File"
     },
     "output_file": {
-        "path": "sample_output.tsv", 
+        "path": "output_file.tsv", 
         "class": "File"
     }
 }
