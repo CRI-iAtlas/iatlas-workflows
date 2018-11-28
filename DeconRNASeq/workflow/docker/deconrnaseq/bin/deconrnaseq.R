@@ -6,8 +6,6 @@ library(magrittr)
 
 parser = ArgumentParser(description = "Deconvolute tumor samples with DeconRNASeq")
 
-
-print("test1")
 # required args
 parser$add_argument(
     "--input_expression_file",
@@ -60,8 +58,6 @@ tsv_file_to_df <- function(file){
 datasets <-  tsv_file_to_df(args$input_expression_file)
 
 signatures <- tsv_file_to_df(args$input_signature_file)
-
-print("test2")
 
 if(is.character(args$input_proportions_file)){
     proportions <- tsv_file_to_matrix(args$input_proportions_file)
