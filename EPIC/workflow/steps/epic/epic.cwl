@@ -13,7 +13,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/iatlas-tool-epic
+    dockerPull: quay.io/cri-iatlas/epic
 
 inputs:
 
@@ -30,41 +30,11 @@ inputs:
       prefix: --output_file
     doc: Path to write output file
 
-  reference_type:
+  reference:
     type: ["null", string]
     inputBinding:
       prefix: --reference_type
-    doc: One of NULL, 'TRef', BRef', 'list'. If list, refProfiles, sigGenes args must be given. See documetation for full description. 
-
-  ref_profiles_file:
-    type: ["null", File]
-    inputBinding:
-      prefix: --ref_profiles_file
-    doc: Path to input matrix of reference data, tab seperated. A matrix (nGenes x nCellTypes) of the reference cells genes expression (without the cancer cell type); the rownames needs to be defined as well as the colnames giving the names of each gene and reference cell types respectively.
-
-  ref_profiles_variability_file:
-    type: ["null", File]
-    inputBinding:
-      prefix: --ref_profiles_variability_file
-    doc: Path to input matrix of reference variability data, tab seperated. A matrix (nGenes x nCellTypes) of the variability of each gene expression for each cell type, which is used to define weights on each gene for the optimization (if this is absent, we assume an identical variability for all genes in all cells) - it needs to have the same dimnames than refProfiles.
-
-  sigGenes_string:
-    type: ["null", string]
-    inputBinding:
-      prefix: --sigGenes_string
-    doc: String converted into vector for mRNA_cell_sub, see documentation, ie. 'gene1,gene2,gene3'.
-
-  mRNA_cell_string:
-    type: ["null", string]
-    inputBinding:
-      prefix: --mRNA_cell_string
-    doc: String converted into vector for mRNA_cell, see documentation, ie. 'Bcells,NKcells,otherCells,default;2,2.1,3.5,1'.
-
-  mRNA_cell_sub_string:
-    type: ["null", string]
-    inputBinding:
-      prefix: --mRNA_cell_sub_string
-    doc: tring converted into vector for mRNA_cell_sub, see documentation, ie. 'Bcells,NKcells,otherCells,default;2,2.1,3.5,1'.
+    doc: One 'TRef', BRef'. 
 
   scaleExprs: 
     type: ["null", boolean]
