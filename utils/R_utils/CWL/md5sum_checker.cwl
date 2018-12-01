@@ -6,7 +6,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: [Rscript, /usr/local/bin/md5sum_checker.R]
 
-doc: "run MCPcounter"
+doc: "check if MD5sums are the same"
 
 hints:
   DockerRequirement:
