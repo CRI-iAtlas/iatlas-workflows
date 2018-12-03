@@ -23,17 +23,3 @@ stringr::str_c("gunzip ", p1_path) %>%
 
 stringr::str_c("gunzip ", p2_path) %>% 
     system
-
-new_names <- 
-    c(p1_path, p2_path) %>% 
-    basename() %>% 
-    stringr::str_remove_all(".gz")
-
-new_names %>% 
-    stringr::str_c(collapse = " ") %>% 
-    stringr::str_c("fastq-sample -n 10000 −s 1", .) %>% 
-    system
-
-file.remove(new_names)
-    
-
