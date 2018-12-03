@@ -37,7 +37,7 @@ inputs:
     type: ["null", string]
     inputBinding:
       position: 3
-      prefix: --pset
+      prefix: -pset
     doc: use this when using prset parameters flex or jprimer, do not use with
       pset_file
 
@@ -45,7 +45,7 @@ inputs:
     type: ["null", File]
     inputBinding:
       position: 3
-      prefix: --pset
+      prefix: -pset
     doc: use this when using a pset file, do not use with pset_string
 
   input_fastq:
@@ -126,19 +126,21 @@ inputs:
     doc: limits the number of input sequencing reads, use this parameter to
       normalize several datasets or to have a glance at the data
 
-  report:
-    type: ["null", string]
-    inputBinding:
-      prefix: -report
-    doc: turns on the reporting and sets the name of report file. Report
-      contains information on bulk characteristics of dataset, resulting clone
-      set and analysis process
+#  option not working at the moment
+
+#  report_string:
+#    type: ["null", string]
+#    inputBinding:
+#      prefix: -report
+#    doc: turns on the reporting and sets the name of report file. Report
+#      contains information on bulk characteristics of dataset, resulting clone
+#      set and analysis process
 
   level:
     type: ["null", int]
     inputBinding:
       prefix: -level
-    doc: verbosity level for tab­ delimited output (see “output formats” 
+    doc: verbosity level for tab delimited output (see “output formats” 
       section for details). Has no effect if cls is used as output format
   
   solexa:
@@ -156,11 +158,12 @@ outputs:
       glob: $(inputs.output_string)
     doc: see output_string
 
-  report_file:
-    type: ["null", File]
-    outputBinding:
-      glob: $(inputs.report)
-    doc: only produced when report option is used
+# report output not working at the moment
+#  report_file:
+#    type: ["null", File]
+#    outputBinding:
+#      glob: $(inputs.report_string)
+#    doc: only produced when report option is used
 
 
   
