@@ -1,0 +1,6 @@
+fasta_files: 
+- class: File 
+  path: Homo_sapiens.GRCh38.dna.chromosome.MT.fa.gz
+gtf_file: 
+  class: File
+  path: test_gtf.gz
