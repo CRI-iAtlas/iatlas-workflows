@@ -1,0 +1,1 @@
+../../../../utils/ubuntu_utils/CWL/truncate_fastq.cwl
