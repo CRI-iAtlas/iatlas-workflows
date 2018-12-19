@@ -18,7 +18,7 @@ inputs:
       items: string
 
   gtf_url: string
-  star_max_ram: int?
+  star_max_ram: long?
 
 outputs: 
 
