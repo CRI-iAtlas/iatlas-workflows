@@ -63,7 +63,7 @@ steps:
     out: [output]
 
   generate_genome:
-    run: steps/STAR/star_genome_generate.cwl
+    run: steps/STAR/genome_generate.cwl
     in: 
       - id: genome_fasta
         source: unzip_fasta_files/output
