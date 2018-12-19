@@ -18,6 +18,7 @@ inputs:
       items: string
 
   gtf_url: string
+  star_max_ram: int?
 
 outputs: 
 
@@ -69,5 +70,7 @@ steps:
         source: unzip_fasta_files/output
       - id: genemodel_gtf
         source: unzip_gtf_file/output
+      - id: max_ram
+        source: "#star_max_ram"
     out: [genome_dir]
 

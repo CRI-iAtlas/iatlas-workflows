@@ -92,6 +92,11 @@ inputs:
     type: int?
     inputBinding:
       prefix: --genomeChrBinNbits
+  
+  - id: max_ram
+    type: int?
+    inputBinding:
+      prefix: --limitGenomeGenerateRAM
 
 outputs:
 
