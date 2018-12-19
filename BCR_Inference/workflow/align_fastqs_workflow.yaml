@@ -1,0 +1,8 @@
+fasta_files: 
+ - class: File
+   path: ../../sample_files/fastq/sample.1.fastq
+ - class: File
+   path: ../../sample_files/fastq/sample.1.fastq
+star_genome_dir: 
+ class: Directory
+ path: genome_dir
