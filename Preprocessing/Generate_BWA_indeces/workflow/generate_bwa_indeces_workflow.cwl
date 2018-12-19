@@ -17,9 +17,9 @@ inputs:
 
 outputs: 
 
-  genome_dir:
+  genome_indeces:
     type: File[]
-    outputSource: generate_indeces/output
+    outputSource: generate_indeces/result
 
 
 steps:
@@ -35,7 +35,7 @@ steps:
     run: steps/utils/gunzip3.cwl
     in:
       - id: files
-        source: get_fasta_files/output
+        source: get_fasta_file/output
       - id: output_file_string
         source: "#fasta_output_name"
     out: [output]
@@ -44,6 +44,6 @@ steps:
     run: steps/BWA/index.cwl
     in: 
       - id: reference
-        source: unzip_fasta_files/output
-    out: [outputs]
+        source: unzip_fasta_file/output
+    out: [result]
 
