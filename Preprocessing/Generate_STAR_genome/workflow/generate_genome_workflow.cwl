@@ -19,6 +19,8 @@ inputs:
 
   gtf_url: string
   star_max_ram: long?
+  star_nthreads: int?
+
 
 outputs: 
 
@@ -72,5 +74,8 @@ steps:
         source: unzip_gtf_file/output
       - id: max_ram
         source: "#star_max_ram"
+      - id: nthreads
+        source: "#star_nthreads"
+      
     out: [genome_dir]
 
