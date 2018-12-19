@@ -87,6 +87,11 @@ inputs:
   - id: genome_dir_name
     default: "genome_dir"
     type: string
+    
+  - id: genomeChrBinNbits
+    type: int?
+    inputBinding:
+      prefix: --genomeChrBinNbits
 
 outputs:
 

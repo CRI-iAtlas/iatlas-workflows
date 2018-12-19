@@ -8,6 +8,7 @@ doc:
 requirements:
 - class: ScatterFeatureRequirement
 - class: StepInputExpressionRequirement
+- class: InlineJavascriptRequirement
 
 inputs:
 
