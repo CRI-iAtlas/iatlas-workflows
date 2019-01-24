@@ -28,7 +28,6 @@ inputs:
 
   read_length:
     type: int
-    default: 48
     inputBinding:
       position: 3
      
