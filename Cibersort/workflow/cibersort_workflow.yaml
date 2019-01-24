@@ -23,13 +23,21 @@ inputs:
   sample_names: string[]
   kallisto_threads: int?
   kallisto_index_file: File
-  kallisto_translation_file: File
   
 outputs:
 
-  out:
+  out1:
+   type: File
+   outputSource: cibersort/cibersort_file
+
+  out2:
+   type: File[]
+   outputSource: kallisto/abundance_file
+
+  out3:
    type: File
    outputSource: combine_kalisto_files/expression_file
+  
  
   #final_cell_counts_file: 
   #  type: File
@@ -37,11 +45,20 @@ outputs:
    
 
 steps:
+
+  trim_galore:
+    run: steps/trim_galore/trim_galore.cwl
+    in: 
+      fastq_files: fastq_files
+      paired: 
+        valueFrom: $( true )
+    scatter: fastq_files
+    out: [fastq_files]
   
   kallisto:
     run: steps/kallisto/quant.cwl
     in:
-      fastq_files: fastq_files
+      fastq_files: trim_galore/fastq_files
       index: kallisto_index_file
       threads: kallisto_threads
       plaintext: 
@@ -54,7 +71,6 @@ steps:
     in:
       abundance_files: kallisto/abundance_file
       sample_names: sample_names
-      translation_file: kallisto_translation_file
     out: [expression_file]
 
   cibersort:

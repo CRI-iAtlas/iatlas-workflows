@@ -21,11 +21,6 @@ inputs:
     type: string[]
     inputBinding:
       prefix: --sample_names
-  
-  translation_file:
-    type: File
-    inputBinding:
-      prefix: --translation_file
 
   abundance_type:
     type: string?
