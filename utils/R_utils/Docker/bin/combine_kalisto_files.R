@@ -48,7 +48,7 @@ df <- args$abundance_files %>%
     purrr::reduce(dplyr::left_join, by = "target_id") %>% 
     magrittr::set_colnames(c("transcript", args$sample_names)) %>% 
     dplyr::mutate(transcript = stringr::str_sub(transcript, end = -3)) %>% 
-    dplyr::left_join(translation_df, by = "transcript") %>% 
+    dplyr::inner_join(translation_df, by = "transcript") %>% 
     dplyr::select(Hugo, everything()) %>% 
     dplyr::select(-transcript) %>% 
     dplyr::group_by(Hugo) %>% 
