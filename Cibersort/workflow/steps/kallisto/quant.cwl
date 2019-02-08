@@ -12,7 +12,7 @@ baseCommand: [ kallisto, quant, --output-dir, "./"]
 
 inputs:
 
-  fastq_files:
+  fastq_array:
     type: File[]
     inputBinding: 
       position: 1

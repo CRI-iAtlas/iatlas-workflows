@@ -7,81 +7,37 @@ cwlVersion: v1.0
 class: Workflow
 
 requirements:
-- class: ScatterFeatureRequirement
 - class: StepInputExpressionRequirement
 - class: InlineJavascriptRequirement
 
 inputs:
-  
-  fastq_files:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-        
-  sample_names: string[]
-  kallisto_threads: int?
-  kallisto_index_file: File
+
+  expression_file: File
   
 outputs:
-
-  out1:
-   type: File
-   outputSource: cibersort/cibersort_file
-
-  out2:
-   type: File[]
-   outputSource: kallisto/abundance_file
-
-  out3:
-   type: File
-   outputSource: combine_kalisto_files/expression_file
-  
  
-  #final_cell_counts_file: 
-  #  type: File
-  #  outputSource: create_cell_count_aggregates/cell_counts_file
+  cell_counts_file: 
+    type: File
+    outputSource: aggregate_cibersort_celltypes/cell_counts_file
    
 
 steps:
 
-  trim_galore:
-    run: steps/trim_galore/trim_galore.cwl
-    in: 
-      fastq_files: fastq_files
-      paired: 
-        valueFrom: $( true )
-    scatter: fastq_files
-    out: [fastq_files]
-  
-  kallisto:
-    run: steps/kallisto/quant.cwl
-    in:
-      fastq_files: trim_galore/fastq_files
-      index: kallisto_index_file
-      threads: kallisto_threads
-      plaintext: 
-        valueFrom: $( true )
-    scatter: fastq_files
-    out: [abundance_file]
-
-  combine_kalisto_files:
-    run: steps/utils/combine_kalisto_files.cwl
-    in:
-      abundance_files: kallisto/abundance_file
-      sample_names: sample_names
-    out: [expression_file]
-
   cibersort:
     run: steps/cibersort/cibersort.cwl
     in:
-      mixture_file: combine_kalisto_files/expression_file
-    out: [cibersort_file]
+      mixture_file: expression_file
+      absolute:
+        valueFrom: $( true )
+      abs_method:
+        valueFrom: "no.sumto1"
+    out: 
+    - cibersort_file
     
-# create_cibersort_aggregates:
-#    run: steps/utils/create_cibersort_aggregates.cwl
-#    in:
-#      cibersort_file: cibersort/cibersort_file
-#    out: [cell_counts_file]
+  aggregate_cibersort_celltypes:
+    run: steps/aggregate_cibersort_celltypes/aggregate_cibersort_celltypes.cwl
+    in:
+      cibersort_file: cibersort/cibersort_file
+    out: 
+    - cell_counts_file
 

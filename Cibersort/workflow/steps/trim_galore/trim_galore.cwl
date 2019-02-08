@@ -12,7 +12,7 @@ hints:
 
 inputs:
 
-  fastq_files:
+  fastq_array:
     type: File[]
     inputBinding: 
       position: 1
@@ -25,7 +25,7 @@ inputs:
 
 outputs:
 
-  fastq_files:
+  trimmed_fastq_array:
     type: File[]
     outputBinding:
       glob: "*.fq"
