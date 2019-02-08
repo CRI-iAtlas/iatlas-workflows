@@ -36,7 +36,7 @@ outputs:
 steps:
 
   process_fastqs:
-    run: fastq_processing.yaml
+    run: fastq_processing_workflow.cwl
     in: 
       fastq_arrays: fastq_arrays
       sample_name_array: sample_name_array
@@ -46,7 +46,7 @@ steps:
     - expression_file
 
   cibersort:
-    run: cibersort_workflow.yaml
+    run: cibersort_workflow.cwl
     in: 
       expression_file: process_fastqs/expression_file
     out:
