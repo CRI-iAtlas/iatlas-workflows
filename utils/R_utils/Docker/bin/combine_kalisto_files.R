@@ -4,7 +4,6 @@ library(purrr)
 library(readr)
 library(tidyr)
 library(dplyr)
-# library(stringr)
 
 parser = ArgumentParser(description = "Combine multiple kallisto files into one table")
 

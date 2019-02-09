@@ -15,10 +15,8 @@ hints:
 
 inputs:
 
-  files:
-    type:
-      type: array
-      items: File
+  file_array:
+    type: File[]
     inputBinding:
       prefix: --files
   
@@ -30,7 +28,7 @@ inputs:
       
 outputs:
 
-  output_dir:
+  directory:
     type: Directory
     outputBinding:
       glob: $(inputs.output_dir_string)
