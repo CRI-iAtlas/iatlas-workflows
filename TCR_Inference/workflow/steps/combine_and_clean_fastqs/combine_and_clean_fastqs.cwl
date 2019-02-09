@@ -16,12 +16,12 @@ hints:
 requirements:
   - class: InlineJavascriptRequirement
   - class: InitialWorkDirRequirement
-    listing: $(inputs.input_dir.listing)
+    listing: $(inputs.fastq_directory.listing)
 
 
 inputs:
 
-  input_dir:
+  fastq_directory:
     type: Directory
     inputBinding:
       position: 1
@@ -29,11 +29,10 @@ inputs:
 
 outputs:
 
-  output_file:
+  fastq:
     type: File
     outputBinding:
       glob: "*reads.fq"
-    doc: see output_dir_string
 
 arguments:
   - valueFrom: $(runtime.outdir)
