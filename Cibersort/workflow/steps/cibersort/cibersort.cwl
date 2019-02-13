@@ -55,7 +55,7 @@ inputs:
 
 outputs:
 
-  output_file:
+  cibersort_file:
     type: File
     outputBinding:
       glob: "CIBERSORT-Results.txt"
