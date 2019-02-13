@@ -27,10 +27,6 @@ steps:
     run: steps/cibersort/cibersort.cwl
     in:
       mixture_file: expression_file
-      absolute:
-        valueFrom: $( true )
-      abs_method:
-        valueFrom: "no.sumto1"
     out: 
     - cibersort_file
     
