@@ -1,8 +1,6 @@
 #!/usr/bin/env cwl-runner
 #
 # Authors: Andrew Lamb
-# requies local cibersort Docker image:
-# https://github.com/CRI-iAtlas/iatlas-tool-cibersort
 
 cwlVersion: v1.0
 class: CommandLineTool
@@ -37,10 +35,10 @@ inputs:
       prefix: --perm
     doc: No. permutations; set to >=100 to calculate p-values (default = 0)
 
-  QN:
+  no_quantile_normalization:
     type: boolean?
     inputBinding:
-      prefix: --QN
+      prefix: --no_quantile_normalization
     doc: "Quantile normalization of input mixture (default = TRUE)"
 
   absolute:
@@ -57,10 +55,11 @@ inputs:
 
 outputs:
 
-  cibersort_file:
+  output_file:
     type: File
     outputBinding:
       glob: "CIBERSORT-Results.txt"
+    doc: see output_string
 
 
 
