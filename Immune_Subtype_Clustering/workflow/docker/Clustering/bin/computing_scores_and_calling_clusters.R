@@ -21,8 +21,6 @@ tcgaSubset <- read.table('/usr/local/bin/ebppSubset.tsv.bz2', header = T, sep = 
 reportedScores <- read.table('/usr/local/bin/five_signature_mclust_ensemble_results.tsv.gz', sep='\t', header=T, stringsAsFactors = F)
 
 
-
-
 newScores <- function(newdata, logflag = F, cores = 1, ensemblesize = 256, combatflag = T) {
 
 

@@ -54,12 +54,6 @@ inputs:
     inputBinding:
       prefix: --combat_normalize
 
-  malformed_sample_names:
-    type: boolean?
-    inputBinding:
-      prefix: --malformed_sample_names
-
-
 outputs:
 
   immune_subtypes_file:

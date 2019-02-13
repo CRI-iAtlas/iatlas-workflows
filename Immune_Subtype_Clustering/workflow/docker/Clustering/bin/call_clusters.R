@@ -4,6 +4,7 @@ library(readr)
 library(stringr)
 library(tibble)
 library(dplyr)
+library(tidyr)
 
 parser = ArgumentParser(description = 'Call Immune subtype clusters on expression data.')
 
@@ -46,10 +47,6 @@ parser$add_argument(
     "-c",
     "--combat_normalize",
     action = "store_true")
-parser$add_argument(
-    "-m",
-    "--malformed_sample_names",
-    action = "store_true")
 
 
 args <- parser$parse_args()
@@ -58,11 +55,19 @@ args <- parser$parse_args()
 
 source("/usr/local/bin/computing_scores_and_calling_clusters.R")
 
+input_df <- readr::read_delim(
+    args$input_file, 
+    delim = args$input_file_delimeter 
+)
+
+sample_names <- input_df %>% 
+    colnames() %>% 
+    magrittr::extract(-1)
 
 
-result_df <- args$input_file %>% 
-    readr::read_delim(delim = args$input_file_delimeter) %>% 
-    data.frame %>% 
+result_df <- input_df %>% 
+    tidyr::drop_na() %>% 
+    data.frame() %>% 
     newScores(
         logflag = args$log_expression, 
         cores = args$num_cores, 
@@ -72,10 +77,7 @@ result_df <- args$input_file %>%
     magrittr::use_series(AlignedCalls) %>% 
     tibble::enframe("sample", "immune_subtype") %>% 
     dplyr::mutate(immune_subtype = stringr::str_c("C", immune_subtype)) %>% 
-    `if`(
-        args$malformed_sample_names, 
-        dplyr::mutate(., sample = stringr::str_remove(sample, "^[xX]")), 
-        .) %>% 
+    mutate(sample = sample_names) %>% 
     readr::write_tsv(args$output_name)
 
 
