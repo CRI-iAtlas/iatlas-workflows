@@ -4,13 +4,15 @@ Compute summary statistics for each subject (TCGA PanCanAtlas)
 
 Date: April 12, 2016
 @author: sbrown
-Modifications July 12, 2016 vthorsson
+Modifications: July 12, 2016 vthorsson; February 2019, Andrew Lamb
 '''
 
 ## Import Libraries 
 import sys
 import argparse
 import math
+import pandas as pd
+import numpy as np
 
 DEBUG = False
 VERB = False
@@ -174,13 +176,20 @@ if __name__ == "__main__":
     lostBarcodes = list(set(allBarcodes)-set(cdr3Dict.keys()))
     
     ## print results
-    out = open(args.outputFile, "w")
-    ##out.write("barcode\ttotTCR_reads\ttotTCRa_reads\ttotTCRb_reads\tshannon\tnumClones\n")
+    out = open("temp_file.tsv", "w")
+    out.write("sample\tTCR_total_reads\tTCR_a_reads\tTCR_b_reads\tTCR_Shannon\tTCR_Richness\n")
     for bar in sampleDict:
         out.write("{}\t{}\t{}\t{}\t{}\t{}\n".format(bar, sampleDict[bar]["totTCR"], sampleDict[bar]["totTCRa"], sampleDict[bar]["totTCRb"], sampleDict[bar]["shannon"], sampleDict[bar]["numClones"]))
     for bar in lostBarcodes:
         out.write("{}\t0\t0\t0\tNA\t0\n".format(bar))
 
     out.close()
+    
+    df = pd.read_csv("temp_file.tsv", sep = "\t")
+    df['TCR_Evenness'] = df.TCR_Shannon  / np.log(df.TCR_Richness)
+    df.to_csv(args.outputFile, sep = "\t", index = False)
+
+
+
     
 	#    print("done.")
