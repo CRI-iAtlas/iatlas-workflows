@@ -19,17 +19,17 @@ inputs:
     inputBinding:
       prefix: --files
 
-  input_delmieter: 
+  input_delimeter: 
     type: string
     default: "\t"
     inputBinding:
-      prefix: --input_delmieter
+      prefix: --input_delimeter
 
-  output_delmieter: 
+  output_delimeter: 
     type: string
     default: "\t"
     inputBinding:
-      prefix: --output_delmieter
+      prefix: --output_delimeter
 
   output_file_name: 
     type: string

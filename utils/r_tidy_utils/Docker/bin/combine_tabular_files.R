@@ -16,13 +16,13 @@ parser$add_argument(
 
 parser$add_argument(
     "-i",
-    "--input_delemiter",
+    "--input_delimiter",
     type = "character",
     default = "\t")
 
 parser$add_argument(
     "-o",
-    "--output_delemiter",
+    "--output_delimiter",
     type = "character",
     default = "\t")
 
@@ -37,6 +37,6 @@ args <- parser$parse_args()
 args$files %>% 
     purrr::map(readr::read_delim, delim = args$input_delimeter) %>% 
     dplyr::bind_rows() %>% 
-    readr::write_delim(args$output_file_name, delim = args$output_delemiter)
+    readr::write_delim(args$output_file_name, delim = args$output_delimiter)
     
     
