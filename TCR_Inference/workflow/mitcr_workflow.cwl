@@ -19,16 +19,10 @@ inputs:
       
 outputs:
 
-  file1: 
+  mitcr_summary_file: 
     type: File
     outputSource: 
-    - mitcr_alpha_chain/mitcr_file
-
-  file2: 
-    type: File
-    outputSource: 
-    - mitcr_beta_chain/mitcr_file
-
+    - get_mitcr_summary/mitcr_summary_file
 
 steps:
 
@@ -40,14 +34,14 @@ steps:
     - directory
   
   combine_and_clean_fastqs:
-    run: steps/combine_and_clean_fastqs/combine_and_clean_fastqs.cwl 
+    run: steps/mitcr_combine_and_clean_fastqs/mitcr_combine_and_clean_fastqs.cwl 
     in: 
       fastq_directory: make_fastq_directory/directory
     out: 
     - fastq
 
   mitcr_alpha_chain:
-    run: steps/MiTCR/mitcr.cwl 
+    run: steps/mitcr/mitcr.cwl 
     in: 
       input_fastq: combine_and_clean_fastqs/fastq
       output_file_string: 
@@ -58,7 +52,7 @@ steps:
     - mitcr_file
 
   mitcr_beta_chain:
-    run: steps/MiTCR/mitcr.cwl 
+    run: steps/mitcr/mitcr.cwl 
     in: 
       input_fastq: combine_and_clean_fastqs/fastq
       output_file_string: 
@@ -67,7 +61,7 @@ steps:
     - mitcr_file
 
   combine_and_clean_mitcr_files:
-    run: steps/combine_and_clean_mitcr_files/combine_and_clean_mitcr_files.cwl
+    run: steps/mitcr_combine_and_clean_files/mitcr_combine_and_clean_files.cwl
     in: 
       alpha_chain_file: mitcr_alpha_chain/mitcr_file
       beta_chain_file: mitcr_beta_chain/mitcr_file
@@ -76,7 +70,12 @@ steps:
     - cdr3_file
 
 
-  #get_mitcr_summary:
+  get_mitcr_summary:
+    run: steps/mitcr_get_sample_summary_stats/mitcr_get_sample_summary_stats.cwl
+    in: 
+      cdr3_file: combine_and_clean_mitcr_files/cdr3_file     
+    out: 
+    - mitcr_summary_file
 
 
 

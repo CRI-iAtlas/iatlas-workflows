@@ -4,14 +4,16 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [python, /home/ubuntu/combineAndCleanFastq.py]
+baseCommand: 
+- python2
+- /home/ubuntu/combineAndCleanFastq.py
 
 doc: "preprocessing before mitcr"
 
 hints:
   DockerRequirement:
-    #dockerPull: quay.io/cri-iatlas/combine_and_clean_fastqs
-    dockerPull: combine_and_clean_fastqs
+    #dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs
+    dockerPull: mitcr_combine_and_clean_fastqs
 
 requirements:
   - class: InlineJavascriptRequirement

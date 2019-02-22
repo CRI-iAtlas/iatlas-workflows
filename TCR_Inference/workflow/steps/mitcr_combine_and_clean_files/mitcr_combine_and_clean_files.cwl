@@ -10,8 +10,8 @@ baseCommand:
 
 hints:
   DockerRequirement:
-#    dockerPull: quay.io/cri-iatlas/combine_and_clean_mitcr_files
-    dockerPull: combine_and_clean_mitcr_files
+#    dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_files
+    dockerPull: mitcr_combine_and_clean_files
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -39,6 +39,6 @@ outputs:
   cdr3_file:
     type: File
     outputBinding:
-      glob: "*reads.fq"
+      glob: "cdr3.tsv"
 
 
