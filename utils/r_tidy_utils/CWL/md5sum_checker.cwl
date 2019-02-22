@@ -12,8 +12,7 @@ doc: "check if MD5sums are the same"
 
 hints:
   DockerRequirement:
-#    dockerPull: quay.io/cri-iatlas/r_tidy_utils
-    dockerPull: r_tidy_utils
+    dockerPull: quay.io/cri-iatlas/r_tidy_utils
 
 stdout: status.txt
 

@@ -10,8 +10,8 @@ baseCommand:
 
 hints:
   DockerRequirement:
-#    dockerPull: quay.io/cri-iatlas/r_tidy_utils
-    dockerPull: r_tidy_utils
+    dockerPull: quay.io/cri-iatlas/r_tidy_utils
+
 
 inputs:
 
