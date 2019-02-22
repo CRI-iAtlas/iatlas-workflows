@@ -24,4 +24,5 @@ stringr::str_c("gunzip ", p1_path) %>%
 stringr::str_c("gunzip ", p2_path) %>% 
     system
 
-system("fastq-sample -n 40000 SRR1740086_1.fastq SRR1740086_2.fastq")
+system("fastq-sample -n 40000 -o sample_40000 SRR1740086_1.fastq SRR1740086_2.fastq")
+system("fastq-sample -n 200000 -o sample_200000 SRR1740086_1.fastq SRR1740086_2.fastq")

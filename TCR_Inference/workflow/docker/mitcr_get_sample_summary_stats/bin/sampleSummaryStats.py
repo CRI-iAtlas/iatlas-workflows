@@ -188,8 +188,3 @@ if __name__ == "__main__":
     df = pd.read_csv("temp_file.tsv", sep = "\t")
     df['TCR_Evenness'] = df.TCR_Shannon  / np.log(df.TCR_Richness)
     df.to_csv(args.outputFile, sep = "\t", index = False)
-
-
-
-    
-	#    print("done.")
