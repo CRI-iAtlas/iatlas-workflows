@@ -18,8 +18,7 @@ doc: "run mitcr"
 
 hints:
   DockerRequirement:
-    #dockerPull: quay.io/cri-iatlas/mitcr
-    dockerPull: mitcr
+    dockerPull: quay.io/cri-iatlas/mitcr
 
 requirements:
   - class: InlineJavascriptRequirement

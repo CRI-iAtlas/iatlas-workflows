@@ -27,7 +27,7 @@ outputs:
 steps:
 
   make_fastq_directory:
-    run: steps/make_directory/make_directory.cwl 
+    run: steps/r_tidy_utils/make_directory.cwl 
     in: 
       file_array: fastq_array
     out: 

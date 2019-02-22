@@ -10,8 +10,7 @@ baseCommand:
 
 hints:
   DockerRequirement:
-#    dockerPull: quay.io/cri-iatlas/mitcr_get_sample_summary_stats
-    dockerPull: mitcr_get_sample_summary_stats
+    dockerPull: quay.io/cri-iatlas/mitcr_get_sample_summary_stats
 
 requirements:
   - class: InlineJavascriptRequirement

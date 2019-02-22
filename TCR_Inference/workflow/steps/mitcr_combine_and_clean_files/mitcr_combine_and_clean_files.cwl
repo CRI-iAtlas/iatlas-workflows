@@ -6,12 +6,11 @@ cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: 
 - Rscript
-- /usr/local/bin/combine_and_clean_mitcr_files.R
+- /usr/local/bin/mitcr_combine_and_clean_files.R
 
 hints:
   DockerRequirement:
-#    dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_files
-    dockerPull: mitcr_combine_and_clean_files
+    dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_files
 
 requirements:
   - class: InlineJavascriptRequirement

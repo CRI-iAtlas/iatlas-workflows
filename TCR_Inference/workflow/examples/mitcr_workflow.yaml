@@ -1,0 +1,7 @@
+fastq_array: 
+- path: ../../../sample_files/fastq/sample_200000.1.fastq
+  class: File
+- path: ../../../sample_files/fastq/sample_200000.2.fastq
+  class: File
+  
+sample_name: test_sample
