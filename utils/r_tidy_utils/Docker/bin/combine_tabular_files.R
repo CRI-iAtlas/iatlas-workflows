@@ -35,7 +35,7 @@ parser$add_argument(
 args <- parser$parse_args()
 
 args$files %>% 
-    purrr::map(readr::read_delim, delim = args$input_delimeter) %>% 
+    purrr::map(readr::read_delim, delim = args$input_delimiter) %>% 
     dplyr::bind_rows() %>% 
     readr::write_delim(args$output_file_name, delim = args$output_delimiter)
     
