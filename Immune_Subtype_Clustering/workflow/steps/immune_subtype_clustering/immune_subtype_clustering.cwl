@@ -5,7 +5,9 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [Rscript, /usr/local/bin/call_clusters.R]
+baseCommand: 
+-Rscript
+-/usr/local/bin/immune_subtype_clustering.R
 
 doc: "Call Immune subtype clusters on expression data."
 
@@ -14,7 +16,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: immune_subtype_clustering
+    dockerPull: quay.io/cri-iatlas/immune_subtype_clustering
 
 inputs:
 
