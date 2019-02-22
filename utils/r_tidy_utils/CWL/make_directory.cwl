@@ -4,14 +4,16 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [Rscript, /usr/local/bin/make_directory.R]
+baseCommand: 
+- Rscript
+- /usr/local/bin/make_directory.R
 
 doc: "Put files into directory"
 
 hints:
   DockerRequirement:
-    #dockerPull: quay.io/cri-iatlas/tidy_utils
-    dockerPull: tidy_utils
+#    dockerPull: quay.io/cri-iatlas/r_tidy_utils
+    dockerPull: r_tidy_utils
 
 inputs:
 

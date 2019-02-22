@@ -4,13 +4,16 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [Rscript, /usr/local/bin/md5sum_checker.R]
+baseCommand: 
+- Rscript
+- usr/local/bin/md5sum_checker.R
 
 doc: "check if MD5sums are the same"
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/tidy_utils
+#    dockerPull: quay.io/cri-iatlas/r_tidy_utils
+    dockerPull: r_tidy_utils
 
 stdout: status.txt
 
@@ -27,5 +30,6 @@ inputs:
       position: 2
       
 outputs:
+
   status:
     type: stdout

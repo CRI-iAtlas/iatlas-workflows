@@ -4,11 +4,14 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [Rscript, /usr/local/bin/combine_kalisto_files.R]
+baseCommand: 
+- Rscript
+- /usr/local/bin/combine_kalisto_files.R
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/tidy_utils
+#    dockerPull: quay.io/cri-iatlas/r_tidy_utils
+    dockerPull: r_tidy_utils
 
 inputs:
 
