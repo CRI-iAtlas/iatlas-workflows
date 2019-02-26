@@ -4,7 +4,9 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [Rscript, /usr/local/bin/cibersort_wrapper.R]
+baseCommand: 
+- Rscript
+- /usr/local/bin/cibersort_wrapper.R
 
 doc: "run CIBERSORT"
 
@@ -13,7 +15,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: cibersort
+    dockerPull: quay.io/cri-iatlas/cibersort
 
 inputs:
 

@@ -8,7 +8,11 @@ hints:
   DockerRequirement:
     dockerPull: insilicodb/kallisto
 
-baseCommand: [ kallisto, quant, --output-dir, "./"]
+baseCommand: 
+- kallisto 
+- quant
+- --output-dir,
+- "./"
 
 inputs:
 

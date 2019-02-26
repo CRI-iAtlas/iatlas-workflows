@@ -4,7 +4,8 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
-baseCommand: [/usr/local/bin/trim_galore]
+baseCommand: 
+- /usr/local/bin/trim_galore
 
 hints:
   DockerRequirement:
