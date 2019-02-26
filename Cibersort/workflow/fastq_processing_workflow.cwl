@@ -54,7 +54,7 @@ steps:
     - abundance_file
 
   combine_kalisto_files:
-    run: steps/utils/combine_kalisto_files.cwl
+    run: steps/r_tidy_utils/combine_kalisto_files.cwl
     in:
       abundance_files: kallisto/abundance_file
       sample_names: sample_name_array

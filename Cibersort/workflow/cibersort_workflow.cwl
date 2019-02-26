@@ -31,7 +31,7 @@ steps:
     - cibersort_file
     
   aggregate_cibersort_celltypes:
-    run: steps/aggregate_cibersort_celltypes/aggregate_cibersort_celltypes.cwl
+    run: steps/cibersort_aggregate_celltypes/cibersort_aggregate_celltypes.cwl
     in:
       cibersort_file: cibersort/cibersort_file
     out: 
