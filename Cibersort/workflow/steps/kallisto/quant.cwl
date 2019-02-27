@@ -11,7 +11,7 @@ hints:
 baseCommand: 
 - kallisto 
 - quant
-- --output-dir,
+- --output-dir
 - "./"
 
 inputs:

@@ -12,7 +12,7 @@ requirements:
 
 inputs:
   
-  fastq_arrays:
+  fastq_nested_array:
     type:
       type: array
       items:
@@ -34,7 +34,7 @@ steps:
   trim_galore:
     run: steps/trim_galore/trim_galore.cwl
     in: 
-      fastq_array: fastq_arrays
+      fastq_array: fastq_nested_array
       paired: 
         valueFrom: $( true )
     scatter: fastq_array
