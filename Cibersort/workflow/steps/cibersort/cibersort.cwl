@@ -15,7 +15,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/cibersort
+    dockerPull: cibersort
 
 inputs:
 

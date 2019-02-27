@@ -1,0 +1,4 @@
+expression_file:
+  path: fastq_processing_workflow_output.tsv
+  class: File
+

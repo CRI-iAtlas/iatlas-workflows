@@ -15,7 +15,7 @@ requirements:
 
 inputs:
   
-  fastq_arrays:
+  fastq_nested_array:
     type:
       type: array
       items:
@@ -38,7 +38,7 @@ steps:
   process_fastqs:
     run: fastq_processing_workflow.cwl
     in: 
-      fastq_arrays: fastq_arrays
+      fastq_nested_array: fastq_nested_array
       sample_name_array: sample_name_array
       kallisto_threads: kallisto_threads 
       kallisto_index_file: kallisto_index_file

@@ -10,11 +10,11 @@ requirements:
 
 baseCommand: 
   - Rscript
-  - /usr/local/bin/aggregate_cibersort_celltypes.R
+  - /usr/local/bin/cibersort_aggregate_celltypes.R
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/aggregate_cibersort_celltypes
+    dockerPull: quay.io/cri-iatlas/cibersort_aggregate_celltypes
 
 inputs:
 
