@@ -122,6 +122,11 @@ parser$add_argument(
     "--output_file",
     type = "character",
     default = "output.tsv")
+parser$add_argument(
+    "-f",
+    "--leukocyte_fraction",
+    type = "float",
+    default = NULL)
 
 
 args <- parser$parse_args()
@@ -140,7 +145,27 @@ for (new_column in names(AGGREGATE_LIST)) {
     row_sums <- cibersort_df %>%
         dplyr::select(AGGREGATE_LIST[[new_column]]) %>%
         rowSums
-    cibersort_df <- inset(cibersort_df, new_column, value = row_sums)
+    cibersort_df <- magrittr::inset(cibersort_df, new_column, value = row_sums)
+}
+
+if(!is.null(args$leukocyte_fraction)){
+    cibersort_abs <- cibersort_df %>%
+        tidyr::gather(key = "cell_type", value = "fraction", - sample) %>% 
+        dplyr::mutate(cell_type = stringr::str_c(cell_type, ".Absolute")) %>% 
+        dplyr::mutate(fraction = args$leukocyte_fraction * fraction) %>% 
+        tidyr::spread(key = "cell_type", value = "fraction")
+}
+
+
+cibersort_rel <- cibersort_df %>%
+    tidyr::gather(key = "cell_type", value = "fraction", - sample) %>% 
+    dplyr::mutate(cell_type = stringr::str_c(cell_type, ".Relative")) %>% 
+    tidyr::spread(key = "cell_type", value = "fraction")
+
+if(!is.null(args$leukocyte_fraction)){
+    cibersort_df <- dplyr::left_join(cibersort_abs, cibersort_rel, by = "sample")
+} else {
+    cibersort_df <- cibersort_rel
 }
 
 write_tsv(cibersort_df, args$output_file)
