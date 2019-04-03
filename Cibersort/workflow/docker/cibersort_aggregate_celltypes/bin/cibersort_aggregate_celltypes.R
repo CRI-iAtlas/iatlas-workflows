@@ -125,7 +125,7 @@ parser$add_argument(
 parser$add_argument(
     "-f",
     "--leukocyte_fraction",
-    type = "float",
+    type = "double",
     default = NULL)
 
 

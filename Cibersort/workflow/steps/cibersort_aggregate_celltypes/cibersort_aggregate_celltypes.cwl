@@ -29,6 +29,11 @@ inputs:
     inputBinding:
       prefix: --output_file
 
+  leukocyte_fraction: 
+    type: double?
+    inputBinding:
+      prefix: --leukocyte_fraction
+
 outputs:
 
   cell_counts_file:
