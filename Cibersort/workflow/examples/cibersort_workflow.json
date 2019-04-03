@@ -1,0 +1,7 @@
+{
+  "expression_file":{
+    "class": "File",
+    "path": "../../../sample_files/expression/expression.tsv"
+  },
+  "leukocyte_fractions": [0.1, 0.2, 0.3, 0.4, 0.5]
+}

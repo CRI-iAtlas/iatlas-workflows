@@ -15,7 +15,8 @@ baseCommand:
   
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/cibersort_aggregate_celltypes
+    #dockerPull: quay.io/cri-iatlas/cibersort_aggregate_celltypes
+    dockerPull: cibersort_aggregate_celltypes
 
 inputs:
 
@@ -30,10 +31,10 @@ inputs:
     inputBinding:
       prefix: --output_file
 
-  leukocyte_fraction: 
-    type: double?
+  leukocyte_fractions: 
+    type: double[]?
     inputBinding:
-      prefix: --leukocyte_fraction
+      prefix: --leukocyte_fractions
 
 outputs:
 

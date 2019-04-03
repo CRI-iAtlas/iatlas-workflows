@@ -124,8 +124,9 @@ parser$add_argument(
     default = "output.tsv")
 parser$add_argument(
     "-f",
-    "--leukocyte_fraction",
+    "--leukocyte_fractions",
     type = "double",
+    nargs = '+',
     default = NULL)
 
 
@@ -140,6 +141,12 @@ cibersort_df <- args$cibersort_file %>%
     tidyr::spread(key = "celltype", value = "fraction") %>% 
     dplyr::rename("sample" = "Mixture")
 
+if((!is.null(args$leukocyte_fractions)) && 
+   (length(args$leukocyte_fractions) != nrow(cibersort_df))){
+    stop("Length of leukocyte fractions must equal the number of rows in input Cibersort file, or be NULL.")
+}
+    
+
 
 for (new_column in names(AGGREGATE_LIST)) {
     row_sums <- cibersort_df %>%
@@ -150,10 +157,13 @@ for (new_column in names(AGGREGATE_LIST)) {
 
 if(!is.null(args$leukocyte_fraction)){
     cibersort_abs <- cibersort_df %>%
-        tidyr::gather(key = "cell_type", value = "fraction", - sample) %>% 
+        dplyr::mutate(leukocyte_fraction = unlist(args$leukocyte_fractions)) %>% 
+        tidyr::gather(key = "cell_type", value = "fraction", - c(sample, leukocyte_fraction)) %>% 
         dplyr::mutate(cell_type = stringr::str_c(cell_type, ".Absolute")) %>% 
-        dplyr::mutate(fraction = args$leukocyte_fraction * fraction) %>% 
-        tidyr::spread(key = "cell_type", value = "fraction")
+        dplyr::mutate(fraction = leukocyte_fraction * fraction) %>% 
+        dplyr::select(-leukocyte_fraction) %>% 
+        tidyr::spread(key = "cell_type", value = "fraction") 
+        
 }
 
 
