@@ -9,9 +9,10 @@ requirements:
 - class: InlineJavascriptRequirement
 
 baseCommand: 
-  - Rscript
-  - /usr/local/bin/cibersort_aggregate_celltypes.R
+- Rscript
+- /usr/local/bin/cibersort_aggregate_celltypes.R
 
+  
 hints:
   DockerRequirement:
     dockerPull: quay.io/cri-iatlas/cibersort_aggregate_celltypes

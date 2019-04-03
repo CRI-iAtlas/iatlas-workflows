@@ -13,6 +13,7 @@ requirements:
 inputs:
 
   expression_file: File
+  leukocyte_fraction: double?
   
 outputs:
  
@@ -34,6 +35,7 @@ steps:
     run: steps/cibersort_aggregate_celltypes/cibersort_aggregate_celltypes.cwl
     in:
       cibersort_file: cibersort/cibersort_file
+      leukocyte_fraction: leukocyte_fraction
     out: 
     - cell_counts_file
 

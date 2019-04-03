@@ -130,6 +130,8 @@ parser$add_argument(
 
 
 args <- parser$parse_args()
+print(args)
+
 
 cibersort_df <- args$cibersort_file %>%
     readr::read_tsv() %>% 
