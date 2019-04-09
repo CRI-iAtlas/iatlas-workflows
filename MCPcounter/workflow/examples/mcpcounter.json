@@ -1,6 +1,7 @@
 {
     "input_expression_file": {
-        "path": "../sample_expression.tsv", 
+        "path": "../../../sample_files/expression/expression.tsv", 
         "class": "File"
-    }
+    },
+    "features_type": "HUGO_symbols"
 }

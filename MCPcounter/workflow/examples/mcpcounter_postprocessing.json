@@ -1,0 +1,6 @@
+{
+    "input_mcpcounter_file": {
+        "path": "mcpcounter_output.tsv", 
+        "class": "File"
+    }
+}
