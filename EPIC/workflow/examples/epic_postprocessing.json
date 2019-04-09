@@ -1,0 +1,6 @@
+{
+    "input_epic_file": {
+        "path": "epic_output.RDS", 
+        "class": "File"
+    }
+}

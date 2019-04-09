@@ -44,15 +44,12 @@ parser$add_argument(
 
 args <- parser$parse_args()
 
-tsv_file_to_matrix <- function(file){
+bulk <- args$input_expression_file %>% 
     file %>% 
-        readr::read_tsv() %>% 
-        as.data.frame() %>% 
-        tibble::column_to_rownames(., colnames(.)[[1]]) %>% 
-        as.matrix()
-}
-
-bulk <- tsv_file_to_matrix(args$input_expression_file)
+    readr::read_tsv() %>% 
+    as.data.frame() %>% 
+    tibble::column_to_rownames(., colnames(.)[[1]]) %>% 
+    as.matrix()
 
 result_obj <- EPIC(
     bulk,
