@@ -7,21 +7,17 @@ class: Workflow
 
 requirements:
 - class: StepInputExpressionRequirement
-- class: InlineJavascriptRequirement
 
 inputs:
 
-  expression_file: File
-  leukocyte_fractions: double[]?
-  feature_type:
-    type: string
-    default: "HUGO_symbols"
+- id: input_expression_file
+  type: File
   
 outputs:
  
-  cell_counts_file: 
-    type: File
-    outputSource: aggregate_cibersort_celltypes/cell_counts_file
+- id: cell_score_file 
+  type: File
+  outputSource: mcpcounter_postprocessing/cell_score_file
    
 
 steps:
@@ -29,16 +25,18 @@ steps:
   mcpcounter:
     run: steps/mcpcounter/mcpcounter.cwl
     in:
-      mixture_file: expression_file
-      feature_type: feature_type
+    - id: input_expression_file
+      source: input_expression_file
+    - id: features_type
+      valueFrom: "HUGO_symbols"
     out: 
-    - output_file
+    - mcpcounter_file
     
-  format_mcpcounter_output:
-    run: steps/format_mcpcounter_output/format_mcpcounter_output.cwl
+  mcpcounter_postprocessing:
+    run: steps/mcpcounter_postprocessing/mcpcounter_postprocessing.cwl
     in:
-      mcpcounter_file: mcpcounter/output_file
-      leukocyte_fractions: leukocyte_fractions
+    - id: input_mcpcounter_file
+      source: mcpcounter/mcpcounter_file
     out: 
-    - cell_counts_file
+    - cell_score_file
 

@@ -31,7 +31,7 @@ inputs:
 
 outputs:
 
-- id:  output_file
+- id: cell_score_file
   type: File
   outputBinding:
     glob: $(inputs.output_file_string)
