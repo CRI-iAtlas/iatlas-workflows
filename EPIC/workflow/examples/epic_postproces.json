@@ -1,0 +1,6 @@
+{
+    "input_expression_file": {
+        "path": "../../../sample_files/expression/expression.tsv", 
+        "class": "File"
+    }
+}
