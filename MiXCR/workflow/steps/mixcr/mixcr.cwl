@@ -67,14 +67,24 @@ inputs:
 
 outputs:
 
-- id: report
+- id: TRA
   type: File
   outputBinding:
-    glob: $(inputs.report_name)
+    glob: $(inputs.analysis_name + ".clonotypes.TRA.txt")
 
-- id: mixcr_output
-  type: File[]
+- id: TRB
+  type: File
   outputBinding:
-    glob: $(inputs.analysis_name + "*")
+    glob: $(inputs.analysis_name + ".clonotypes.TRB.txt")
+
+- id: IGH
+  type: File
+  outputBinding:
+    glob: $(inputs.analysis_name + ".clonotypes.IGH.txt")
+
+- id: IGL
+  type: File
+  outputBinding:
+    glob: $(inputs.analysis_name + ".clonotypes.IGL.txt")
 
 

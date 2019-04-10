@@ -1,0 +1,19 @@
+{
+  "tcr_alpha_chain_file": {
+    "class": "File",
+    "path": "example.clonotypes.TRA.txt"
+  },
+  "tcr_beta_chain_file": {
+    "class": "File",
+    "path": "example.clonotypes.TRB.txt"
+  },
+  "bcr_heavy_chain_file": {
+    "class": "File",
+    "path": "example.clonotypes.IGH.txt"
+  },
+  "bcr_light_chain_file": {
+    "class": "File",
+    "path": "example.clonotypes.IGH.txt"
+  },
+  "sample_name": "example"
+}
