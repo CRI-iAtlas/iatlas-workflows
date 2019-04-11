@@ -24,7 +24,7 @@ requirements:
 
 hints:
   - class: DockerRequirement
-    dockerPull: 'broadinstitute/picard'
+    dockerPull: picard_utils
 
 inputs:
 
@@ -63,10 +63,17 @@ inputs:
 
 outputs:
 
-  - id: output
+  - id: r1_fastq
     label: Unaligned reads FASTQ
     doc: Unaligned reads in FASTQ file format
-    type: File[]
+    type: File
     outputBinding:
-      glob: "*.fastq"
+      glob: $(inputs.reads_r1_fastq)
+
+  - id: r2_fastq
+    label: Unaligned reads FASTQ
+    doc: Unaligned reads in FASTQ file format
+    type: File?
+    outputBinding:
+      glob: $(inputs.reads_r2_fastq)
 
