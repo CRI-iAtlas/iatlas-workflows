@@ -85,13 +85,22 @@ steps:
   out:
   - array1
 
+- id: gzip_fastqs
+  run: steps/linux_utils/gzip.cwl
+  in:
+  - id: file
+    source: filter_non_empty_fastq_files/array1
+  scatter: file
+  out:
+  - gziped_file
+
 - id: upload_to_synapse
   run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/master/synapse-store-tool.cwl
   in:
   - id: synapse_config
     source: synapse_config
   - id: file_to_store
-    source: filter_non_empty_fastq_files/array1
+    source: gzip_fastqs/gziped_file
   - id: parentid
     source: synapse_directory_id
   scatter: file_to_store
