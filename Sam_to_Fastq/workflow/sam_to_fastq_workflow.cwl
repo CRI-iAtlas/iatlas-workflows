@@ -12,35 +12,44 @@ requirements:
 
 inputs:
 
-  sam_file_array: File[]
-  fastq_r1_name_array: string[]
-  fastq_r2_name_array: string[]
+- id: sam_file_array
+  type: File[]
+
+- id: fastq_r1_name_array
+  type: string[]
+
+- id: fastq_r2_name_array
+  type: string[]
 
 outputs:
 
-  fastq_nested_array:
-    outputSource: scatter_sam_to_fastq/output
-#    type: File[]
-    type:
-      type: array
-      items:
-        type: array
-        items: File
+- id: r1_fastq
+  outputSource: scatter_sam_to_fastq/r1_fastq
+  type: File[]
+
+- id: r2_fastq
+  outputSource: scatter_sam_to_fastq/r2_fastq
+  type: File[]
+
 
 steps:
 
-  scatter_sam_to_fastq:
-    run: sam_to_fastq.cwl
-    in: 
-      aligned_reads_sam: sam_file_array
-      reads_r1_fastq: fastq_r1_name_array
-      reads_r2_fastq: fastq_r2_name_array
-    scatter: 
-    - aligned_reads_sam
-    - reads_r1_fastq
-    - reads_r2_fastq
-    scatterMethod: dotproduct
-    out: 
-    - output
+- id: scatter_sam_to_fastq
+  run: steps/sam_to_fastq/sam_to_fastq.cwl
+  in: 
+  - id: aligned_reads_sam
+    source: sam_file_array
+  - id: reads_r1_fastq
+    source: fastq_r1_name_array
+  - id: reads_r2_fastq
+    source: fastq_r2_name_array
+  scatter: 
+  - aligned_reads_sam
+  - reads_r1_fastq
+  - reads_r2_fastq
+  scatterMethod: dotproduct
+  out: 
+  - r1_fastq
+  - r2_fastq
 
 
