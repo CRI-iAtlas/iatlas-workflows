@@ -22,9 +22,10 @@ baseCommand: ['picard.sh', 'SamToFastq']
 requirements:
   - class: InlineJavascriptRequirement
 
+
 hints:
   - class: DockerRequirement
-    dockerPull: picard_utils
+    dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
 
 inputs:
 
