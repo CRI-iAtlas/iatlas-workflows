@@ -23,6 +23,10 @@ inputs:
 - id: sample_name_array
   type: string[]
 
+- id: output_file_name
+  type: string
+  default: "expression_file.tsv"
+
 - id: kallisto_threads
   type: int?
 
@@ -122,6 +126,8 @@ steps:
     linkMerge: merge_flattened
   - id: sample_names
     source: sample_name_array
+  - id: output_file_name
+    source: output_file_name
   out: 
   - expression_file
 

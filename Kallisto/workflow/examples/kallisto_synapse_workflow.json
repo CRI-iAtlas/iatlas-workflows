@@ -1,0 +1,11 @@
+{"nested_id_array": [["syn18497058"]],
+ "sample_name_array": ["test_sample1"],
+ "kallisto_index_file":
+   {"path": "../../../sample_files/kallisto_index/gencode_v24.idx",
+    "class": "File"},
+ "kallisto_threads": 7,
+ "synapse_config":
+   {"path": "/home/aelamb/.synapseConfig",
+    "class": "File"},
+ "destination_id": "syn11738103"
+}
