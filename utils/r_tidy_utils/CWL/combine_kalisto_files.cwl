@@ -12,27 +12,36 @@ hints:
   DockerRequirement:
     dockerPull: quay.io/cri-iatlas/r_tidy_utils
 
+requirements:
+- class: InlineJavascriptRequirement
+
 
 inputs:
 
-  abundance_files: 
-    type: File[]
-    inputBinding:
-      prefix: --abundance_files
+- id: abundance_files 
+  type: File[]
+  inputBinding:
+    prefix: --abundance_files
 
-  sample_names: 
-    type: string[]
-    inputBinding:
-      prefix: --sample_names
+- id: sample_names
+  type: string[]
+  inputBinding:
+    prefix: --sample_names
 
-  abundance_type:
-    type: string?
-    inputBinding:
-      prefix: --abundance_type
+- id: abundance_type
+  type: string?
+  inputBinding:
+    prefix: --abundance_type
+
+- id: output_file_name
+  type: string
+  default: "expression_file.tsv"
+  inputBinding:
+    prefix: --output_file_name
       
 outputs:
 
-  expression_file:
-    type: File
-    outputBinding:
-      glob: "expression_file.tsv"
+- id: expression_file
+  type: File
+  outputBinding:
+    glob: $(inputs.output_file_name)

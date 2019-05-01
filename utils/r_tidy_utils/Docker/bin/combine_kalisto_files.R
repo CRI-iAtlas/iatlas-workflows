@@ -30,6 +30,12 @@ parser$add_argument(
     default = "tpm",
     help = "kallisto abundance_type to use, could also be 'est_counts'")
 
+parser$add_argument(
+    "-o",
+    "--output_file_name",
+    type = "character",
+    default = "expression_file.tsv")
+
 
 args <- parser$parse_args()
 
@@ -48,6 +54,6 @@ df <- args$abundance_files %>%
     dplyr::summarise_all(sum) %>%
     dplyr::ungroup()
 
-readr::write_tsv(df, "expression_file.tsv")
+readr::write_tsv(df, args$output_file_name)
     
     
