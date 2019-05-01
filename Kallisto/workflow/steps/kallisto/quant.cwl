@@ -16,30 +16,40 @@ baseCommand:
 
 inputs:
 
-  fastq_array:
-    type: File[]
-    inputBinding: 
-      position: 1
+- id: fastq_array
+  type: File[]
+  inputBinding: 
+    position: 1
 
-  index:
-    type: File
-    inputBinding:
-      prefix: --index
+- id: index
+  type: File
+  inputBinding:
+    prefix: --index
 
-  threads:
-    type: int?
-    inputBinding:
-      prefix: --threads
+- id: threads
+  type: int?
+  inputBinding:
+    prefix: --threads
       
-  plaintext:
-    type: boolean?
-    inputBinding:
-      prefix: --plaintext
+- id: plaintext
+  type: boolean?
+  inputBinding:
+    prefix: --plaintext
       
-  is_single_end:
-    type: boolean?
-    inputBinding:
-      prefix: --single
+- id: is_single_end
+  type: boolean?
+  inputBinding:
+    prefix: --single
+
+- id: fragment_length
+  type: float?
+  inputBinding:
+    prefix: --fragment-length
+
+- id: sd
+  type: float?
+  inputBinding:
+    prefix: --sd
      
 outputs:
 

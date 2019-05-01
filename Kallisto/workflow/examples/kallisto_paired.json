@@ -1,0 +1,13 @@
+{"fastq_array": 
+  [
+   {"path": "../../../sample_files/fastq/sample_200000.1.fastq",
+    "class": "File"},
+   {"path": "../../../sample_files/fastq/sample_200000.2.fastq",
+    "class": "File"}
+  ],
+ "index":
+   {"path": "../../../sample_files/kallisto_index/gencode_v24.idx",
+    "class": "File"},
+ "threads": 7,
+ "plaintext": true
+}
