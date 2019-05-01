@@ -1,0 +1,19 @@
+{"fastq_nested_array": 
+  [
+    [
+      {"path": "../../../sample_files/fastq/sample_200000.1.fastq",
+       "class": "File"},
+      {"path": "../../../sample_files/fastq/sample_200000.2.fastq",
+       "class": "File"}
+    ],
+    [
+      {"path": "../../../sample_files/fastq/sample_200000.1.fastq",
+       "class": "File"}
+    ]
+  ],
+ "sample_name_array": ["test_sample1", "test_sample2"],
+ "kallisto_index_file":
+   {"path": "../../../sample_files/kallisto_index/gencode_v24.idx",
+    "class": "File"},
+ "kallisto_threads": 7
+}

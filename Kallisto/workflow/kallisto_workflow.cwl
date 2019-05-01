@@ -9,55 +9,119 @@ requirements:
 - class: ScatterFeatureRequirement
 - class: StepInputExpressionRequirement
 - class: InlineJavascriptRequirement
+- class: MultipleInputFeatureRequirement
 
 inputs:
   
-  fastq_nested_array:
-    type:
+- id: fastq_nested_array
+  type:
+    type: array
+    items:
       type: array
-      items:
-        type: array
-        items: File
+      items: File
         
-  sample_name_array: string[]
-  kallisto_threads: int?
-  kallisto_index_file: File
+- id: sample_name_array
+  type: string[]
+
+- id: kallisto_threads
+  type: int?
+
+- id: kallisto_index_file
+  type: File
+
+- id: fragment_length
+  type: float
+  default: 200
+
+- id: fragment_length_sd
+  type: float
+  default: 30
   
 outputs:
 
-  expression_file:
-   type: File
-   outputSource: combine_kalisto_files/expression_file
+- id: expression_file
+  type: File
+  outputSource: combine_kalisto_files/expression_file
 
 steps:
 
-  trim_galore:
-    run: steps/trim_galore/trim_galore.cwl
-    in: 
-      fastq_array: fastq_nested_array
-      paired: 
-        valueFrom: $( true )
-    scatter: fastq_array
-    out:
-    - trimmed_fastq_array
-  
-  kallisto:
-    run: steps/kallisto/quant.cwl
-    in:
-      fastq_array: trim_galore/trimmed_fastq_array
-      index: kallisto_index_file
-      threads: kallisto_threads
-      plaintext: 
-        valueFrom: $( true )
-    scatter: fastq_array
-    out: 
-    - abundance_file
+- id: split_fastq_array
+  run: steps/expression_tools/split_file_array_by_length.cwl
+  in:
+  - id: nested_array
+    source: fastq_nested_array
+  - id: length_filter
+    valueFrom: $( 1 )
+  out:
+  - array1
+  - array2
 
-  combine_kalisto_files:
-    run: steps/r_tidy_utils/combine_kalisto_files.cwl
-    in:
-      abundance_files: kallisto/abundance_file
-      sample_names: sample_name_array
-    out: 
-    - expression_file
+- id: trim_galore_paired
+  run: steps/trim_galore/trim_galore.cwl
+  in: 
+  - id: fastq_array
+    source: split_fastq_array/array1
+  - id: paired 
+    valueFrom: $( true )
+  scatter: fastq_array
+  out:
+  - trimmed_fastq_array
+
+- id: trim_galore_single
+  run: steps/trim_galore/trim_galore.cwl
+  in: 
+  - id: fastq_array
+    source: split_fastq_array/array2
+  - id: paired 
+    valueFrom: $( false )
+  scatter: fastq_array
+  out:
+  - trimmed_fastq_array
+
+- id: kallisto_paired
+  run: steps/kallisto/quant.cwl
+  in:
+  - id: fastq_array
+    source: trim_galore_paired/trimmed_fastq_array
+  - id: index
+    source: kallisto_index_file
+  - id: threads
+    source: kallisto_threads
+  - id: plaintext
+    valueFrom: $( true )
+  scatter: fastq_array
+  out: 
+  - abundance_file
+
+- id: kallisto_single
+  run: steps/kallisto/quant.cwl
+  in:
+  - id: fastq_array
+    source: trim_galore_single/trimmed_fastq_array
+  - id: index
+    source: kallisto_index_file
+  - id: threads
+    source: kallisto_threads
+  - id: plaintext
+    valueFrom: $( true )
+  - id: is_single_end
+    valueFrom: $( true )
+  - id: fragment_length
+    source: fragment_length
+  - id: sd
+    source: fragment_length_sd
+  scatter: fastq_array
+  out: 
+  - abundance_file
+
+- id: combine_kalisto_files
+  run: steps/r_tidy_utils/combine_kalisto_files.cwl
+  in:
+  - id: abundance_files
+    source: [kallisto_paired/abundance_file, kallisto_single/abundance_file]
+    linkMerge: merge_flattened
+  - id: sample_names
+    source: sample_name_array
+  out: 
+  - expression_file
 
