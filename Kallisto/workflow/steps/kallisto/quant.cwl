@@ -6,7 +6,7 @@ class: CommandLineTool
 
 hints:
   DockerRequirement:
-    dockerPull: insilicodb/kallisto
+    dockerPull: quay.io/cri-iatlas/kallisto
 
 baseCommand: 
 - kallisto 
