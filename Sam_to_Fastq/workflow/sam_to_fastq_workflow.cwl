@@ -34,11 +34,21 @@ outputs:
 
 steps:
 
+- id: sort
+  run: steps/sort/sort.cwl
+  in:
+  - id: aligned_reads_sam
+    source: sam_file_array
+  scatter: 
+  - aligned_reads_sam
+  out:
+  - id: sorted_reads_bam
+
 - id: scatter_sam_to_fastq
   run: steps/sam_to_fastq/sam_to_fastq.cwl
   in: 
   - id: aligned_reads_sam
-    source: sam_file_array
+    source: sort/sorted_reads_bam
   - id: reads_r1_fastq
     source: fastq_r1_name_array
   - id: reads_r2_fastq
@@ -51,5 +61,6 @@ steps:
   out: 
   - r1_fastq
   - r2_fastq
+
 
 
