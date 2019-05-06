@@ -14,6 +14,7 @@ requirements:
 - class: StepInputExpressionRequirement
 - class: InlineJavascriptRequirement
 - class: MultipleInputFeatureRequirement
+- class: SubworkflowFeatureRequirement
 
 inputs:
 
@@ -56,21 +57,16 @@ steps:
   - fastq_names_1
   - fastq_names_2
 
-- id: scatter_sam_to_fastq
-  run: steps/sam_to_fastq/sam_to_fastq.cwl
+- id: sam_to_fastq_workflow
+  run: sam_to_fastq_workflow.cwl
   in: 
-  - id: aligned_reads_sam
+  - id: sam_file_array
     source: filter_bam_files/array1
-  - id: reads_r1_fastq
+  - id: fastq_r1_name_array
     source: create_fastq_names/fastq_names_1
-  - id: reads_r2_fastq
+  - id: fastq_r2_name_array
     source: create_fastq_names/fastq_names_2
-  scatter: 
-  - aligned_reads_sam
-  - reads_r1_fastq
-  - reads_r2_fastq
-  scatterMethod: dotproduct
-  out: 
+  out:
   - r1_fastq
   - r2_fastq
 
@@ -78,7 +74,7 @@ steps:
   run: steps/expression_tools/split_file_array_by_size.cwl
   in: 
   - id: file_array
-    source: [scatter_sam_to_fastq/r1_fastq, scatter_sam_to_fastq/r2_fastq]
+    source: [sam_to_fastq_workflow/r1_fastq, sam_to_fastq_workflow/r2_fastq]
     linkMerge: merge_flattened
   - id: size_filter
     valueFrom: $(1)
