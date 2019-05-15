@@ -4,6 +4,10 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
+
+#requirements:
+#- class: InlineJavascriptRequirement
+
 baseCommand: 
 - Rscript
 - /usr/local/bin/split_tabular_file.R
@@ -39,7 +43,7 @@ inputs:
       
 outputs:
 
-  combined_file:
-    type: File
-    outputBinding:
-      glob: $(inputs.output_file_prefix*)
+- id: file_array
+  type: File[]
+  outputBinding:
+    glob: "*"

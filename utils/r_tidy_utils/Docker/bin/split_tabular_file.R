@@ -24,14 +24,14 @@ parser$add_argument(
 
 parser$add_argument(
     "-l",
-    "--label_column",
+    "--label_column_index",
     type = "integer",
     default = 1)
 
 args <- parser$parse_args()
 
 split_matrix_into_cols <- function(mat){
-    purrr::map(1:ncol(mat), ~magrittr::extract(mat, x))
+    purrr::map(1:ncol(mat), ~magrittr::extract(mat, .x))
 }
 
 df <- readr::read_delim(args$file, delim = args$input_delimiter)
@@ -54,5 +54,7 @@ df %>%
     purrr::map(as.data.frame) %>% 
     purrr::map(tibble::rownames_to_column, label_column) %>% 
     purrr::walk2(output_files, readr::write_tsv)
+
+
     
     
