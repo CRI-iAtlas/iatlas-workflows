@@ -49,8 +49,8 @@ outputs: []
 
 steps:
 
-- id: syn_get_and_unzip_fastqs
-  run: syn_get_and_unzip_workflow.cwl
+- id: syn_get
+  run: syn_get_workflow.cwl
   in: 
   - id: id_array
     source: nested_id_array
@@ -64,7 +64,7 @@ steps:
   run: kallisto_workflow.cwl
   in: 
   - id: fastq_nested_array
-    source: syn_get_and_unzip_fastqs/file_array
+    source: syn_get/file_array
   - id: sample_name_array
     source: sample_name_array
   - id: kallisto_threads
@@ -80,7 +80,7 @@ steps:
   out: 
   - expression_file
 
-- id: syn_get
+- id: syn_store
   run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-store-tool.cwl
   in: 
   - id: synapse_config
