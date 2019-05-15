@@ -13,15 +13,21 @@ hints:
 
 inputs:
 
-  fastq_array:
-    type: File[]
-    inputBinding: 
-      position: 1
+- id: fastq_array
+  type: File[]
+  inputBinding: 
+    position: 1
       
-  paired:
-    type: boolean?
-    inputBinding: 
-      prefix: --paired
+- id: paired
+  type: boolean?
+  inputBinding: 
+    prefix: --paired
+
+- id: no_report_file
+  type: boolean
+  default: true
+  inputBinding: 
+    prefix: --no_report_file
 
 
 outputs:
