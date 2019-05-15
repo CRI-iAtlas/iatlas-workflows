@@ -10,6 +10,7 @@ requirements:
 - class: StepInputExpressionRequirement
 - class: InlineJavascriptRequirement
 - class: MultipleInputFeatureRequirement
+- class: SubworkflowFeatureRequirement
 
 inputs:
   
@@ -60,69 +61,42 @@ steps:
   - array1
   - array2
 
-- id: trim_galore_paired
-  run: steps/trim_galore/trim_galore.cwl
+- id: kallisto_paired_end
+  run: kallisto_paired_end_workflow.cwl
   in: 
   - id: fastq_array
     source: split_fastq_array/array1
-  - id: paired 
-    valueFrom: $( true )
+  - id: kallisto_index_file
+    source: kallisto_index_file
+  - id: kallisto_threads
+    source: kallisto_threads
   scatter: fastq_array
   out:
-  - trimmed_fastq_array
+  - abundance_file
 
-- id: trim_galore_single
-  run: steps/trim_galore/trim_galore.cwl
+- id: kallisto_single_end
+  run: kallisto_single_end_workflow.cwl
   in: 
   - id: fastq_array
     source: split_fastq_array/array2
-  - id: paired 
-    valueFrom: $( false )
-  scatter: fastq_array
-  out:
-  - trimmed_fastq_array
-
-- id: kallisto_paired
-  run: steps/kallisto/quant.cwl
-  in:
-  - id: fastq_array
-    source: trim_galore_paired/trimmed_fastq_array
-  - id: index
+  - id: kallisto_index_file
     source: kallisto_index_file
-  - id: threads
+  - id: kallisto_threads
     source: kallisto_threads
-  - id: plaintext
-    valueFrom: $( true )
-  scatter: fastq_array
-  out: 
-  - abundance_file
-
-- id: kallisto_single
-  run: steps/kallisto/quant.cwl
-  in:
-  - id: fastq_array
-    source: trim_galore_single/trimmed_fastq_array
-  - id: index
-    source: kallisto_index_file
-  - id: threads
-    source: kallisto_threads
-  - id: plaintext
-    valueFrom: $( true )
-  - id: is_single_end
-    valueFrom: $( true )
   - id: fragment_length
     source: fragment_length
-  - id: sd
+  - id: fragment_length_sd
     source: fragment_length_sd
   scatter: fastq_array
-  out: 
+  out:
   - abundance_file
+
 
 - id: combine_kalisto_files
   run: steps/r_tidy_utils/combine_kalisto_files.cwl
   in:
   - id: abundance_files
-    source: [kallisto_paired/abundance_file, kallisto_single/abundance_file]
+    source: [kallisto_paired_end/abundance_file, kallisto_single_end/abundance_file]
     linkMerge: merge_flattened
   - id: sample_names
     source: sample_name_array
