@@ -29,4 +29,4 @@ outputs:
   trimmed_fastq_array:
     type: File[]
     outputBinding:
-      glob: "*.fq"
+      glob: "*"
