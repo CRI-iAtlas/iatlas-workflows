@@ -1,0 +1,1 @@
+../../MCPcounter/workflow/mcpcounter_workflow.cwl

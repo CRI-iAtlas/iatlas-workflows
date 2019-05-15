@@ -12,30 +12,43 @@ requirements:
 
 inputs:
 
-  expression_file: File
-  leukocyte_fractions: double[]?
+- id: expression_file
+  type: File
+
+- id: leukocyte_fractions
+  type: double[]?
   
+- id: output_file
+  type: string
+  default: "output.tsv"
+
+
 outputs:
  
-  cell_counts_file: 
-    type: File
-    outputSource: aggregate_cibersort_celltypes/cell_counts_file
+- id: cell_counts_file 
+  type: File
+  outputSource: aggregate_cibersort_celltypes/cell_counts_file
    
 
 steps:
 
-  cibersort:
-    run: steps/cibersort/cibersort.cwl
-    in:
-      mixture_file: expression_file
-    out: 
-    - cibersort_file
+- id: cibersort
+  run: steps/cibersort/cibersort.cwl
+  in:
+  - id: mixture_file
+    source: expression_file
+  out: 
+  - cibersort_file
     
-  aggregate_cibersort_celltypes:
-    run: steps/cibersort_aggregate_celltypes/cibersort_aggregate_celltypes.cwl
-    in:
-      cibersort_file: cibersort/cibersort_file
-      leukocyte_fractions: leukocyte_fractions
-    out: 
-    - cell_counts_file
+- id: aggregate_cibersort_celltypes
+  run: steps/cibersort_aggregate_celltypes/cibersort_aggregate_celltypes.cwl
+  in:
+  - id: cibersort_file
+    source: cibersort/cibersort_file
+  - id: leukocyte_fractions
+    source: leukocyte_fractions
+  - id: output_file
+    source: output_file
+  out: 
+  - cell_counts_file
 

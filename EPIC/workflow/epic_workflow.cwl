@@ -12,6 +12,10 @@ inputs:
 
 - id: input_expression_file
   type: File
+
+- id: output_file_string
+  type: string
+  default: "output_file.tsv"
   
 outputs:
  
@@ -35,6 +39,8 @@ steps:
     in:
     - id: input_epic_file
       source: epic/epic_file
+    - id: output_file_string
+      source: output_file_string
     out: 
     - cell_counts_file
 

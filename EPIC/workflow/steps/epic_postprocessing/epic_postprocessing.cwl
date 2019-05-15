@@ -27,7 +27,7 @@ inputs:
   type: string
   inputBinding:
     prefix: --output_file
-  default: "./output_file.tsv"
+  default: "output_file.tsv"
 
 outputs:
 

@@ -1,0 +1,1 @@
+../../../../EPIC/workflow/steps/epic/epic.cwl
