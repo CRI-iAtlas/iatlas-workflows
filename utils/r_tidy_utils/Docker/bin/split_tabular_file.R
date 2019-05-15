@@ -28,16 +28,7 @@ parser$add_argument(
     type = "int",
     default = 1)
 
-
-
 args <- parser$parse_args()
-
-args <- list(
-    "file" = "../../../../sample_files/expression/expression.tsv",
-    "input_delimiter" = "\t",
-    "output_file_prefix" = "output",
-    "label_column_index" = 1
-)
 
 split_matrix_into_cols <- function(mat){
     purrr::map(1:ncol(mat), ~magrittr::extract(mat, x))
