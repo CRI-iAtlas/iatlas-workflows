@@ -25,7 +25,7 @@ parser$add_argument(
 parser$add_argument(
     "-l",
     "--label_column",
-    type = "int",
+    type = "integer",
     default = 1)
 
 args <- parser$parse_args()
