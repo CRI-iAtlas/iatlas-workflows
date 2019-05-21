@@ -4,8 +4,7 @@
  "fastq2":
   {"path": "../../../sample_files/fastq/sample_40000.2.fastq",
    "class": "File"},
- "index":
+ "kallisto_index_file":
    {"path": "../../../sample_files/kallisto_index/gencode_v24.idx",
-    "class": "File"},
- "plaintext": true
+    "class": "File"}
 }

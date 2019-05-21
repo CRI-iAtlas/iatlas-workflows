@@ -11,8 +11,8 @@ requirements:
 
 inputs:
   
-- id: fastq_array
-  type: File[]
+- id: fastq
+  type: File
 
 - id: kallisto_index_file
   type: File
@@ -30,39 +30,33 @@ inputs:
   
 outputs:
 
-- id: abundance_file
+- id: abundance_tsv
   type: File
-  outputSource: kallisto/abundance_file
+  outputSource: kallisto/abundance_tsv
 
 steps:
 
 - id: trim_galore
-  run: steps/trim_galore/trim_galore.cwl
+  run: steps/trim_galore/trim_galore_single.cwl
   in: 
-  - id: fastq_array
-    source: fastq_array
-  - id: paired 
-    valueFrom: $( false )
+  - id: fastq
+    source: fastq
   out:
-  - trimmed_fastq_array
+  - fastq
 
 - id: kallisto
-  run: steps/kallisto/quant.cwl
+  run: steps/kallisto/quant_single.cwl
   in:
-  - id: fastq_array
-    source: trim_galore/trimmed_fastq_array
+  - id: fastq
+    source: trim_galore/fastq
   - id: index
     source: kallisto_index_file
   - id: threads
     source: kallisto_threads
-  - id: plaintext
-    valueFrom: $( true )
-  - id: is_single_end
-    valueFrom: $( true )
   - id: fragment_length
     source: fragment_length
   - id: sd
     source: fragment_length_sd
   out: 
-  - abundance_file
+  - abundance_tsv
 
