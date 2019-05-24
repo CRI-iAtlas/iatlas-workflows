@@ -39,6 +39,7 @@ inputs:
 
   - id: reads_r1_fastq
     label: R1 reads FASTQ
+    default: r1.fastq.gz
     type: string
     inputBinding:
       position: 2
@@ -47,6 +48,7 @@ inputs:
 
   - id: reads_r2_fastq
     label: R2 reads FASTQ
+    default: r2.fastq.gz
     type: string?
     inputBinding:
       position: 3

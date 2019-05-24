@@ -26,8 +26,8 @@ expression: |
     var fastq_names_2 = []
     for (var i = 0; i < inputs.sam_file_array.length; ++i) {
       var root = inputs.sam_file_array[i].nameroot
-      fastq_names_1.push(root + "_p1.fastq")
-      fastq_names_2.push(root + "_p2.fastq")
+      fastq_names_1.push(root + "_p1.fastq.gz")
+      fastq_names_2.push(root + "_p2.fastq.gz")
     }
     return {fastq_names_1: fastq_names_1, fastq_names_2: fastq_names_2}
   }
