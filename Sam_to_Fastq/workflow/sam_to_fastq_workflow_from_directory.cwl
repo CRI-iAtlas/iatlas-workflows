@@ -39,7 +39,7 @@ steps:
   - file_array
 
 - id: filter_bam_files
-  run: ../../utils/expression_tools/CWL/split_file_array_by_extension.cwl
+  run: steps/expression_tools/CWL/split_file_array_by_extension.cwl
   in: 
   - id: file_array
     source: get_files/file_array

@@ -66,7 +66,7 @@ inputs:
 
   - id: compression_level
     label: Compression level
-    default: 0
+    default: 5
     type: int
     inputBinding:
       position: 4
