@@ -28,20 +28,12 @@ outputs:
     get_mitcr_summary/mitcr_summary_file
 
 steps:
-
-- id: make_fastq_directory
-  run: steps/r_tidy_utils/make_directory.cwl 
-  in: 
-  - id: file_array
-    source: fastq_array
-  out: 
-  - directory
   
 - id: combine_and_clean_fastqs
   run: steps/mitcr_combine_and_clean_fastqs/mitcr_combine_and_clean_fastqs.cwl 
   in: 
-  - id: fastq_directory
-    source: make_fastq_directory/directory
+  - id: fastq_array
+    source: fastq_array
   out: 
   - fastq
 

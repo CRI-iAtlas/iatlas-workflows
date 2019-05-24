@@ -13,8 +13,7 @@ doc: "preprocessing before mitcr"
 
 hints:
   DockerRequirement:
-    dockerPull: mitcr_combine_and_clean_fastqs
-    #dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs
+    dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs
 
 inputs:
 
