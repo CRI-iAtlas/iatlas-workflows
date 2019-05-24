@@ -11,12 +11,11 @@ requirements:
 
 inputs:
   
-- id: nested_id_array
-  type:
-    type: array
-    items:
-      type: array
-      items: string
+- id: p1_fastq_ids
+  type: string[]
+
+- id: p2_fastq_ids
+  type: string[]
 
 - id: destination_id
   type: string
@@ -35,22 +34,35 @@ outputs: []
 
 steps:
 
-- id: syn_get_and_unzip_fastqs
-  run: syn_get_and_unzip_workflow.cwl
+- id: syn_get1
+  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
   in: 
-  - id: id_array
-    source: nested_id_array
   - id: synapse_config
     source: synapse_config
-  scatter: id_array
+  - id: synapseid
+    source: p1_fastq_ids
+  scatter: synapseid
   out:
-  - file_array
+  - filepath
+
+- id: syn_get2
+  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+  in: 
+  - id: synapse_config
+    source: synapse_config
+  - id: synapseid
+    source: p2_fastq_ids
+  scatter: synapseid
+  out:
+  - filepath
 
 - id: mitcr
   run: mitcr_multi_sample_workflow.cwl
   in: 
-  - id: fastq_nested_array
-    source: syn_get_and_unzip_fastqs/file_array
+  - id: p1_fastq_array
+    source: syn_get1/filepath
+  - id: p2_fastq_array
+    source: syn_get2/filepath
   - id: sample_name_array
     source: sample_name_array
   - id: output_file_name

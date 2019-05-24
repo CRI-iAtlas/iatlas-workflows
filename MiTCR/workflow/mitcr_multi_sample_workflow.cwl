@@ -14,46 +14,55 @@ requirements:
 
 inputs:
 
-  fastq_nested_array: 
-    type: 
-      type: array
-      items:
-        type: array
-        items: File
+- id: p1_fastq_array
+  type: File[]
 
-  sample_name_array: string[]
+- id: p2_fastq_array
+  type: File[]
 
-  output_file_name:
-    type: string
-    default: "mitcr_summary.tsv"
+- id: sample_name_array
+  type: string[]
+
+- id: output_file_name
+  type: string
+  default: "mitcr_summary.tsv"
       
       
 outputs:
 
-  mitcr_summary_file: 
-    type: File
-    outputSource: 
-    - combine_mitcr_files/combined_file
+- id: mitcr_summary_file 
+  type: File
+  outputSource: 
+  - combine_mitcr_files/combined_file
 
 steps:
 
-  scatter_mitcr:
-    run: mitcr_workflow.cwl
-    in: 
-      fastq_array: fastq_nested_array
-      sample_name: sample_name_array
-    scatter: [fastq_array, sample_name]
-    scatterMethod: dotproduct
-    out: 
-    - mitcr_summary_file
+- id: scatter_mitcr
+  run: mitcr_workflow.cwl
+  in: 
+  - id: p1_fastq
+    source: p1_fastq_array
+  - id: p2_fastq
+    source: p2_fastq_array
+  - id: sample_name
+    source: sample_name_array
+  scatter: 
+  - p1_fastq
+  - p2_fastq
+  - sample_name
+  scatterMethod: dotproduct
+  out: 
+  - mitcr_summary_file
 
-  combine_mitcr_files:
-    run: steps/r_tidy_utils/combine_tabular_files.cwl
-    in: 
-      files: scatter_mitcr/mitcr_summary_file
-      output_file_name: output_file_name
-    out: 
-    - combined_file
+- id: combine_mitcr_files
+  run: steps/r_tidy_utils/combine_tabular_files.cwl
+  in: 
+  - id: files
+    source: scatter_mitcr/mitcr_summary_file
+  - id: output_file_name
+    source: output_file_name
+  out: 
+  - combined_file
   
 
 

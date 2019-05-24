@@ -14,6 +14,7 @@ Modified by Andrew Lamb May 24, 2019
 
 import re
 import argparse
+import gzip
 
 parser = argparse.ArgumentParser()
 parser.add_argument('fastqs', nargs='+')
@@ -33,6 +34,25 @@ reads = open("reads.fq", "w")
 for f in args.fastqs:
     if (f.endswith(".fastq") or f.endswith(".fq")) and f != "reads.fq":
          for line in open(f, "r"):
+             i += 1
+             block += line.rstrip() + "\t"
+             if i == 2:
+                 if(reg.match(line.upper()) and len(line)>40):
+                     valid = True
+                 else:
+                     valid = False
+             elif i == 4 and valid:
+                 reads.write(block.replace("\t","\n"))   # cleaves off trailing \t
+                 block = ""
+                 i = 0
+                 numReads += 1
+             elif i == 4 and not valid:
+                 block = ""
+                 i = 0
+
+for f in args.fastqs:
+    if (f.endswith(".fastq.gz") or f.endswith(".fq.gz")) and f != "reads.fq":
+         for line in gzip.open(f, "r"):
              i += 1
              block += line.rstrip() + "\t"
              if i == 2:

@@ -1,0 +1,24 @@
+{
+  "p1_fastq_array":[
+    {
+    "path" : "../../../sample_files/fastq/sample_200000.1.fastq.gz",
+    "class": "File"
+    },
+    {
+    "path" : "../../../sample_files/fastq/sample_200000.1.fastq.gz",
+    "class": "File"
+    },
+  ],
+  "p2_fastq_array":[
+    {
+    "path" : "../../../sample_files/fastq/sample_200000.2.fastq.gz",
+    "class": "File"
+    },
+    {
+    "path" : "../../../sample_files/fastq/sample_200000.2.fastq.gz",
+    "class": "File"
+    },
+  ],
+  "sample_name_array": ["sample1", "sample2"]
+}
+
