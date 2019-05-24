@@ -7,37 +7,28 @@ class: CommandLineTool
 
 baseCommand: 
 - python2
-- /home/ubuntu/combineAndCleanFastq.py
-
-arguments:
-- valueFrom: $(runtime.outdir)
-  position: 2
+- /usr/local/bin/combine_and_clean_fastqs.py
 
 doc: "preprocessing before mitcr"
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs
-
-requirements:
-- class: InlineJavascriptRequirement
-- class: InitialWorkDirRequirement
-  listing: $(inputs.fastq_directory.listing)
-
+    dockerPull: mitcr_combine_and_clean_fastqs
+    #dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs
 
 inputs:
 
-- id: fastq_directory
-  type: Directory
+- id: fastq_array
+  type: File[]
   inputBinding:
-    position: 1
-  doc: fastq file in the format of ".fastq" or ".fq"
+    prefix: fastqs
+  doc: fastq files in the format of ".fastq" or ".fq"
 
 outputs:
 
 - id: fastq
   type: File
   outputBinding:
-    glob: "*reads.fq"
+    glob: "reads.fq"
 
 
