@@ -7,5 +7,5 @@
     "path" : "../../../sample_files/fastq/sample_200000.2.fastq.gz",
     "class": "File"
   },
-  "sample_name": "test_sample"
+  "sample_name": "mitcr_paired"
 }
