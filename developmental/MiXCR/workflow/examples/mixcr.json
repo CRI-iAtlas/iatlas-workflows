@@ -1,11 +1,11 @@
 {
   "input_file1": {
     "class": "File",
-    "path": "../../../sample_files/fastq/sample_200000.1.fastq"
+    "path": "../../../sample_files/fastq/SRR1740086_1.fastq"
   },
   "input_file2": {
     "class": "File",
-    "path": "../../../sample_files/fastq/sample_200000.2.fastq"
+    "path": "../../../sample_files/fastq/SRR1740086_2.fastq"
   },
   "analysis_name": "example"
 }
