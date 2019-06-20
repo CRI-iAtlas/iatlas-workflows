@@ -40,16 +40,16 @@ steps:
   - id: fastq2
     source: fastq2
   out:
-  - fastq1
-  - fastq2 
+  - trimmed_fastq1
+  - trimmed_fastq2 
 
 - id: kallisto
   run: steps/kallisto/quant_paired.cwl
   in:
   - id: fastq1
-    source: trim_galore/fastq1
+    source: trim_galore/trimmed_fastq1
   - id: fastq2
-    source: trim_galore/fastq2
+    source: trim_galore/trimmed_fastq2
   - id: index
     source: kallisto_index_file
   - id: threads

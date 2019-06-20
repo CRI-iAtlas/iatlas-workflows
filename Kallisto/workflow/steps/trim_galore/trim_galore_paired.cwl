@@ -32,12 +32,12 @@ inputs:
 
 outputs:
 
-- id: fastq1
+- id: trimmed_fastq1
   type: File
   outputBinding:
     glob: "*_val_1*"
 
-- id: fastq2
+- id: trimmed_fastq2
   type: File
   outputBinding:
     glob: "*_val_2*"
