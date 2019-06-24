@@ -8,8 +8,11 @@ baseCommand:
 - /usr/local/bin/trim_galore
 
 hints:
-  DockerRequirement:
-    dockerPull: dukegcb/trim-galore
+- class: ResourceRequirement
+  coresMin: 1
+  ramMin: 10000
+- class: DockerRequirement:
+  dockerPull: dukegcb/trim-galore
 
 inputs:
 
