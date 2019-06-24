@@ -12,8 +12,12 @@ baseCommand:
 doc: "preprocessing before mitcr"
 
 hints:
-  DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs
+- class: ResourceRequirement
+  ramMin: 10000
+  tmpdirMin: 25000
+- class: DockerRequirement
+  dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs
+
 
 inputs:
 
