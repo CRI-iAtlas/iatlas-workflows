@@ -17,14 +17,20 @@ doc: |
     SECOND_END_FASTQ="${fastqdir}/${sample}.r2.fastq" \
     VALIDATION_STRINGENCY=SILENT
 
-baseCommand: ['picard.sh', 'SamToFastq']
+baseCommand: 
+- picard.sh
+- SamToFastq
 
 requirements:
   - class: InlineJavascriptRequirement
 
 hints:
+  - class: ResourceRequirement
+    ramMin: 4000
+    tmpdirMin: 35000
   - class: DockerRequirement
     dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
+
 
 inputs:
 

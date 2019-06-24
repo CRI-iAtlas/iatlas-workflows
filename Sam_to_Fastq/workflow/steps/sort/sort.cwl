@@ -17,14 +17,19 @@ doc: |
     VALIDATION_STRINGENCY=SILENT \
     COMPRESSION_LEVEL=0
 
-baseCommand: ['picard.sh', 'SortSam']
+baseCommand: 
+- picard.sh
+- SortSam
 
 requirements:
   - class: InlineJavascriptRequirement
 
 hints:
+  - class: ResourceRequirement
+    ramMin: 8000
   - class: DockerRequirement
     dockerPull: 'quay.io/sage-bionetworks/picard_utils:1.0'
+
 
 inputs:
 
