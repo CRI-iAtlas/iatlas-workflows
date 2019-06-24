@@ -43,7 +43,9 @@ steps:
   run: steps/mitcr_combine_and_clean_fastqs/mitcr_combine_and_clean_fastqs.cwl 
   in: 
   - id: fastq_array
-    source: [p1_fastq, p2_fastq]
+    source: 
+    - p1_fastq
+    - p2_fastq
   out: 
   - fastq
 

@@ -1,9 +1,0 @@
-{
-"p1_fastq_id_array": ["syn18822242"],
-"p2_fastq_id_array": ["syn18822243"],
-"unpaired_fastq_id_array": [],
-"synapse_config":{"path": "/home/aelamb/.synapseConfig", "class": "File"},
-"destination_id": "syn11738103",
-"paired_sample_name_array": ["mitcr_test_paired"],
-"unpaired_sample_name_array": []
-}

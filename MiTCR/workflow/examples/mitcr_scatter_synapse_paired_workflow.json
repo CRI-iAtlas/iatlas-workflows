@@ -1,0 +1,7 @@
+{
+  "p1_fastq_ids": ["syn18822242", "syn18822242"],
+  "p2_fastq_ids": ["syn18822243", "syn18822243"],
+  "sample_names": ["mitcr_test_paired1", "mitcr_test_paired2"],
+  "synapse_config": {"path": "/home/aelamb/.synapseConfig", "class": "File"},
+  "destination_id": "syn11738103"
+}
