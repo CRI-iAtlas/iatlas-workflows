@@ -1,7 +1,6 @@
 {
- "fastq1_id": "syn18693269",
- "fastq2_id": "syn18693270",
- "sample_name": "test_sample1",
+ "fastq_ids": ["syn18693269", "syn18693269"],
+ "sample_names": ["test_sample1", "test_samples"],
  "kallisto_index_file":
    {"path": "../../../sample_files/kallisto_index/gencode_v24.idx",
     "class": "File"},

@@ -6,16 +6,17 @@ cwlVersion: v1.0
 class: Workflow
 
 requirements:
-- class: ScatterFeatureRequirement
 - class: SubworkflowFeatureRequirement
+- class: InlineJavascriptRequirement
+- class: StepInputExpressionRequirement
   
 inputs:
   
-- id: fastq1_ids
-  type: string[]
+- id: fastq1_id
+  type: string
 
-- id: fastq2_ids
-  type: string[]
+- id: fastq2_id
+  type: string
 
 - id: kallisto_index_file
   type: File
@@ -26,12 +27,8 @@ inputs:
 - id: kallisto_threads
   type: int?
 
-- id: sample_name_array
-  type: string[]
-
-- id: output_file_name
+- id: sample_name
   type: string
-  default: "expression_file.tsv"
 
 - id: destination_id
   type: string
@@ -46,8 +43,7 @@ steps:
   - id: synapse_config
     source: synapse_config
   - id: synapseid
-    source: fastq1_ids
-  scatter: synapseid
+    source: fastq1_id
   out:
   - filepath
 
@@ -57,8 +53,7 @@ steps:
   - id: synapse_config
     source: synapse_config
   - id: synapseid
-    source: fastq2_ids
-  scatter: synapseid
+    source: fastq2_id
   out:
   - filepath
 
@@ -73,25 +68,19 @@ steps:
     source: kallisto_threads
   - id: kallisto_index_file
     source: kallisto_index_file
-  scatter: 
-  - fastq1
-  - fastq2
-  scatterMethod: dotproduct
   out: 
   - abundance_tsv
 
-- id: combine_kalisto_files
-  run: steps/r_tidy_utils/combine_kalisto_files.cwl
-  in:
-  - id: abundance_files
+- id: rename_file
+  run: steps/expression_tools/rename_file.cwl
+  in: 
+  - id: input_file
     source: kallisto/abundance_tsv
-  - id: sample_names
-    source: sample_name_array
-  - id: output_file_name
-    source: output_file_name
+  - id: new_file_name
+    source: sample_name
+    valueFrom: $(self + ".tsv")
   out: 
-  - expression_file
-
+  - output_file
 
 - id: syn_store
   run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-store-tool.cwl
@@ -99,7 +88,7 @@ steps:
   - id: synapse_config
     source: synapse_config
   - id: file_to_store
-    source: combine_kalisto_files/expression_file
+    source: rename_file/output_file
   - id: parentid
     source: destination_id
   out: []

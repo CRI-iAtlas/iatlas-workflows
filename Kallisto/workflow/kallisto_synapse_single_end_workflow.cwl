@@ -6,13 +6,14 @@ cwlVersion: v1.0
 class: Workflow
 
 requirements:
-- class: ScatterFeatureRequirement
 - class: SubworkflowFeatureRequirement
+- class: InlineJavascriptRequirement
+- class: StepInputExpressionRequirement
   
 inputs:
   
-- id: fastq_ids
-  type: string[]
+- id: fastq_id
+  type: string
 
 - id: kallisto_index_file
   type: File
@@ -31,8 +32,8 @@ inputs:
   type: float
   default: 30
 
-- id: sample_name_array
-  type: string[]
+- id: sample_name
+  type: string
 
 - id: output_file_name
   type: string
@@ -51,8 +52,7 @@ steps:
   - id: synapse_config
     source: synapse_config
   - id: synapseid
-    source: fastq_ids
-  scatter: synapseid
+    source: fastq_id
   out:
   - filepath
 
@@ -69,22 +69,19 @@ steps:
     source: fragment_length
   - id: fragment_length_sd
     source: fragment_length_sd
-  scatter: fastq
   out: 
   - abundance_tsv
 
-- id: combine_kalisto_files
-  run: steps/r_tidy_utils/combine_kalisto_files.cwl
-  in:
-  - id: abundance_files
+- id: rename_file
+  run: steps/expression_tools/rename_file.cwl
+  in: 
+  - id: input_file
     source: kallisto/abundance_tsv
-  - id: sample_names
-    source: sample_name_array
-  - id: output_file_name
-    source: output_file_name
+  - id: new_file_name
+    source: sample_name
+    valueFrom: $(self + ".tsv")
   out: 
-  - expression_file
-
+  - output_file
 
 - id: syn_store
   run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-store-tool.cwl
@@ -92,7 +89,7 @@ steps:
   - id: synapse_config
     source: synapse_config
   - id: file_to_store
-    source: combine_kalisto_files/expression_file
+    source: rename_file/output_file
   - id: parentid
     source: destination_id
   out: []

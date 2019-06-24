@@ -12,7 +12,7 @@ hints:
 - class: ResourceRequirement
   coresMin: 1
   ramMin: 10000
-- class: DockerRequirement:
+- class: DockerRequirement
   dockerPull: dukegcb/trim-galore
 
 inputs:
