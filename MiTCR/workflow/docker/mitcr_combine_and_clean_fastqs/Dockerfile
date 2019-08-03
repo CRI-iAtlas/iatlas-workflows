@@ -1,7 +1,7 @@
-FROM python:2.7
+FROM python:3.7
 
-RUN pip install --upgrade pip
-RUN pip install argparse
+RUN pip3 install argparse
+RUN pip3 install biopython
 
 COPY bin/* /usr/local/bin/
 RUN chmod a+x /usr/local/bin/*

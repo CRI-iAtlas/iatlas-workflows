@@ -6,7 +6,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 
 baseCommand: 
-- python2
+- python3.7
 - /usr/local/bin/combine_and_clean_fastqs.py
 
 doc: "preprocessing before mitcr"
@@ -24,7 +24,7 @@ inputs:
 - id: fastq_array
   type: File[]
   inputBinding:
-    prefix: fastqs
+    prefix: --fastqs
   doc: fastq files in the format of ".fastq" or ".fq"
 
 outputs:
