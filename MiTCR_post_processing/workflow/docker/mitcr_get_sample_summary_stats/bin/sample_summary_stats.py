@@ -32,35 +32,47 @@ def main(alpha_chain_file, beta_chain_file, output_file, sample_name):
     
 
 def combine_cdr3_reads(alpha_chain_file, beta_chain_file):
-    cdr3_dict = add_cdr3_reads({}, alpha_chain_file, "alpha")
-    cdr3_dict = add_cdr3_reads(cdr3_dict, beta_chain_file, "beta")
+    cdr3_dict = add_cdr3_sequences({}, alpha_chain_file, "alpha")
+
+    cdr3_dict = add_cdr3_sequences(cdr3_dict, beta_chain_file, "beta")
+    cdr3_dict = resolve_chain_conflicts(cdr3_dict)
     return(cdr3_dict.values())
 
     
-def add_cdr3_reads(cdr3_dict, cdr3_file, chain_type):
+def add_cdr3_sequences(cdr3_dict, cdr3_file, chain_type):
     with open(cdr3_file, 'r') as f:
         for line in islice(f, 2, None):
             (n_reads, _, seq, _, _, aa_seq,
              *rest) = tuple(line.rstrip().split("\t"))
             n_reads = int(n_reads)
             if all(char not in aa_seq for char in ["*", "~"]):
-                if seq not in cdr3_dict:
-                    cdr3_dict[seq] = SequenceReads(chain_type, n_reads)
-                else:
-                    if n_reads > cdr3_dict[seq].n_reads:
-                        cdr3_dict[seq] = SequenceReads(chain_type, n_reads)
-                    elif n_reads == cdr3_dict[seq].n_reads:
-                        cdr3_dict[seq] = SequenceReads("ambiguous", n_reads)
+                l = cdr3_dict.get(seq, [])
+                l.append(SequenceReads(chain_type, n_reads))
+                cdr3_dict[seq] = l
     return(cdr3_dict)
 
-
+def resolve_chain_conflicts(cdr3_dict):
+    for seq, l in cdr3_dict.items():
+        if(len(l) == 1):
+            cdr3_dict[seq] = l[0]
+        else:
+            max_n_reads = max([seq_reads.n_reads for seq_reads in l])
+            most_abundanct_chains = [seq_reads for seq_reads in l 
+                                     if seq_reads.n_reads == max_n_reads]
+            if(len(most_abundanct_chains) == 1):
+                cdr3_dict[seq] = most_abundanct_chains[0]
+            else:
+                cdr3_dict[seq] = SequenceReads("ambiguous", max_n_reads)
+    return(cdr3_dict)
+    
+    
 def calculate_statistics(sequence_reads, sample_name):
     reads_list = [seq.n_reads for seq in sequence_reads]
     total_TCR = sum(reads_list)
     alpha_chain_TCR = sum(
-            seq.n_reads for seq in sequence_reads if seq.chain_type == "alpha")
+        seq.n_reads for seq in sequence_reads if seq.chain_type == "alpha")
     beta_chain_TCR = sum(
-            seq.n_reads for seq in sequence_reads if seq.chain_type == "beta")
+        seq.n_reads for seq in sequence_reads if seq.chain_type == "beta")
     
     if total_TCR: 
         TCR_Richness = len(sequence_reads)
@@ -70,13 +82,13 @@ def calculate_statistics(sequence_reads, sample_name):
         TCR_Shannon, TCR_Richness, TCR_Evenness = None
         
     result = Result(
-            sample_name,
-            total_TCR,
-            alpha_chain_TCR,
-            beta_chain_TCR,
-            TCR_Shannon,
-            TCR_Richness,
-            TCR_Evenness)
+        sample_name,
+        total_TCR,
+        alpha_chain_TCR,
+        beta_chain_TCR,
+        TCR_Shannon,
+        TCR_Richness,
+        TCR_Evenness)
         
     return result
     
