@@ -1,16 +1,14 @@
 #!/usr/bin/env cwl-runner
-#
-# Authors: Andrew Lamb
 
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: 
 - python3
-- /usr/local/bin/sampleSummaryStats.py
+- /usr/local/bin/sample_summary_stats.py
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/mitcr_get_sample_summary_stats
+    dockerPull: quay.io/cri-iatlas/mitcr_get_sample_summary_stats:1.0
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -18,22 +16,41 @@ requirements:
 
 inputs:
 
-  cdr3_file: 
-    type: File
-    inputBinding:
-      position: 1
+- id: alpha_chain_file 
+  type: File
+  inputBinding:
+    prefix: --alpha_chain_file 
 
-  summary_file_string: 
-    type: string
-    default: "mitcr_summary.tsv"
-    inputBinding:
-      position: 2
+- id: beta_chain_file 
+  type: File
+  inputBinding:
+    prefix: --beta_chain_file 
+
+- id: sample_name
+  type: string?
+  inputBinding:
+    prefix: --sample_name
+
+- id: output_file 
+  type: string
+  default: "mitcr.json"
+  inputBinding:
+    prefix: --output_file
 
 outputs:
 
-  mitcr_summary_file:
-    type: File
-    outputBinding:
-      glob: $(inputs.summary_file_string)
+- id: mitcr_summary_json
+  type: File
+  outputBinding:
+    glob: $(inputs.output_file)
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
 
 
