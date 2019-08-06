@@ -1,6 +1,4 @@
 #!/usr/bin/env cwl-runner
-#
-# Authors: Andrew Lamb
 
 cwlVersion: v1.0
 class: CommandLineTool
@@ -16,7 +14,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/mcpcounter
+    dockerPull: quay.io/cri-iatlas/mcpcounter:1.0
 
 inputs:
 
@@ -60,6 +58,15 @@ outputs:
   outputBinding:
     glob: $(inputs.output_file_string)
   doc: see output_string
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
 
 
 

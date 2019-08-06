@@ -21,8 +21,14 @@ inputs:
   inputBinding:
     prefix: -i
 
+- id: sample_name
+  type: string
+  inputBinding:
+    prefix: -s
+
 - id: output_file
   type: string
+  default: "output.tsv"
   inputBinding:
     prefix: -o
 

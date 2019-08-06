@@ -10,10 +10,16 @@ parser$add_argument(
     required = TRUE)
 
 parser$add_argument(
+    "-s",
+    "--sample_name",
+    type = "character",
+    required = TRUE)
+
+parser$add_argument(
     "-o",
     "--output_file",
     type = "character",
-    required = TRUE)
+    default = "output.tsv")
 
 parser$add_argument(
     "-m",
@@ -50,10 +56,8 @@ if(args$parse_method == "kallisto"){
                 "value6"), 
             sep = "\\|", 
             extra = "drop") %>% 
-        dplyr::select(
-            "Gene" = args$kallisto_gene_column, 
-            args$kallisto_expr_column
-        ) %>% 
+        dplyr::select(args$kallisto_gene_column, args$kallisto_expr_column) %>% 
+        magrittr::set_colnames(c("Gene", args$sample_name)) %>% 
         dplyr::group_by(Gene) %>%
         dplyr::summarise_all(sum) %>%
         dplyr::ungroup() %>% 

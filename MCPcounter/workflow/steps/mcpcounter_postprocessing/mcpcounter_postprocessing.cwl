@@ -1,7 +1,4 @@
 #!/usr/bin/env cwl-runner
-#
-# Authors: Andrew Lamb
-
 cwlVersion: v1.0
 class: CommandLineTool
 
@@ -14,7 +11,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/mcpcounter_postprocessing
+    dockerPull: quay.io/cri-iatlas/mcpcounter_postprocessing:1.0
 
 inputs:
 
@@ -23,18 +20,28 @@ inputs:
   inputBinding:
     prefix: --input_mcpcounter_file
     
-- id: output_file_string
+- id: output_file
   type: string
+  default: "output.tsv"
   inputBinding:
     prefix: --output_file
-  default: "./output_file.tsv"
+  
 
 outputs:
 
 - id: cell_score_file
   type: File
   outputBinding:
-    glob: $(inputs.output_file_string)
+    glob: $(inputs.output_file)
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
 
 
 
