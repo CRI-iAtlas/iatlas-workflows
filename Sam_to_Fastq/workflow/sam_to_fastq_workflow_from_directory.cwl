@@ -1,8 +1,5 @@
 #!/usr/bin/env cwl-runner
-#
-# Authors: Andrew Lamb
-#
-# This starts with a directory of .bam files, and uploads them to synapse
+
 
 cwlVersion: v1.0
 class: Workflow
@@ -92,5 +89,14 @@ steps:
     source: synapse_directory_id
   scatter: file_to_store
   out: []
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
 
 
