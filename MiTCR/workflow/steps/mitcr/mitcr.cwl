@@ -22,7 +22,7 @@ hints:
   ramMin: 10000
   tmpdirMin: 25000
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/mitcr
+  dockerPull: quay.io/cri-iatlas/mitcr:1.0
 
 
 requirements:
@@ -130,13 +130,6 @@ inputs:
     prefix: -level
   doc: verbosity level for tab delimited output (see “output formats” 
        section for details). Has no effect if cls is used as output format
-  
-- id: solexa
-  type: boolean?
-  inputBinding:
-    prefix: -solexa
-  doc: NOT WORKING, sets the input format of quality strings in fastq files
-       to old illumina format (<= Casava 1.3) with 64 offset
 
 outputs:
 
@@ -145,4 +138,13 @@ outputs:
   outputBinding:
     glob: $(inputs.output_file_string)
   doc: see output_string
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
 

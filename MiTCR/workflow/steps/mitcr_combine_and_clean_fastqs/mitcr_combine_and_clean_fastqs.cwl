@@ -16,7 +16,7 @@ hints:
   ramMin: 10000
   tmpdirMin: 25000
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs
+  dockerPull: quay.io/cri-iatlas/mitcr_combine_and_clean_fastqs:1.0
 
 
 inputs:
@@ -33,5 +33,14 @@ outputs:
   type: File
   outputBinding:
     glob: "reads.fq"
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
 
 
