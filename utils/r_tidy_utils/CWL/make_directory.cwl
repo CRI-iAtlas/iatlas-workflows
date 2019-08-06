@@ -1,6 +1,4 @@
 #!/usr/bin/env cwl-runner
-#
-# Authors: Andrew Lamb
 
 cwlVersion: v1.0
 class: CommandLineTool
@@ -12,24 +10,33 @@ doc: "Put files into directory"
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/r_tidy_utils
+    dockerPull: quay.io/cri-iatlas/r_tidy_utils:1.0
 
 inputs:
 
-  file_array:
-    type: File[]
-    inputBinding:
-      prefix: --files
+- id: file_array
+  type: File[]
+  inputBinding:
+    prefix: --files
   
-  output_dir_string:
-    type: string
-    default: "file_dir"
-    inputBinding:
-      prefix: --output_dir_string
+- id: output_dir_string
+  type: string
+  default: "file_dir"
+  inputBinding:
+    prefix: --output_dir_string
       
 outputs:
 
-  directory:
-    type: Directory
-    outputBinding:
-      glob: $(inputs.output_dir_string)
+- id: directory
+  type: Directory
+  outputBinding:
+    glob: $(inputs.output_dir_string)
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
