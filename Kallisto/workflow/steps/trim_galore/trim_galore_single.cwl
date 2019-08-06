@@ -1,6 +1,4 @@
 #!/usr/bin/env cwl-runner
-#
-# Authors: Andrew Lamb
 
 cwlVersion: v1.0
 class: CommandLineTool
@@ -12,7 +10,7 @@ hints:
   coresMin: 1
   ramMin: 10000
 - class: DockerRequirement
-  dockerPull: dukegcb/trim-galore
+  dockerPull: dukegcb/trim-galore:0.4.4
 
 inputs:
 
@@ -33,3 +31,12 @@ outputs:
   type: File
   outputBinding:
     glob: "*trimmed.fq*"
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb

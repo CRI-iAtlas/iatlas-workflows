@@ -17,9 +17,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install --yes \
 
 # Get latest source from releases
 WORKDIR /opt
-RUN git clone https://github.com/pachterlab/kallisto.git
+RUN git clone -b v0.46.0 https://github.com/pachterlab/kallisto.git
 WORKDIR kallisto
-RUN git clone https://github.com/samtools/htslib
+RUN git clone -b 1.9 https://github.com/samtools/htslib
 RUN rm -rf -f build
 RUN rm -rf /ext/htslib
 RUN cp -r htslib /ext/
