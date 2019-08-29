@@ -10,7 +10,7 @@ parser$add_argument(
     "--input_expression_file",
     type = "character",
     required = TRUE,
-    help = "Path to input matrix of microarray expression data, tab seperated. A matrix (nGenes x nSamples) of the genes expression from each bulk sample (the counts should be given in TPM or RPKM when using the prebuilt reference profiles). This matrix needs to have rownames telling the gene names (corresponds to the gene symbol in the prebuilt reference profiles (e.g. CD8A, MS4A1) - no conversion of IDs is performed at the moment).")
+    help = "Path to input table of expression data")
 
 
 parser$add_argument(
@@ -25,15 +25,15 @@ parser$add_argument(
     help = "Either 'TRef', BRef'")
 parser$add_argument(
     "--scaleExprs",
-    action = "store_false",
+    action = "store_true",
     help = "Boolean telling if the bulk samples and reference gene expression profiles should be rescaled based on the list of genes in common between the them (such a rescaling is recommanded).")
 parser$add_argument(
     "--withOtherCells",
-    action = "store_false",
+    action = "store_true",
     help = "If EPIC should allow for an additional cell type for which no gene expression reference profile is available or if the bulk is assumed to be composed only of the cells with reference profiles.")
 parser$add_argument(
     "--constrainedSum",
-    action = "store_false",
+    action = "store_true",
     help = "Tells if the sum of all cell types should be constrained to be < 1. When withOtherCells=FALSE, there is additionally a constrain the the sum of all cell types with reference profiles must be > 0.99.")
 parser$add_argument(
     "--rangeBasedOptim",
@@ -43,6 +43,7 @@ parser$add_argument(
 
 
 args <- parser$parse_args()
+print(args)
 
 bulk <- args$input_expression_file %>% 
     file %>% 

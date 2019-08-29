@@ -62,7 +62,8 @@ inputs:
   doc: Tells if the sum of all cell types should be constrained to be < 1. When withOtherCells=FALSE, there is additionally a constrain the the sum of all cell types with reference profiles must be > 0.99. Default = True.
 
 - id: rangeBasedOptim
-  type: boolean?
+  type: boolean
+  default: false
   inputBinding:
     prefix: --rangeBasedOptim
   doc: See documentation. Deafult = False.
