@@ -11,16 +11,17 @@ SequenceReads = namedtuple('sequence_reads', 'chain_type n_reads')
 @dataclass
 class Result:
     sample: str
-    total_TCR: int
-    alpha_chain_TCR: int
-    beta_chain_TCR: int
-    TCR_Shannon: float
-    TCR_Richness: int
-    TCR_Evenness: float
+    TCR_total_reads: int = 0
+    TCR_alpha_chain_reads: int = 0
+    TCR_beta_chain_reads: int = 0
+    TCR_Richness: int = 0
+    TCR_Shannon: float = None
+    TCR_Evenness: float = None
 
 def main(alpha_chain_file, beta_chain_file, output_file, sample_name):
-    sequence_reads = combine_cdr3_reads(alpha_chain_file, beta_chain_file)
-    result = calculate_statistics(sequence_reads, sample_name)
+    sequence_reads = create_sequence_reads(alpha_chain_file, beta_chain_file)
+    result = Result(sample_name)
+    add_metrics_to_result(result, sequence_reads)
     
     if(output_file == "use_sample_name"):
         output_json = sample_name + ".json"
@@ -30,71 +31,86 @@ def main(alpha_chain_file, beta_chain_file, output_file, sample_name):
     with open(output_json, 'w') as json_file:
         json.dump(vars(result), json_file)
     
-
-def combine_cdr3_reads(alpha_chain_file, beta_chain_file):
-    cdr3_dict = add_cdr3_sequences({}, alpha_chain_file, "alpha")
-
-    cdr3_dict = add_cdr3_sequences(cdr3_dict, beta_chain_file, "beta")
-    cdr3_dict = resolve_chain_conflicts(cdr3_dict)
+# create cdr3 dict ------------------------------------------------------------
+def create_sequence_reads(alpha_chain_file, beta_chain_file):
+    cdr3_dict = parse_cdr3file_to_dict({}, alpha_chain_file, "alpha")
+    cdr3_dict = parse_cdr3file_to_dict(cdr3_dict, beta_chain_file, "beta")
     return(cdr3_dict.values())
 
     
-def add_cdr3_sequences(cdr3_dict, cdr3_file, chain_type):
+def parse_cdr3file_to_dict(cdr3_dict, cdr3_file, chain_type):
     with open(cdr3_file, 'r') as f:
+        # first line is the mitcr command used to generate the file
+        # second line is column headers
         for line in islice(f, 2, None):
-            (n_reads, _, seq, _, _, aa_seq,
-             *rest) = tuple(line.rstrip().split("\t"))
-            n_reads = int(n_reads)
-            if all(char not in aa_seq for char in ["*", "~"]):
-                l = cdr3_dict.get(seq, [])
-                l.append(SequenceReads(chain_type, n_reads))
-                cdr3_dict[seq] = l
+            parse_cdr3file_line_to_dict(line, cdr3_dict, chain_type)
     return(cdr3_dict)
+    
+def parse_cdr3file_line_to_dict(line, cdr3_dict, chain_type):
+    # relevant columns are
+    # 1: number of reads
+    # 3: nucleotide sequence
+    # 6: ammino acid sequence
+    line_tuple = tuple(line.rstrip().split("\t"))
+    n_reads, _, sequence, _, _, aa_sequence, *rest = line_tuple
+    n_reads = int(n_reads)
+    if sequence_usable(aa_sequence):
+        update_cdr3dict_entry(cdr3_dict, sequence, chain_type, n_reads)
+    
+def sequence_usable(aa_sequence):
+    return(all(char not in aa_sequence for char in ["*", "~"]))
+    
+def update_cdr3dict_entry(cdr3_dict, sequence, chain_type, n_reads):
+    entry = cdr3_dict.get(sequence, None)
+    if entry is None :
+        cdr3_dict[sequence] = SequenceReads(chain_type, n_reads)
+    elif n_reads > entry.n_reads:
+        cdr3_dict[sequence] = SequenceReads(chain_type, n_reads)
+    elif n_reads == entry.n_reads:
+        cdr3_dict[sequence] = SequenceReads("ambigious", n_reads)
 
-def resolve_chain_conflicts(cdr3_dict):
-    for seq, l in cdr3_dict.items():
-        if(len(l) == 1):
-            cdr3_dict[seq] = l[0]
+# calcultate TCR statistics ---------------------------------------------------
+def add_metrics_to_result(result, sequence_reads):
+    if sequence_reads:
+        add_counts_to_result(result, sequence_reads)
+        add_stats_to_result(result, (seq.n_reads for seq in sequence_reads))
+
+def add_counts_to_result(result, sequence_reads):
+    (result.TCR_total_reads,
+    result.TCR_alpha_chain_reads,
+    result.TCR_beta_chain_reads,
+    result.TCR_Richness) = count_reads(sequence_reads)
+
+def count_reads(sequence_reads):
+    richness = alpha_reads = beta_reads = other_reads = 0
+    for sequence_read in sequence_reads:
+        richness += 1
+        if sequence_read.chain_type == "alpha":
+            alpha_reads += sequence_read.n_reads
+        elif sequence_read.chain_type == "beta":
+            beta_reads += sequence_read.n_reads
         else:
-            max_n_reads = max([seq_reads.n_reads for seq_reads in l])
-            most_abundanct_chains = [seq_reads for seq_reads in l 
-                                     if seq_reads.n_reads == max_n_reads]
-            if(len(most_abundanct_chains) == 1):
-                cdr3_dict[seq] = most_abundanct_chains[0]
-            else:
-                cdr3_dict[seq] = SequenceReads("ambiguous", max_n_reads)
-    return(cdr3_dict)
+            other_reads += sequence_read.n_reads
+    total_reads = sum([alpha_reads, beta_reads, other_reads])
+    return(total_reads, alpha_reads, beta_reads, richness)
     
+def add_stats_to_result(result, reads_iter):
+    if result.TCR_total_reads: 
+        result.TCR_Shannon = calculate_shannon(
+            reads_iter, 
+            result.TCR_total_reads
+        )
+        result.TCR_Evenness = calculate_eveness(
+            result.TCR_Shannon, 
+            result.TCR_Richness
+        )
+
+def calculate_shannon(reads_iter, total_reads):
+    ratios = (reads/total_reads for reads in reads_iter)
+    return(-1 * sum(ratio * math.log(ratio) for ratio in ratios))
     
-def calculate_statistics(sequence_reads, sample_name):
-    reads_list = [seq.n_reads for seq in sequence_reads]
-    total_TCR = sum(reads_list)
-    alpha_chain_TCR = sum(
-        seq.n_reads for seq in sequence_reads if seq.chain_type == "alpha")
-    beta_chain_TCR = sum(
-        seq.n_reads for seq in sequence_reads if seq.chain_type == "beta")
-    
-    if total_TCR: 
-        TCR_Richness = len(sequence_reads)
-        TCR_Shannon = calculate_shannon(reads_list, total_TCR)
-        TCR_Evenness = TCR_Shannon  / math.log(TCR_Richness)
-    else:
-        TCR_Shannon, TCR_Richness, TCR_Evenness = None
-        
-    result = Result(
-        sample_name,
-        total_TCR,
-        alpha_chain_TCR,
-        beta_chain_TCR,
-        TCR_Shannon,
-        TCR_Richness,
-        TCR_Evenness)
-        
-    return result
-    
-def calculate_shannon(reads_list, total_reads):
-    ratios = (reads/total_reads for reads in reads_list)
-    return(-1 * sum(r * math.log(r) for r in ratios))
+def calculate_eveness(shannon, richness):
+    return(shannon / math.log(richness))
 
 
 if __name__ == "__main__":
