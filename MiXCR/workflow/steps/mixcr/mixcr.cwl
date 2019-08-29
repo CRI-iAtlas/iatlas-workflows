@@ -22,17 +22,17 @@ requirements:
 
 inputs:
 
-- id: input_file1
+- id: p1_fastq
   type: File
   inputBinding:
     position: 1
 
-- id: input_file2
+- id: p2_fastq
   type: File?
   inputBinding:
     position: 2
 
-- id: analysis_name
+- id: sample_name
   type: string
   inputBinding:
     position: 3
@@ -67,22 +67,22 @@ inputs:
 
 outputs:
 
-- id: TRA
+- id: mixcr_TRA_file
   type: File
   outputBinding:
     glob: $(inputs.analysis_name + ".clonotypes.TRA.txt")
 
-- id: TRB
+- id: mixcr_TRB_file
   type: File
   outputBinding:
     glob: $(inputs.analysis_name + ".clonotypes.TRB.txt")
 
-- id: IGH
+- id: mixcr_IGH_file
   type: File
   outputBinding:
     glob: $(inputs.analysis_name + ".clonotypes.IGH.txt")
 
-- id: IGL
+- id: mixcr_IGL_file
   type: File
   outputBinding:
     glob: $(inputs.analysis_name + ".clonotypes.IGL.txt")
