@@ -14,7 +14,7 @@ arguments:
 
 hints:
   DockerRequirement:
-    dockerPull: mgibio/mixcr
+    dockerPull: quay.io/cri-iatlas/mixcr:1.0
 
 requirements:
   - class: InlineJavascriptRequirement
