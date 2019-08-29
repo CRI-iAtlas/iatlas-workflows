@@ -14,7 +14,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/epic_postprocessing
+    dockerPull: quay.io/cri-iatlas/epic_postprocessing:1.0
 
 inputs:
 
