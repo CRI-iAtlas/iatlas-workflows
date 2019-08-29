@@ -43,7 +43,6 @@ parser$add_argument(
 
 
 args <- parser$parse_args()
-print(args)
 
 bulk <- args$input_expression_file %>% 
     file %>% 
