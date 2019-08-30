@@ -70,21 +70,21 @@ outputs:
 - id: mixcr_TRA_file
   type: File
   outputBinding:
-    glob: $(inputs.sample_name + ".clonotypes.TRA.txt")
+    glob: "*.clonotypes.TRA.txt"
 
 - id: mixcr_TRB_file
   type: File
   outputBinding:
-    glob: $(inputs.sample_name + ".clonotypes.TRB.txt")
+    glob: "*.clonotypes.TRB.txt"
 
 - id: mixcr_IGH_file
   type: File
   outputBinding:
-    glob: $(inputs.sample_name + ".clonotypes.IGH.txt")
+    glob: "*.clonotypes.IGH.txt"
 
 - id: mixcr_IGL_file
   type: File
   outputBinding:
-    glob: $(inputs.sample_name + ".clonotypes.IGL.txt")
+    glob: "*.clonotypes.IGL.txt"
 
 
