@@ -13,8 +13,11 @@ arguments:
 - $(inputs.mixcr_type)
 
 hints:
-  DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/mixcr:1.0
+- class: ResourceRequirement
+  ramMin: 16000
+  tmpdirMin: 10000
+- class: DockerRequirement
+  dockerPull: quay.io/cri-iatlas/mixcr:1.0
 
 requirements:
   - class: InlineJavascriptRequirement
