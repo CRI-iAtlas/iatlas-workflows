@@ -14,7 +14,7 @@ arguments:
 
 hints:
 - class: ResourceRequirement
-  ramMin: 16000
+  ramMin: 18000
   tmpdirMin: 10000
 - class: DockerRequirement
   dockerPull: quay.io/cri-iatlas/mixcr:1.0
