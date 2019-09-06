@@ -1,1 +1,0 @@
-../../Cibersort/workflow/cibersort_workflow.cwl

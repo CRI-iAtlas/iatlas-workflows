@@ -1,1 +1,0 @@
-../../EPIC/workflow/epic_workflow.cwl
