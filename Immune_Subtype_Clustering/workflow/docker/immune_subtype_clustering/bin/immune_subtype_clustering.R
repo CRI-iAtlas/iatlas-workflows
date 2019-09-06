@@ -1,10 +1,6 @@
 library(argparse)
 library(magrittr)
-library(readr)
-library(stringr)
-library(tibble)
-library(dplyr)
-library(tidyr)
+library(ImmuneSubtypeClassifier)
 
 parser = ArgumentParser(description = 'Call Immune subtype clusters on expression data.')
 
@@ -30,54 +26,31 @@ parser$add_argument(
     type = "character",
     default = "\t")
 parser$add_argument(
-    "-n",
-    "--num_cores",
-    type = "integer",
-    default = 1)
-parser$add_argument(
-    "-e",
-    "--ensemble_size",
-    type = "integer",
-    default = 256)
-parser$add_argument(
-    "-l",
-    "--log_expression",
-    action = "store_true")
-parser$add_argument(
-    "-c",
-    "--combat_normalize",
-    action = "store_true")
+    "-g",
+    "--input_gene_column",
+    type = "character",
+    default = "Hugo")
 
 
 args <- parser$parse_args()
 
-
-
-source("/usr/local/bin/computing_scores_and_calling_clusters.R")
-
-input_df <- readr::read_delim(
-    args$input_file, 
-    delim = args$input_file_delimeter 
-)
-
-sample_names <- input_df %>% 
-    colnames() %>% 
-    magrittr::extract(-1)
-
-
-result_df <- input_df %>% 
-    tidyr::drop_na() %>% 
-    data.frame() %>% 
-    newScores(
-        logflag = args$log_expression, 
-        cores = args$num_cores, 
-        ensemblesize = args$ensemble_size, 
-        combatflag = args$combat_normalize
-    ) %>%
-    magrittr::use_series(AlignedCalls) %>% 
-    tibble::enframe("sample", "immune_subtype") %>% 
-    dplyr::mutate(immune_subtype = stringr::str_c("C", immune_subtype)) %>% 
-    mutate(sample = sample_names) %>% 
+args$input_file %>% 
+    readr::read_delim(delim = args$input_file_delimeter) %>% 
+    as.data.frame() %>% 
+    tibble::column_to_rownames(args$input_gene_column) %>% 
+    as.matrix() %>% 
+    ImmuneSubtypeClassifier::callEnsemble() %>% 
+    tibble::as_tibble() %>% 
+    dplyr::select(sample = SampleIDs, subtype = BestCall) %>% 
+    dplyr::mutate(
+        sample = as.character(sample),
+        subtype = paste0("C", subtype),
+    ) %>% 
     readr::write_tsv(args$output_name)
+
+
+
+
+
 
 

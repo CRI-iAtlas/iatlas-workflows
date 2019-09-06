@@ -1,13 +1,8 @@
-#!/usr/bin/env cwl-runner
-#
-# Authors: Andrew Lamb
-
-
 cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: 
--Rscript
--/usr/local/bin/immune_subtype_clustering.R
+- Rscript
+- /usr/local/bin/immune_subtype_clustering.R
 
 doc: "Call Immune subtype clusters on expression data."
 
@@ -15,50 +10,46 @@ requirements:
 - class: InlineJavascriptRequirement
 
 hints:
-  DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/immune_subtype_clustering
+- class: DockerRequirement
+  dockerPull: quay.io/cri-iatlas/immune_subtype_clustering:1.0
 
 inputs:
 
-  input_file:
-    type: File
-    inputBinding:
-      prefix: --input_file
+- id: input_file
+  type: File
+  inputBinding:
+    prefix: --input_file
 
-  output_name:
-    type: string
-    default: "immune_subtypes.tsv"
-    inputBinding:
-      prefix: --output_name
+- id: output_file
+  type: string
+  default: "immune_subtypes.tsv"
+  inputBinding:
+    prefix: --output_name
       
-  input_file_delimeter:
-    type: string?
-    inputBinding:
-      prefix: --input_file_delimeter
+- id: input_file_delimeter
+  type: string
+  default: "\t"
+  inputBinding:
+    prefix: --input_file_delimeter
 
-  num_cores:
-    type: int?
-    inputBinding:
-      prefix: --num_cores
-      
-  ensemble_size:
-    type: int?
-    inputBinding:
-      prefix: --ensemble_size
-
-  log_expression:
-    type: boolean?
-    inputBinding:
-      prefix: --log_expression
-
-  combat_normalize:
-    type: boolean?
-    inputBinding:
-      prefix: --combat_normalize
+- id: input_gene_column
+  type: string
+  default: "Hugo"
+  inputBinding:
+    prefix: --input_gene_column
 
 outputs:
 
-  immune_subtypes_file:
-    type: File
-    outputBinding:
-      glob: $(inputs.output_name)
+- id: immune_subtypes_file
+  type: File
+  outputBinding:
+    glob: $(inputs.output_name)
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb

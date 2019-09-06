@@ -1,11 +1,7 @@
-FROM rocker/tidyverse
+FROM rocker/tidyverse:3.6.1
 
 RUN Rscript -e "install.packages('argparse')"
-RUN Rscript -e "install.packages('clue')"
-RUN Rscript -e "install.packages('mclust')"
-
-RUN Rscript -e "install.packages('BiocManager')"
-RUN Rscript -e "BiocManager::install('sva', version = '3.8')"
+RUN Rscript -e "devtools::install_github('Gibbsdavidl/ImmuneSubtypeClassifier', ref = '30e6215c390bf12761d17cbc9647ac4527e319ba')"
 
 COPY bin/* /usr/local/bin/
 RUN chmod a+x /usr/local/bin/*.R
