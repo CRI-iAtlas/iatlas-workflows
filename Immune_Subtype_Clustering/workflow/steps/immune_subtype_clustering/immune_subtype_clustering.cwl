@@ -43,7 +43,7 @@ outputs:
 - id: immune_subtypes_file
   type: File
   outputBinding:
-    glob: $(inputs.output_name)
+    glob: $(inputs.output_file)
 
 $namespaces:
   s: https://schema.org/
