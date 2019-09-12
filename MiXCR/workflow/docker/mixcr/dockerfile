@@ -1,0 +1,14 @@
+FROM ubuntu:16.04
+ENV version 3.0.9
+
+RUN apt-get update -y && apt-get install -y \
+    git \
+    build-essential \
+    openjdk-8-jre \
+    wget \
+    unzip
+
+WORKDIR /mixcr/
+RUN wget https://github.com/milaboratory/mixcr/releases/download/v${version}/mixcr-${version}.zip
+RUN unzip mixcr-${version}.zip
+ENV PATH="/mixcr/mixcr-${version}/:${PATH}"
