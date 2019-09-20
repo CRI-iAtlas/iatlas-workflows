@@ -1,8 +1,6 @@
-#!/usr/bin/env cwl-runner
-#
-# Authors: Andrew Lamb
 # requies local cibersort Docker image:
 # https://github.com/CRI-iAtlas/iatlas-tool-cibersort
+
 cwlVersion: v1.0
 class: Workflow
 
@@ -12,15 +10,12 @@ requirements:
 
 inputs:
 
-- id: expression_file
+- id: input_file
   type: File
-
-- id: leukocyte_fractions
-  type: double[]?
-  
 - id: output_file
   type: string
-  default: "output.tsv"
+- id: sample_name
+  type: string
 
 
 outputs:
@@ -32,11 +27,21 @@ outputs:
 
 steps:
 
+- id: preprocessing
+  run: steps/r_tidy_utils/format_expression_file.cwl
+  in:
+  - id: input_file
+    source: input_file
+  - id: sample_name
+    source: sample_name
+  out:
+  - expression_file
+
 - id: cibersort
   run: steps/cibersort/cibersort.cwl
   in:
   - id: mixture_file
-    source: expression_file
+    source: preprocessing/expression_file
   out: 
   - cibersort_file
     
@@ -45,10 +50,17 @@ steps:
   in:
   - id: cibersort_file
     source: cibersort/cibersort_file
-  - id: leukocyte_fractions
-    source: leukocyte_fractions
   - id: output_file
     source: output_file
   out: 
   - cell_counts_file
+
+$namespaces:
+  s: https://schema.org/
+
+s:author:
+  - class: s:Person
+    s:identifier: https://orcid.org/0000-0002-0326-7494
+    s:email: andrew.lamb@sagebase.org
+    s:name: Andrew Lamb
 
