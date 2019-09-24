@@ -10,24 +10,24 @@ requirements:
 
 inputs:
 
-- id: sam_file
-  type: File
+- id: sam_file_array
+  type: File[]
 
-- id: fastq_r1_name
-  type: string
+- id: fastq_r1_name_array
+  type: string[]
 
-- id: fastq_r2_name
-  type: string
+- id: fastq_r2_name_array
+  type: string[]
 
 outputs:
 
 - id: r1_fastq
-  outputSource: sam_to_fastq/r1_fastq
-  type: File
+  outputSource: scatter_sam_to_fastq/r1_fastq
+  type: File[]
 
 - id: r2_fastq
-  outputSource: sam_to_fastq/r2_fastq
-  type: File
+  outputSource: scatter_sam_to_fastq/r2_fastq
+  type: File[]
 
 
 steps:
@@ -36,19 +36,26 @@ steps:
   run: steps/sort/sort.cwl
   in:
   - id: aligned_reads_sam
-    source: sam_file
+    source: sam_file_array
+  scatter: 
+  - aligned_reads_sam
   out:
   - id: sorted_reads_bam
 
-- id: sam_to_fastq
+- id: scatter_sam_to_fastq
   run: steps/sam_to_fastq/sam_to_fastq.cwl
   in: 
   - id: aligned_reads_sam
     source: sort/sorted_reads_bam
   - id: reads_r1_fastq
-    source: fastq_r1_name
+    source: fastq_r1_name_array
   - id: reads_r2_fastq
-    source: fastq_r2_name
+    source: fastq_r2_name_array
+  scatter: 
+  - aligned_reads_sam
+  - reads_r1_fastq
+  - reads_r2_fastq
+  scatterMethod: dotproduct
   out: 
   - r1_fastq
   - r2_fastq
