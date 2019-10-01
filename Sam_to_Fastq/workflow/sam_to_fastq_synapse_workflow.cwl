@@ -53,27 +53,26 @@ steps:
   - r1_fastq
   - r2_fastq
 
-- id: filter_non_empty_fastq_files
-  run: steps/expression_tools/split_file_array_by_size.cwl
-  in: 
-  - id: file_array
-    source: [sam_to_fastq_workflow/r1_fastq, sam_to_fastq_workflow/r2_fastq]
-    linkMerge: merge_flattened
-  - id: size_filter
-    valueFrom: $(1)
-  out:
-  - array1
-
-- id: upload_to_synapse
+- id: upload_to_synapse1
   run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/master/synapse-store-tool.cwl
   in:
   - id: synapse_config
     source: synapse_config
   - id: file_to_store
-    source: filter_non_empty_fastq_files/array1
+    source: sam_to_fastq_workflow/r1_fastq
   - id: parentid
     source: synapse_directory_id
-  scatter: file_to_store
+  out: []
+
+- id: upload_to_synapse2
+  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/master/synapse-store-tool.cwl
+  in:
+  - id: synapse_config
+    source: synapse_config
+  - id: file_to_store
+    source: sam_to_fastq_workflow/r2_fastq
+  - id: parentid
+    source: synapse_directory_id
   out: []
 
 $namespaces:
