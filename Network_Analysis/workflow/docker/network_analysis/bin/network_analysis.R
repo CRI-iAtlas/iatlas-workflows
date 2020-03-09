@@ -135,13 +135,7 @@ celltype_tbl <- args$celltype_file %>%
     tidyr::drop_na()
 
 
-cells <- celltype_tbl %>% 
-    dplyr::pull(node) %>% 
-    unique() %>% 
-    intersect(c(
-        "B_cells", "T_cells_CD4", "T_cells_CD8", "Dendritic_cells",
-        "Macrophage", "Mast_cells", "NK_cells"
-    ))
+cells <- unique(celltype_tbl$node) 
 
 node_tbl <- dplyr::bind_rows(expression_tbl, celltype_tbl) 
 
