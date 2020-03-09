@@ -1,79 +1,180 @@
 library(abcnet)
 library(dplyr)
+library(argparse)
 
-#Select the grouping variable
-#Select the group to compute scores. Options of group_col: "Subtype_Immune_Model_Based" "Subtype_Curated_Malta_Noushmehr_et_al" "Study"
-#For sample group = "Study", it is also possible to compute scores for each tumor x immune subtype combination by setting stratify_Immune = TRUE
+parser = ArgumentParser()
 
-group_col="Subtype_Immune_Model_Based"
-stratify_Immune = FALSE
+# required args
 
-#Loading data
-group_df=readr::read_tsv("extdata/PanImmune_FMx_ImmuneSubtypes.tsv")
-## Read available gene expression data
-dfe_in <- readr::read_tsv("extdata/GenExp_All_CKine_genes.tsv")
-## Read file with available cell data
-dfc_in <- readr::read_tsv("extdata/PanImmune_FMx.tsv")
-## Read scaffold interaction file and node type file
-node_type <- readr::read_tsv("extdata/network_node_labels.tsv")
-scaffold <- readr::read_tsv("extdata/try_3a.tsv")
-##Read file with cells and genes of interest
-cois <- readr::read_lines("extdata/cells_of_interest.txt")
-gois <- readr::read_lines("extdata/immunomodulator_genes.txt")
+parser$add_argument(
+    "-e",
+    "--expression_file",
+    type = "character",
+    required = TRUE
+)
 
-##1.1. Filtering the scaffold to our cells and genes of interest
+parser$add_argument(
+    "-c",
+    "--celltype_file",
+    type = "character",
+    required = TRUE
+)
 
-#Updating the list of genes of interest based on the gene expression data available
-gois <- intersect(gois, colnames(dfe_in))
-# Selecting the edges in the scaffold that have at least one gois, and a cois connected to a gois
-filtered_scaffold <- abcnet::get_scaffold(scaffold, cois, gois)
-#let's update the list of genes of interest with all genes that are present in the filtered scaffold
-gois <- union(filtered_scaffold$From, filtered_scaffold$To) %>% intersect(colnames(dfe_in))
+# optional args
+
+parser$add_argument(
+    "--scaffold_file",
+    type = "character",
+    default = "/usr/local/bin/fantom_scaffold.tsv"
+)
+
+parser$add_argument(
+    "--expression_file_delimeter",
+    type = "character",
+    default = "\t"
+)
+
+parser$add_argument(
+    "--celltype_file_delimeter",
+    type = "character",
+    default = "\t"
+)
+
+parser$add_argument(
+    "--scaffold_file_delimeter",
+    type = "character",
+    default = "\t"
+)
+
+parser$add_argument(
+    "--sample_col",
+    type = "character",
+    default = "sample"
+)
+
+parser$add_argument(
+    "--gene_col",
+    type = "character",
+    default = "gene"
+)
+
+parser$add_argument(
+    "--expression_col",
+    type = "character",
+    default = "expression"
+)
+
+parser$add_argument(
+    "--group_col",
+    type = "character",
+    default = "group"
+)
+
+parser$add_argument(
+    "--cell_col",
+    type = "character",
+    default = "cell"
+)
+
+parser$add_argument(
+    "--fraction_col",
+    type = "character",
+    default = "fraction"
+)
+
+parser$add_argument(
+    "--from_col",
+    type = "character",
+    default = "From"
+)
+
+parser$add_argument(
+    "--to_col",
+    type = "character",
+    default = "To"
+)
+
+parser$add_argument(
+    "--add_noise",
+    action = "store_true"
+)
+
+parser$add_argument(
+    "--log_expression",
+    action = "store_true"
+)
+
+args <- parser$parse_args() 
+
+expression_tbl <- args$expression_file %>% 
+    readr::read_delim(., delim = args$expression_file_delimeter) %>% 
+    dplyr::select(
+        "sample" = args$sample_col,
+        "node"   = args$gene_col,
+        "value"  = args$value_col,
+        "group"  = args$group_col
+    ) %>% 
+    tidyr::drop_na()
+
+if (args$log_expression) {
+    expression_tbl <- expression_tbl %>% 
+        dplyr::mutate(value = log2(value + 1)) %>% 
+        tidyr::drop_na()
+}
+
+genes <- unique(expression_tbl$node)
+
+celltype_tbl <- args$celltype_file %>% 
+    readr::read_delim(., delim = args$expression_file_delimeter) %>% 
+    dplyr::select(
+        "sample" = args$sample_col,
+        "node"   = args$cell_col,
+        "value"  = args$fraction_col,
+        "group"  = args$group_col
+    ) %>% 
+    tidyr::drop_na()
 
 
-##1.2. Organizing the expression data
+cells <- celltype_tbl %>% 
+    dplyr::pull(node) %>% 
+    unique() %>% 
+    intersect(c(
+        "B_cells", "T_cells_CD4", "T_cells_CD8", "Dendritic_cells",
+        "Macrophage", "Mast_cells", "NK_cells"
+    ))
 
-#Our input data is not in this format right now. As a first step, let's organize the data.
+node_tbl <- dplyr::bind_rows(expression_tbl, celltype_tbl) 
 
-#organizing the combination of participant and grouping variable
-participants <- group_df$ParticipantBarcode
-groups <- group_df[[group_col]]
-group_of_participant <- groups ; names(group_of_participant) <- participants
+if (args$add_noise) {
+    node_tbl <- node_tbl %>% 
+        dplyr::mutate(value = value + rnorm(mean = 0, sd = 0.0001, nrow(.)))
+}
 
-#The cell data is in a specific column, so here we are selecting it  
-dfc <- dfc_in %>% #filter(ParticipantBarcode %in% participants) %>%
-select(ParticipantBarcode,paste(cois,".Aggregate2",sep=""))
-colnames(dfc) <- gsub(".Aggregate2","",colnames(dfc))
-#Now, we include the group annotation for each sample
-dfc <- dfc %>% 
-dplyr::mutate(Group=group_of_participant[ParticipantBarcode]) 
-#Transforming each observation in one row (ie, making a long table)
-dfclong <- dfc %>% tidyr::gather(Cell,Cell_Fraction,-c(ParticipantBarcode,Group))
-#This step is optional - we are just adding some noise to the measurement
-dfclong <- dfclong %>% dplyr::mutate(Cell_Fraction=Cell_Fraction+rnorm(mean=0, sd=0.0001,nrow(.)))
-dfclong.generic <- dfclong %>% rename(Node=Cell,Value=Cell_Fraction)
-
-#The gene expression data requires a similar processing. After this, we can merge the data for cells and genes in one dataframe.
-
-dfelong <- dfe_in %>% tidyr::gather(Gene,Expression,-ParticipantBarcode)
-dfelong <- dfelong %>% dplyr::mutate(ExpLog2 = log2(Expression+1)+rnorm(mean=0, sd=0.0001,nrow(.))) %>%
-  dplyr::select(ParticipantBarcode,Gene,Expression=ExpLog2) %>%
-  dplyr::mutate(Group=group_of_participant[ParticipantBarcode])
-dfelong.generic <- dfelong %>% rename(Node=Gene,Value=Expression)
-
-dfn <- dplyr::bind_rows(dfelong.generic, dfclong.generic)
+scaffold <- args$scaffold_file %>% 
+    readr::read_delim(., delim = args$scaffold_file_delimeter) %>% 
+    dplyr::select(
+        "From" = args$from_col,
+        "To"   = args$to_col
+    ) %>% 
+    tidyr::drop_na() %>% 
+    abcnet::get_scaffold(., cells, genes)
 
 #Computing nodes scores
-nodes_scores <- abcnet::compute_abundance(dfn, node= "Node", ids = "ParticipantBarcode", exprv = "Value", group = "Group", cois = cois, gois = gois)
-
+nodes_scores <- abcnet::compute_abundance(
+    dfn   = node_tbl, 
+    node  = "node", 
+    ids   = "sample", 
+    exprv = "value", 
+    group = "group", 
+    cois  = cells, 
+    gois  = genes
+) 
+    
 #Organizing the scores in a table
 abundance_scores <- abcnet::get_abundance_table(nodes_scores)
 
 #Computing edges scores
-edges_scores <- abcnet::compute_concordance(filtered_scaffold, nodes_scores)
+edges_scores <- abcnet::compute_concordance(scaffold, nodes_scores)
 
-#The abundance_scores and edges_scores objects are in the appropriate format to be exported as tsv files. These files can be used in network visualization softwares, such as Cytoscape. 
-
-readr::write_tsv(abundance_scores, paste("nodes_", Sys.Date(),".tsv", sep = ""))
-readr::write_tsv(edges_scores, paste("edges_", Sys.Date(),".tsv", sep = ""))
-
+readr::write_tsv(abundance_scores, args$nodes_file)
+readr::write_tsv(edges_scores, args$edges_file)
