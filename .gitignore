@@ -1,3 +1,7 @@
+proj.user/
+IT/*
+.Rhistory
 utils/DIGGIT/*
 utils/DeMixt/*
 .Rproj.user/
+iatlas-workflows.Rproj
