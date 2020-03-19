@@ -15,7 +15,7 @@ requirements:
 
 hints:
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/cibersort:1.0
+  dockerPull: quay.io/cri-iatlas/cibersort:1.1
 
 inputs:
 
@@ -38,7 +38,8 @@ inputs:
   doc: No. permutations; set to >=100 to calculate p-values (default = 0)
 
 - id: no_quantile_normalization
-  type: boolean?
+  type: boolean
+  default: true
   inputBinding:
     prefix: --no_quantile_normalization
   doc: "Quantile normalization of input mixture (default = TRUE)"

@@ -32,150 +32,120 @@ CIBERSORT_CELLTYPES <- c(
 )
 
 AGGREGATE_LIST <- list(
-    "Lymphocytes.Aggregate1" = c(
-        "B.cells.naive",
-        "B.cells.memory",
-        "T.cells.CD4.naive",
-        "T.cells.CD4.memory.resting", 
-        "T.cells.CD4.memory.activated",
-        "T.cells.follicular.helper",
-        "T.cells.regulatory..Tregs",
-        "T.cells.gamma.delta",
-        "T.cells.CD8",
-        "NK.cells.resting",
-        "NK.cells.activated",
-        "Plasma.cells"
+    "Lymphocytes_Aggregate1" = c(
+        "B_cells_naive",
+        "B_cells_memory",
+        "T_cells_CD4_naive",
+        "T_cells_CD4_memory_resting", 
+        "T_cells_CD4_memory_activated",
+        "T_cells_follicular_helper",
+        "T_cells_regulatory_Tregs",
+        "T_cells_gamma_delta",
+        "T_cells_CD8",
+        "NK_cells_resting",
+        "NK_cells_activated",
+        "Plasma_cells"
     ),
     
-    "Neutrophils.Aggregate1" = "Neutrophils",
-    "Eosinophils.Aggregate1" = "Eosinophils",
-    "Mast.cells.Aggregate1"  = c("Mast.cells.resting", "Mast.cells.activated"),
-    "Dendritic.cells.Aggregate1" = c(
-        "Dendritic.cells.resting", 
-        "Dendritic.cells.activated"
+    "Neutrophils_Aggregate1" = "Neutrophils",
+    "Eosinophils_Aggregate1" = "Eosinophils",
+    "Mast_cells_Aggregate1"  = c("Mast_cells_resting", "Mast_cells_activated"),
+    "Dendritic_cells_Aggregate1" = c(
+        "Dendritic_cells_resting", 
+        "Dendritic_cells_activated"
     ),
-    "Macrophage.Aggregate1" = c(
+    "Macrophage_Aggregate1" = c(
         "Monocytes",
-        "Macrophages.M0", 
-        "Macrophages.M1",
-        "Macrophages.M2"
+        "Macrophages_M0", 
+        "Macrophages_M1",
+        "Macrophages_M2"
     ),
     
-    "Neutrophils.Aggregate2" = "Neutrophils",
-    "Eosinophils.Aggregate2" = "Eosinophils",
-    "Mast.cells.Aggregate2" = c("Mast.cells.resting", "Mast.cells.activated"),
-    "Dendritic.cells.Aggregate2" = c(
-        "Dendritic.cells.resting", 
-        "Dendritic.cells.activated"
+    "Neutrophils_Aggregate2" = "Neutrophils",
+    "Eosinophils_Aggregate2" = "Eosinophils",
+    "Mast_cells_Aggregate2" = c("Mast_cells_resting", "Mast_cells_activated"),
+    "Dendritic_cells_Aggregate2" = c(
+        "Dendritic_cells_resting", 
+        "Dendritic_cells_activated"
     ),
     
-    "Macrophage.Aggregate2" = c("Macrophages.M0", "Macrophages.M1", "Macrophages.M2"),
-    "NK.cells.Aggregate2" = c("NK.cells.resting", "NK.cells.activated"),
-    "B.cells.Aggregate2" = c("B.cells.naive",  "B.cells.memory"),
-    "T.cells.CD8.Aggregate2" = "T.cells.CD8",
-    "T.cells.CD4.Aggregate2" = c(
-        "T.cells.CD4.naive",
-        "T.cells.CD4.memory.resting",
-        "T.cells.CD4.memory.activated"
+    "Macrophage_Aggregate2" = c(
+        "Macrophages_M0", "Macrophages_M1", "Macrophages_M2"
+    ),
+    "NK_cells_Aggregate2" = c("NK_cells_resting", "NK_cells_activated"),
+    "B_cells_Aggregate2" = c("B_cells_naive",  "B_cells_memory"),
+    "T_cells_CD8_Aggregate2" = "T_cells_CD8",
+    "T_cells_CD4_Aggregate2" = c(
+        "T_cells_CD4_naive",
+        "T_cells_CD4_memory_resting",
+        "T_cells_CD4_memory_activated"
     ),
 
-    "B.cells.Aggregate3" = c("B.cells.naive", "B.cells.memory"),
-    "Plasma.cells.Aggregate3" = "Plasma.cells",
-    "T.cells.CD8.Aggregate3" = "T.cells.CD8",
-    "T.cells.CD4.Aggregate3" = c(
-        "T.cells.CD4.naive",
-        "T.cells.CD4.memory.resting",
-        "T.cells.CD4.memory.activated",
-        "T.cells.follicular.helper", 
-        "T.cells.regulatory..Tregs"),
-    "T.cells.gamma.delta.Aggregate3" = "T.cells.gamma.delta",
-    "NK.cells.Aggregate3" = c("NK.cells.resting", "NK.cells.activated"),
-    "Macrophage.Aggregate3" = c(
+    "B_cells_Aggregate3" = c("B_cells_naive", "B_cells_memory"),
+    "Plasma_cells_Aggregate3" = "Plasma_cells",
+    "T_cells_CD8_Aggregate3" = "T_cells_CD8",
+    "T_cells_CD4_Aggregate3" = c(
+        "T_cells_CD4_naive",
+        "T_cells_CD4_memory_resting",
+        "T_cells_CD4_memory_activated",
+        "T_cells_follicular_helper", 
+        "T_cells_regulatory_Tregs"),
+    "T_cells_gamma_delta_Aggregate3" = "T_cells_gamma_delta",
+    "NK_cells_Aggregate3" = c("NK_cells_resting", "NK_cells_activated"),
+    "Macrophage_Aggregate3" = c(
         "Monocytes", 
-        "Macrophages.M0", 
-        "Macrophages.M1", 
-        "Macrophages.M2"),
+        "Macrophages_M0", 
+        "Macrophages_M1", 
+        "Macrophages_M2"),
     
-    "Dendritic.cells.Aggregate3" = c(
-        "Dendritic.cells.resting",
-        "Dendritic.cells.activated"
+    "Dendritic_cells_Aggregate3" = c(
+        "Dendritic_cells_resting",
+        "Dendritic_cells_activated"
     ),
     
-    "Mast.cells.Aggregate3" = c("Mast.cells.resting", "Mast.cells.activated"),
-    "Neutrophils.Aggregate3" = "Neutrophils",
-    "Eosinophils.Aggregate3" = "Eosinophils"
+    "Mast_cells_Aggregate3" = c("Mast_cells_resting", "Mast_cells_activated"),
+    "Neutrophils_Aggregate3" = "Neutrophils",
+    "Eosinophils_Aggregate3" = "Eosinophils"
 )
 
 
 #####
 
 
-parser = ArgumentParser(description = "Combine Cibersort cell types into aggregates")
+parser = ArgumentParser(
+    description = "Combine Cibersort cell types into aggregates"
+)
 
 parser$add_argument(
     "-c",
     "--cibersort_file",
     type = "character",
-    required = TRUE)
+    required = TRUE
+)
 parser$add_argument(
     "-o",
     "--output_file",
     type = "character",
-    default = "output.tsv")
-parser$add_argument(
-    "-f",
-    "--leukocyte_fractions",
-    type = "double",
-    nargs = '+',
-    default = NULL)
-
+    default = "output.tsv"
+)
 
 args <- parser$parse_args()
 
 cibersort_df <- args$cibersort_file %>%
-    readr::read_tsv() %>% 
+    readr::read_tsv(.) %>% 
     dplyr::select(c("Mixture", CIBERSORT_CELLTYPES)) %>% 
-    tidyr::gather(key = "celltype", value = "fraction", - Mixture) %>%
-    dplyr::mutate(celltype = stringr::str_replace_all(celltype, "[ \\(]", "\\.")) %>% 
-    dplyr::mutate(celltype = stringr::str_remove_all(celltype, "\\)")) %>% 
-    tidyr::spread(key = "celltype", value = "fraction") %>% 
+    tidyr::gather(key = "celltype", value = "fraction", -Mixture) %>%
+    dplyr::mutate(celltype = stringr::str_replace_all(celltype, " ", "_")) %>% 
+    dplyr::mutate(celltype = stringr::str_remove_all(celltype, "[\\)\\(]")) %>% 
+    tidyr::spread(., key = "celltype", value = "fraction") %>% 
     dplyr::rename("sample" = "Mixture")
 
-if((!is.null(args$leukocyte_fractions)) && 
-   (length(args$leukocyte_fractions) != nrow(cibersort_df))){
-    stop("Length of leukocyte fractions must equal the number of rows in input Cibersort file, or be NULL.")
-}
     
-
-
 for (new_column in names(AGGREGATE_LIST)) {
     row_sums <- cibersort_df %>%
         dplyr::select(AGGREGATE_LIST[[new_column]]) %>%
         rowSums
     cibersort_df <- magrittr::inset(cibersort_df, new_column, value = row_sums)
-}
-
-if(!is.null(args$leukocyte_fraction)){
-    cibersort_abs <- cibersort_df %>%
-        dplyr::mutate(leukocyte_fraction = unlist(args$leukocyte_fractions)) %>% 
-        tidyr::gather(key = "cell_type", value = "fraction", - c(sample, leukocyte_fraction)) %>% 
-        dplyr::mutate(cell_type = stringr::str_c(cell_type, ".Absolute")) %>% 
-        dplyr::mutate(fraction = leukocyte_fraction * fraction) %>% 
-        dplyr::select(-leukocyte_fraction) %>% 
-        tidyr::spread(key = "cell_type", value = "fraction") 
-        
-}
-
-
-cibersort_rel <- cibersort_df %>%
-    tidyr::gather(key = "cell_type", value = "fraction", - sample) %>% 
-    dplyr::mutate(cell_type = stringr::str_c(cell_type, ".Relative")) %>% 
-    tidyr::spread(key = "cell_type", value = "fraction")
-
-if(!is.null(args$leukocyte_fraction)){
-    cibersort_df <- dplyr::left_join(cibersort_abs, cibersort_rel, by = "sample")
-} else {
-    cibersort_df <- cibersort_rel
 }
 
 write_tsv(cibersort_df, args$output_file)

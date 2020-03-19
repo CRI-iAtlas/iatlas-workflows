@@ -10,7 +10,7 @@ baseCommand:
 
 hints:
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/cibersort_aggregate_celltypes:1.0
+  dockerPull: quay.io/cri-iatlas/cibersort_aggregate_celltypes:1.1
 
 inputs:
 
