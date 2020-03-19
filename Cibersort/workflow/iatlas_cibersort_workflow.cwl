@@ -12,8 +12,6 @@ inputs:
   type: string
 - id: output_file
   type: string
-- id: sample_name
-  type: string
 - id: synapse_config
   type: File
 - id: destination_id
