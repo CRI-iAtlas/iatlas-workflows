@@ -5,6 +5,7 @@ class: Workflow
 
 requirements:
 - class: SubworkflowFeatureRequirement
+- class: StepInputExpressionRequirement
 
 inputs:
 

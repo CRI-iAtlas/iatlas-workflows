@@ -23,11 +23,18 @@ parser$add_argument(
 
 args = parser$parse_args()
 
+format_cell_types <- function(cells){
+    cells %>% 
+        stringr::str_to_title(.) %>% 
+        stringr::str_replace_all(" ", "_") %>% 
+        paste0("MCPcounter_", .)
+}
+
 args$input_mcpcounter_file %>% 
     read.table(sep = "\t", stringsAsFactors = F) %>%
     magrittr::set_rownames(
         ., 
-        stringr::str_replace_all(rownames(.), " ", "_")
+        format_cell_types(rownames(.))
     ) %>% 
     t %>% 
     as.data.frame() %>% 
