@@ -23,15 +23,76 @@ parser$add_argument(
 )
 
 parser$add_argument(
+  "--input_file_type",
+  type = "character",
+  default = "feather"
+)
+
+parser$add_argument(
   "--output_file",
   type = "character",
   default = "driver_results.feather"
 )
 
 parser$add_argument(
-  "--input_file_type",
+  "--output_file_type",
   type = "character",
   default = "feather"
+)
+
+parser$add_argument(
+  "--feature_sample_column",
+  type = "character",
+  default = "sample"
+)
+
+parser$add_argument(
+  "--feature_name_column",
+  type = "character",
+  default = "feature"
+)
+
+parser$add_argument(
+  "--feature_value_column",
+  type = "character",
+  default = "value"
+)
+
+parser$add_argument(
+  "--group_sample_column",
+  type = "character",
+  default = "sample"
+)
+
+parser$add_argument(
+  "--group_name_column",
+  type = "character",
+  default = "group"
+)
+
+parser$add_argument(
+  "--mutation_name_columns",
+  type = "character",
+  default = "mutation",
+  nargs = '+'
+)
+
+parser$add_argument(
+  "--mutation_name_separator",
+  type = "character",
+  default = ":"
+)
+
+parser$add_argument(
+  "--mutation_sample_column",
+  type = "character",
+  default = "sample"
+)
+
+parser$add_argument(
+  "--mutation_status_column",
+  type = "character",
+  default = "status"
 )
 
 args <- parser$parse_args()
@@ -46,13 +107,45 @@ if(args$input_file_type == "feather") {
   stop("Unsupported input file type")
 }
 
-feature_tbl <- read_func(args$input_feature_file)
+if(args$output_file_type == "feather") {
+  write_func <- feather::write_feather
+} else if(args$input_file_type == "csv") {
+  write_func <- readr::write_csv
+} else if(args$input_file_type == "tsv") {
+  write_func <- readr::write_tsv
+} else {
+  stop("Unsupported output file type")
+}
 
-mutation_tbl <-  dplyr::inner_join(
-  read_func(args$input_mutation_file),
-  read_func(args$input_group_file),
-  by = "sample"
-) 
+feature_tbl <- args$input_feature_file %>% 
+  read_func() %>% 
+  dplyr::select(
+    "sample" = args$feature_sample_column, 
+    "feature" = args$feature_name_column,
+    "value" = args$feature_value_column
+  )
+
+group_tbl <- args$input_group_file %>% 
+  read_func() %>% 
+  dplyr::select(
+    "sample" = args$group_sample_column, 
+    "group" = args$group_name_column, 
+  )
+
+mutation_tbl <-  args$input_mutation_file %>% 
+  read_func() %>% 
+  tidyr::unite(
+    "mutation", 
+    args$mutation_name_columns, 
+    sep = args$mutation_name_separator
+  ) %>% 
+  dplyr::select(
+    "sample" = args$mutation_sample_column,
+    "mutation",
+    "status" = args$mutation_status_column,
+  ) %>% 
+  dplyr::inner_join(group_tbl, by = "sample")
+
 
 group_size_tbl <- mutation_tbl %>% 
   dplyr::group_by(.data$mutation, .data$group) %>%
@@ -122,8 +215,7 @@ model_tbl %>%
     "log10_pvalue" = -log10(.data$p_value),
     "log10_fold_change" = -log10(.data$fold_change)
   ) %>% 
-  print() %>% 
-  feather::write_feather(., args$output_file)
+  write_func(., args$output_file)
 
   
 
