@@ -15,6 +15,10 @@
         "path": "fantom_scaffold.tsv",
         "class": "File"
     },
+    "input_node_label_file": {
+        "path": "node_labels.tsv",
+        "class": "File"
+    },
     "input_file_type": "tsv",
     "output_file_type": "tsv",
     "output_nodes_file": "output_nodes.tsv",
