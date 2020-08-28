@@ -66,9 +66,16 @@ parser$add_argument(
 )
 
 parser$add_argument(
-    "--group_name_col",
+    "--group_name_cols",
     type = "character",
-    default = "group"
+    default = "group",
+    nargs = "+"
+)
+
+parser$add_argument(
+    "--group_name_seperator",
+    type = "character",
+    default = ":"
 )
 
 parser$add_argument(
@@ -159,10 +166,15 @@ if(args$output_file_type == "feather") {
 
 group_tbl <- args$input_group_file %>% 
     read_func() %>% 
+    tidyr::unite(
+        "group",
+        args$group_name_cols,
+        sep = args$group_name_seperator
+    ) %>%
     dplyr::select(
         "sample" = args$group_sample_col,
-        "group"  = args$group_name_col
-    ) %>% 
+        "group"
+    ) %>%
     tidyr::drop_na() 
 
 
@@ -230,10 +242,25 @@ nodes_scores <- abcnet::compute_abundance(
 ) 
     
 #Organizing the scores in a table
-abundance_scores <- abcnet::get_abundance_table(nodes_scores)
+abundance_scores <- nodes_scores %>% 
+    abcnet::get_abundance_table(.) 
 
+if(nrow(abundance_scores) == 0) stop("No abundance scores calculated")
+
+abundance_scores %>% 
+    tidyr::separate(
+        "Group", args$group_name_cols, sep = args$group_name_seperator
+    ) %>% 
+    write_func(args$output_nodes_file)
+    
 #Computing edges scores
-edges_scores <- abcnet::compute_concordance(scaffold, nodes_scores)
+edges_scores <- nodes_scores %>% 
+    abcnet::compute_concordance(scaffold, .)
 
-write_func(abundance_scores, args$output_nodes_file)
-write_func(edges_scores, args$output_edges_file)
+if(nrow(edges_scores) == 0) stop("No concordance scores calculated")
+
+edges_scores %>% 
+    tidyr::separate(
+        "Group", args$group_name_cols, sep = args$group_name_seperator
+    ) %>% 
+    write_func(args$output_edges_file)
