@@ -1,1 +1,5 @@
-From	To	ratioScores
+From	To	group	ratioScore
+Dendritic_cells	TNFSF18	g1	0
+Dendritic_cells	TNFSF18	g2	0
+TNFSF18	TNFRSF18	g1	0
+TNFSF18	TNFRSF18	g2	0
