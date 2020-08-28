@@ -36,6 +36,12 @@ parser$add_argument(
 # optional args
 
 parser$add_argument(
+    "--input_node_label_file",
+    type = "character",
+    default = NULL
+)
+
+parser$add_argument(
     "--output_nodes_file",
     type = "character",
     default = "output_nodes.feather"
@@ -219,6 +225,15 @@ if (args$log_expression) {
         tidyr::drop_na()
 }
 
+if(!is.null(args$input_node_label_file)){
+    node_label_tbl <- args$input_node_label_file %>% 
+        read_func() %>% 
+        dplyr::select("Node" = "node", "label") 
+} else {
+    node_label_tbl <- NULL 
+}
+
+
 node_tbl <- 
     dplyr::bind_rows(expression_tbl, celltype_tbl) %>% 
     dplyr::inner_join(group_tbl, by = "sample") %>% 
@@ -250,12 +265,18 @@ abundance_scores <- nodes_scores %>%
 
 if(nrow(abundance_scores) == 0) stop("No abundance scores calculated")
 
-abundance_scores %>% 
+abundance_tbl <-abundance_scores %>% 
     tidyr::separate(
         "Group", args$group_name_cols, sep = args$group_name_seperator
-    ) %>% 
-    print() %>% 
-    write_func(args$output_nodes_file)
+    ) 
+
+if(!is.null(node_label_tbl)){
+    abundance_tbl <- dplyr::left_join(
+        abundance_tbl, node_label_tbl, by = "Node"
+    )
+}
+
+write_func(abundance_tbl, args$output_nodes_file)
     
 #Computing edges scores
 edges_scores <- nodes_scores %>% 
@@ -268,5 +289,4 @@ edges_scores %>%
         "Group", args$group_name_cols, sep = args$group_name_seperator
     ) %>% 
     dplyr::inner_join(scaffold_all_cols, by = c("From", "To")) %>% 
-    print() %>% 
     write_func(args$output_edges_file)

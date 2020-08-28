@@ -33,6 +33,11 @@ inputs:
   inputBinding:
     prefix: --input_scaffold_file
     
+- id: input_node_label_file
+  type: File?
+  inputBinding:
+    prefix: --input_node_label_file
+    
 - id: output_nodes_file
   type: string
   default: "output_nodes.feather"
