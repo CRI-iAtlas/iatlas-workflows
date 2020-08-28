@@ -116,6 +116,12 @@ inputs:
   default: "to"
   inputBinding:
     prefix: --scaffold_to_col
+    
+- id: min_group_size
+  type: int
+  default: 3
+  inputBinding:
+    prefix: --min_group_size
 
 - id: add_noise
   type: boolean

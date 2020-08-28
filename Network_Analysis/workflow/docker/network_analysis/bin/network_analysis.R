@@ -120,6 +120,12 @@ parser$add_argument(
 )
 
 parser$add_argument(
+    "--min_group_size",
+    type = "integer",
+    default = 3L
+)
+
+parser$add_argument(
     "--add_noise",
     action = "store_true"
 )
@@ -200,7 +206,10 @@ if (args$log_expression) {
 
 node_tbl <- 
     dplyr::bind_rows(expression_tbl, celltype_tbl) %>% 
-    dplyr::inner_join(group_tbl, by = "sample") 
+    dplyr::inner_join(group_tbl, by = "sample") %>% 
+    dplyr::add_count(.data$group) %>% 
+    dplyr::filter(.data$n >= args$min_group_size) %>% 
+    dplyr::select(-"n")
 
 if (args$add_noise) {
     node_tbl <- dplyr::mutate(
