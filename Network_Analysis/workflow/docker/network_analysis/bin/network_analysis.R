@@ -201,14 +201,17 @@ celltype_tbl <- args$input_celltype_file %>%
 genes <- unique(expression_tbl$node)
 cells <- unique(celltype_tbl$node) 
 
-scaffold <- args$input_scaffold_file %>% 
+scaffold_all_cols <- args$input_scaffold_file %>% 
     read_func() %>% 
-    dplyr::select(
+    dplyr::rename(
         "From" = args$scaffold_from_col,
         "To"   = args$scaffold_to_col
-    ) %>% 
+    ) 
+
+scaffold <- scaffold_all_cols %>% 
+    dplyr::select("From", "To") %>%
     tidyr::drop_na() %>% 
-    abcnet::get_scaffold(., cells, genes)
+    abcnet::get_scaffold(., cells, genes) 
 
 if (args$log_expression) {
     expression_tbl <- expression_tbl %>% 
@@ -251,6 +254,7 @@ abundance_scores %>%
     tidyr::separate(
         "Group", args$group_name_cols, sep = args$group_name_seperator
     ) %>% 
+    print() %>% 
     write_func(args$output_nodes_file)
     
 #Computing edges scores
@@ -263,4 +267,6 @@ edges_scores %>%
     tidyr::separate(
         "Group", args$group_name_cols, sep = args$group_name_seperator
     ) %>% 
+    dplyr::inner_join(scaffold_all_cols, by = c("From", "To")) %>% 
+    print() %>% 
     write_func(args$output_edges_file)
