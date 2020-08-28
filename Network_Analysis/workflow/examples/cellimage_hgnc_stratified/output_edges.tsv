@@ -1,5 +1,5 @@
-From	To	group1	group2	ratioScore
-Dendritic_cells	TNFSF18	g1	g3	0
-Dendritic_cells	TNFSF18	g2	g3	0
-TNFSF18	TNFRSF18	g1	g3	0
-TNFSF18	TNFRSF18	g2	g3	0
+From	To	group1	group2	ratioScore	interaction
+Dendritic_cells	TNFSF18	g1	g3	0	interacts
+Dendritic_cells	TNFSF18	g2	g3	0	interacts
+TNFSF18	TNFRSF18	g1	g3	0	interacts
+TNFSF18	TNFRSF18	g2	g3	0	interacts
