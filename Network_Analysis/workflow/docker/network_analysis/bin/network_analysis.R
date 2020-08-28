@@ -2,33 +2,33 @@ library(abcnet)
 library(dplyr)
 library(argparse)
 
-parser = ArgumentParser()
+parser = argparse::ArgumentParser()
 
 # required args
 
 parser$add_argument(
     "-e",
-    "--expression_file",
+    "--input_expression_file",
     type = "character",
     required = TRUE
 )
 
 parser$add_argument(
     "-c",
-    "--cell_abundance_file",
+    "--input_celltype_file",
     type = "character",
     required = TRUE
 )
 
 parser$add_argument(
     "-g",
-    "--group_file",
+    "--input_group_file",
     type = "character",
     required = TRUE
 )
 
 parser$add_argument(
-    "--scaffold_file",
+    "--input_scaffold_file",
     type = "character",
     required = TRUE
 )
@@ -36,87 +36,87 @@ parser$add_argument(
 # optional args
 
 parser$add_argument(
-    "--nodes_output_file",
+    "--output_nodes_file",
     type = "character",
-    default = "nodes.tsv"
+    default = "output_nodes.feather"
 )
 
 parser$add_argument(
-    "--edges_output_file",
+    "--output_edges_file",
     type = "character",
-    default = "edges.tsv"
+    default = "output_edges.feather"
 )
 
 parser$add_argument(
-    "--group_file_delimeter",
+    "--input_file_type",
     type = "character",
-    default = "\t"
+    default = "feather"
 )
 
 parser$add_argument(
-    "--expression_file_delimeter",
+    "--output_file_type",
     type = "character",
-    default = "\t"
+    default = "feather"
 )
 
 parser$add_argument(
-    "--cell_abundance_file_delimeter",
-    type = "character",
-    default = "\t"
-)
-
-parser$add_argument(
-    "--scaffold_file_delimeter",
-    type = "character",
-    default = "\t"
-)
-
-parser$add_argument(
-    "--sample_col",
+    "--group_sample_col",
     type = "character",
     default = "sample"
 )
 
 parser$add_argument(
-    "--gene_col",
-    type = "character",
-    default = "gene"
-)
-
-parser$add_argument(
-    "--expression_col",
-    type = "character",
-    default = "expression"
-)
-
-parser$add_argument(
-    "--group_col",
+    "--group_name_col",
     type = "character",
     default = "group"
 )
 
 parser$add_argument(
-    "--cell_col",
+    "--expression_sample_col",
     type = "character",
-    default = "cell"
+    default = "sample"
 )
 
 parser$add_argument(
-    "--fraction_col",
+    "--expression_value_col",
     type = "character",
-    default = "fraction"
+    default = "expression"
 )
 
 parser$add_argument(
-    "--from_col",
+    "--expression_node_col",
     type = "character",
-    default = "From"
+    default = "node"
 )
 
 parser$add_argument(
-    "--to_col",
+    "--celltype_value_col",
     type = "character",
-    default = "To"
+    default = "value"
+)
+
+parser$add_argument(
+    "--celltype_sample_col",
+    type = "character",
+    default = "sample"
+)
+
+parser$add_argument(
+    "--celltype_node_col",
+    type = "character",
+    default = "node"
+)
+
+parser$add_argument(
+    "--scaffold_from_col",
+    type = "character",
+    default = "from"
+)
+
+parser$add_argument(
+    "--scaffold_to_col",
+    type = "character",
+    default = "to"
 )
 
 parser$add_argument(
@@ -131,80 +131,82 @@ parser$add_argument(
 
 args <- parser$parse_args()
 
-# args <- list(
-#     "group_file" = "Network_Analysis/workflow/examples/one/groups.tsv",
-#     "expression_file" = "Network_Analysis/workflow/examples/one/expression.tsv",
-#     "celltype_file" = "Network_Analysis/workflow/examples/one/cells.tsv",
-#     "scaffold_file" = "Network_Analysis/workflow/examples/one/scaffold.tsv",
-#     "nodes_output_file" = "Network_Analysis/workflow/examples/one/nodes.tsv",
-#     "edges_output_file" = "Network_Analysis/workflow/examples/one/edges.tsv",
-#     "group_file_delimeter" = "\t",
-#     "expression_file_delimeter" = "\t",
-#     "celltype_file_delimeter" = "\t",
-#     "scaffold_file_delimeter" = "\t",
-#     "sample_col" = "sample",
-#     "gene_col" = "gene",
-#     "expression_col" = "expression",
-#     "group_col" = "group",
-#     "cell_col" = "cell",
-#     "fraction_col" = "fraction",
-#     "from_col" = "From",
-#     "to_col" = "To",
-#     "add_noise" = T,
-#     "log_expression" = T
-# )
+if(args$input_file_type == "feather") {
+    read_func <- feather::read_feather
+} else if(args$input_file_type == "csv") {
+    read_func <- readr::read_csv
+} else if(args$input_file_type == "tsv") {
+    read_func <- readr::read_tsv
+} else {
+    stop("Unsupported input file type")
+}
 
-group_tbl <- args$group_file %>% 
-    readr::read_delim(., delim = args$group_file_delimeter) %>% 
+if(args$output_file_type == "feather") {
+    write_func <- feather::write_feather
+} else if(args$input_file_type == "csv") {
+    write_func <- readr::write_csv
+} else if(args$input_file_type == "tsv") {
+    write_func <- readr::write_tsv
+} else {
+    stop("Unsupported output file type")
+}
+
+group_tbl <- args$input_group_file %>% 
+    read_func() %>% 
     dplyr::select(
-        "sample" = args$sample_col,
-        "group"  = args$group_col
+        "sample" = args$group_sample_col,
+        "group"  = args$group_name_col
     ) %>% 
+    tidyr::drop_na() 
+
+
+expression_tbl <- args$input_expression_file %>% 
+    read_func() %>% 
+    dplyr::select(
+        "sample" = args$expression_sample_col,
+        "node"   = args$expression_node_col,
+        "value"  = args$expression_value_col
+    ) %>% 
+    dplyr::mutate("node" = as.character(.data$node)) %>% 
     tidyr::drop_na()
 
-expression_tbl <- args$expression_file %>% 
-    readr::read_delim(., delim = args$expression_file_delimeter) %>% 
+celltype_tbl <- args$input_celltype_file %>% 
+    read_func() %>% 
     dplyr::select(
-        "sample" = args$sample_col,
-        "node"   = args$gene_col,
-        "value"  = args$expression_col
+        "sample" = args$celltype_sample_col,
+        "node"   = args$celltype_node_col,
+        "value"  = args$celltype_value_col
     ) %>% 
-    tidyr::drop_na()
-
-celltype_tbl <- args$cell_abundance_file %>% 
-    readr::read_delim(., delim = args$cell_abundance_file_delimeter) %>% 
-    dplyr::select(
-        "sample" = args$sample_col,
-        "node"   = args$cell_col,
-        "value"  = args$fraction_col
-    ) %>% 
+    dplyr::mutate("node" = as.character(.data$node)) %>% 
     tidyr::drop_na()
 
 genes <- unique(expression_tbl$node)
 cells <- unique(celltype_tbl$node) 
 
-scaffold <- args$scaffold_file %>% 
-    readr::read_delim(., delim = args$scaffold_file_delimeter) %>% 
+scaffold <- args$input_scaffold_file %>% 
+    read_func() %>% 
     dplyr::select(
-        "From" = args$from_col,
-        "To"   = args$to_col
+        "From" = args$scaffold_from_col,
+        "To"   = args$scaffold_to_col
     ) %>% 
     tidyr::drop_na() %>% 
     abcnet::get_scaffold(., cells, genes)
 
 if (args$log_expression) {
     expression_tbl <- expression_tbl %>% 
-        dplyr::mutate(value = log2(value + 1)) %>% 
+        dplyr::mutate("value" = log2(.data$value + 1)) %>% 
         tidyr::drop_na()
 }
 
 node_tbl <- 
     dplyr::bind_rows(expression_tbl, celltype_tbl) %>% 
-    dplyr::inner_join(group_tbl, by = "sample")
+    dplyr::inner_join(group_tbl, by = "sample") 
 
 if (args$add_noise) {
-    node_tbl <- node_tbl %>% 
-        dplyr::mutate(value = value + rnorm(mean = 0, sd = 0.0001, nrow(.)))
+    node_tbl <- dplyr::mutate(
+        node_tbl,
+        "value" = .data$value + rnorm(mean = 0, sd = 0.0001, dplyr::n())
+    )
 }
 
 #Computing nodes scores
@@ -224,5 +226,5 @@ abundance_scores <- abcnet::get_abundance_table(nodes_scores)
 #Computing edges scores
 edges_scores <- abcnet::compute_concordance(scaffold, nodes_scores)
 
-readr::write_tsv(abundance_scores, args$nodes_output_file)
-readr::write_tsv(edges_scores, args$edges_output_file)
+write_func(abundance_scores, args$output_nodes_file)
+write_func(edges_scores, args$output_edges_file)
