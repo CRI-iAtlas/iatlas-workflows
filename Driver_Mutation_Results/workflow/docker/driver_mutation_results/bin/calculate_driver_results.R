@@ -109,9 +109,9 @@ if(args$input_file_type == "feather") {
 
 if(args$output_file_type == "feather") {
   write_func <- feather::write_feather
-} else if(args$input_file_type == "csv") {
+} else if(args$output_file_type == "csv") {
   write_func <- readr::write_csv
-} else if(args$input_file_type == "tsv") {
+} else if(args$output_file_type == "tsv") {
   write_func <- readr::write_tsv
 } else {
   stop("Unsupported output file type")
