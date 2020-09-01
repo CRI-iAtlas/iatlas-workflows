@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 library(rlang)
 library(magrittr)
 library(argparse)
