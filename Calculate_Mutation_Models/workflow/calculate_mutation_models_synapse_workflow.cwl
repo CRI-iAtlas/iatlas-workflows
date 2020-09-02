@@ -4,7 +4,7 @@ cwlVersion: v1.0
 class: Workflow
 
 doc: >
-  Workflow for pulling input files for `calculate_driver_results`
+  Workflow for pulling input files for `calculate_mutation_models`
   from Synapse, running the analysis, and storing the output on
   Synapse. For more information on any given input parameter, 
   refer to the corresponding tool's CWL definition. 
@@ -14,7 +14,7 @@ inputs:
   features_synapse_id: string
   groups_synapse_id: string
   mutations_synapse_id: string
-  results_parent_synapse_id: string
+  output_parent_synapse_id: string
   input_file_type: string?
   output_file: string?
   output_file_type: string?
@@ -57,8 +57,8 @@ steps:
     out:
       - filepath
 
-  - id: calculate_driver_results
-    run: steps/driver_mutation_results/calculate_driver_results.cwl
+  - id: calculate_mutation_models
+    run: steps/calculate_mutation_models/calculate_mutation_models.cwl
     in: 
       input_feature_file: syn_get_features/filepath
       input_group_file: syn_get_groups/filepath
@@ -77,14 +77,14 @@ steps:
       mutation_status_column: mutation_status_column
       num_significant_digits: num_significant_digits
     out:
-      - driver_results
+      - mutation_models
 
   - id: syn_store
     run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-store-tool.cwl
     in: 
       synapse_config: synapse_config
-      file_to_store: calculate_driver_results/driver_results
-      parentid: results_parent_synapse_id
+      file_to_store: calculate_mutation_models/mutation_models
+      parentid: output_parent_synapse_id
     out: []
 
 $namespaces:

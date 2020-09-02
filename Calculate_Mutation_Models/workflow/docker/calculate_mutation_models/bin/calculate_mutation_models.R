@@ -33,7 +33,7 @@ parser$add_argument(
 parser$add_argument(
   "--output_file",
   type = "character",
-  default = "driver_results.feather"
+  default = "mutation_models.feather"
 )
 
 parser$add_argument(
