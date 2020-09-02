@@ -97,6 +97,11 @@ parser$add_argument(
   default = "status"
 )
 
+parser$add_argument(
+  "--num_significant_digits",
+  type = "integer"
+)
+
 args <- parser$parse_args()
 
 if(args$input_file_type == "feather") {
@@ -207,7 +212,8 @@ calculate_metrics <- function(.feature, .mutation, .group){
   ) 
 }
 
-model_tbl %>% 
+output_tbl <- 
+  model_tbl %>% 
   dplyr::mutate("results" = purrr::pmap(
     list(.data$feature, .data$mutation, .data$group), 
     calculate_metrics)
@@ -216,8 +222,13 @@ model_tbl %>%
   dplyr::mutate(
     "log10_pvalue" = -log10(.data$p_value),
     "log10_fold_change" = -log10(.data$fold_change)
-  ) %>% 
-  write_func(., args$output_file)
+  )
 
-  
+if (!is.null(args$num_significant_digits)) {
+  output_tbl <- 
+  output_tbl %>%
+  dplyr::mutate(dplyr::across(where(is.double), signif, 
+                              args$num_significant_digits))
+}
 
+write_func(output_tbl, args$output_file)

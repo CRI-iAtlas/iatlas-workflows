@@ -1,0 +1,18 @@
+{
+    "input_feature_file": {
+        "path": "features.tsv",
+        "class": "File"
+    },
+    "input_group_file": {
+        "path": "groups.tsv",
+        "class": "File"
+    },
+    "input_mutation_file": {
+        "path": "mutations.tsv",
+        "class": "File"
+    },
+    "output_file": "driver_results.tsv",
+    "input_file_type": "tsv",
+    "output_file_type": "tsv",
+    "num_significant_digits": 6
+}
