@@ -23,7 +23,6 @@ parser$add_argument(
     nargs = "+"
 )
 
-
 parser$add_argument(
     "--features",
     default = NULL,
@@ -39,7 +38,7 @@ parser$add_argument(
 )
 
 parser$add_argument(
-    "--sample_names",
+    "--samples",
     default = NULL,
     type = "character",
     nargs = "+"
