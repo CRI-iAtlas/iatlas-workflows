@@ -1,8 +1,5 @@
 library(argparse)
 library(magrittr)
-library(readr)
-library(tidyr)
-library(dplyr)
 
 # Globals -----
 CIBERSORT_CELLTYPES <- c(
@@ -112,32 +109,69 @@ AGGREGATE_LIST <- list(
 #####
 
 
-parser = ArgumentParser(
+parser = argparse::ArgumentParser(
     description = "Combine Cibersort cell types into aggregates"
 )
 
 parser$add_argument(
-    "-c",
     "--cibersort_file",
     type = "character",
     required = TRUE
 )
+
 parser$add_argument(
-    "-o",
     "--output_file",
     type = "character",
-    default = "output.tsv"
+    default = "aggregated_cibersort_results.feather"
+)
+
+parser$add_argument(
+    "--input_file_type",
+    type = "character",
+    default = "feather"
+)
+
+parser$add_argument(
+    "--output_file_type",
+    type = "character",
+    default = "feather"
 )
 
 args <- parser$parse_args()
 
+if(args$input_file_type == "feather") {
+    read_func <- feather::read_feather
+} else if(args$input_file_type == "csv") {
+    read_func <- readr::read_csv
+} else if(args$input_file_type == "tsv") {
+    read_func <- readr::read_tsv
+} else {
+    stop("Unsupported input file type")
+}
+
+if(args$output_file_type == "feather") {
+    write_func <- feather::write_feather
+} else if(args$output_file_type == "csv") {
+    write_func <- readr::write_csv
+} else if(args$output_file_type == "tsv") {
+    write_func <- readr::write_tsv
+} else {
+    stop("Unsupported output file type")
+}
+
 cibersort_df <- args$cibersort_file %>%
-    readr::read_tsv(.) %>% 
+    read_func(.) %>% 
     dplyr::select(c("Mixture", CIBERSORT_CELLTYPES)) %>% 
-    tidyr::gather(key = "celltype", value = "fraction", -Mixture) %>%
-    dplyr::mutate(celltype = stringr::str_replace_all(celltype, " ", "_")) %>% 
-    dplyr::mutate(celltype = stringr::str_remove_all(celltype, "[\\)\\(]")) %>% 
-    tidyr::spread(., key = "celltype", value = "fraction") %>% 
+    tidyr::pivot_longer(
+        names_to = "celltype", values_to = "fraction", -"Mixture"
+    ) %>%
+    dplyr::mutate(
+        "celltype" = stringr::str_replace_all(.data$celltype, " ", "_")
+    ) %>% 
+    dplyr::mutate(
+        "celltype" = stringr::str_remove_all(.data$celltype, "[\\)\\(]")
+    ) %>% 
+    tidyr::pivot_wider(., names_from = "celltype", values_from = "fraction") %>% 
     dplyr::rename("sample" = "Mixture")
 
     
@@ -148,7 +182,12 @@ for (new_column in names(AGGREGATE_LIST)) {
     cibersort_df <- magrittr::inset(cibersort_df, new_column, value = row_sums)
 }
 
-write_tsv(cibersort_df, args$output_file)
+cibersort_df %>% 
+    tidyr::pivot_longer(
+        names_to = "celltype", values_to = "fraction", -"sample"
+    ) %>%
+    print() %>% 
+    write_func(args$output_file)
 
 
 

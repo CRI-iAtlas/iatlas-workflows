@@ -10,7 +10,7 @@ baseCommand:
 
 hints:
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/cibersort_aggregate_celltypes:1.1
+  dockerPull: quay.io/cri-iatlas/cibersort_aggregate_celltypes:1.2
 
 inputs:
 
@@ -21,9 +21,21 @@ inputs:
 
 - id: output_file 
   type: string
-  default: "output.tsv"
+  default: "aggregated_cibersort_results.feather"
   inputBinding:
     prefix: --output_file
+    
+- id: input_file_type
+  type: string
+  default: "feather"
+  inputBinding:
+    prefix: --input_file_type
+    
+- id: output_file_type
+  type: string
+  default: "feather"
+  inputBinding:
+    prefix: --output_file_type
 
 outputs:
 
