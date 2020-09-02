@@ -172,7 +172,6 @@ inputs:
     
   - id: num_significant_digits
     type: int?
-    default: 6
     inputBinding:
       prefix: --num_significant_digits
     doc: >
