@@ -97,6 +97,12 @@ parser$add_argument(
   default = "status"
 )
 
+parser$add_argument(
+  "--num_significant_digits",
+  type = "integer",
+  default = 6
+)
+
 args <- parser$parse_args()
 
 if(args$input_file_type == "feather") {
@@ -217,7 +223,6 @@ model_tbl %>%
     "log10_pvalue" = -log10(.data$p_value),
     "log10_fold_change" = -log10(.data$fold_change)
   ) %>% 
+  dplyr::mutate(dplyr::across(where(is.double), signif, 
+                              args$num_significant_digits)) %>%
   write_func(., args$output_file)
-
-  
-
