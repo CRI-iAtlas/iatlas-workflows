@@ -39,7 +39,7 @@ inputs:
 
 outputs:
 
-- id: cell_counts_file
+- id: aggregated_cibersort_file
   type: File
   outputBinding:
     glob: $(inputs.output_file)

@@ -15,7 +15,7 @@ requirements:
 
 hints:
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/cibersort:1.2
+  dockerPull: quay.io/cri-iatlas/cibersort:1.2.1
 
 inputs:
 
@@ -82,6 +82,7 @@ outputs:
   type: File
   outputBinding:
     glob: $(inputs.output_file)
+    
 $namespaces:
   s: https://schema.org/
 

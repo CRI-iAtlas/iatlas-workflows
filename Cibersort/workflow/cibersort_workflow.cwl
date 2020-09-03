@@ -14,15 +14,28 @@ inputs:
   type: File
 - id: output_file
   type: string
-- id: sample_name
+  default: "cibersort.feather"
+- id: input_file_type
   type: string
-
+  default: "feather"
+- id: output_file_type
+  type: string
+  default: "feather"
+- id: parse_method
+  type: string
+  default: "long_expression"
+- id: expression_column
+  type: string
+  default: "expression"
+- id: sample_column
+  type: string
+  default: "sample"
 
 outputs:
  
-- id: cell_counts_file 
+- id: aggregated_cibersort_file
   type: File
-  outputSource: aggregate_cibersort_celltypes/cell_counts_file
+  outputSource: aggregate_cibersort_celltypes/aggregated_cibersort_file
    
 
 steps:
@@ -32,8 +45,14 @@ steps:
   in:
   - id: input_file
     source: input_file
-  - id: sample_name
-    source: sample_name
+  - id: input_file_type
+    source: input_file_type
+  - id: parse_method
+    source: parse_method
+  - id: expression_column
+    source: expression_column
+  - id: sample_column
+    source: sample_column
   out:
   - expression_file
 
@@ -52,8 +71,10 @@ steps:
     source: cibersort/cibersort_file
   - id: output_file
     source: output_file
+  - id: output_file_type
+    source: output_file_type
   out: 
-  - cell_counts_file
+  - aggregated_cibersort_file
 
 $namespaces:
   s: https://schema.org/
