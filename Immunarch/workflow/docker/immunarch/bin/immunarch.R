@@ -8,7 +8,15 @@ parser = argparse::ArgumentParser(
 parser$add_argument(
     "--input_files",
     type = "character",
-    required = TRUE
+    required = TRUE,
+    nargs = "+"
+)
+
+parser$add_argument(
+    "--sample_names",
+    type = "character",
+    default = NULL,
+    nargs = "+"
 )
 
 parser$add_argument(
@@ -35,9 +43,13 @@ if(args$output_file_type == "feather") {
     stop("Unsupported output file type")
 }
 
-data <- args$input_files %>% 
+data <- args$input_files %>%
     immunarch::repLoad(.) %>% 
-    purrr::pluck("data")
+    purrr::pluck("data") 
+
+if(!is.null(args$sample_names)){
+    data <- purrr::set_names(data, args$sample_names)
+}
 
 distributions1 <- data %>% 
     immunarch::repExplore("volume") %>%  
