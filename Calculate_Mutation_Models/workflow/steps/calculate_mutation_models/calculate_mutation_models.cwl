@@ -5,7 +5,7 @@ class: CommandLineTool
 
 baseCommand: 
   - Rscript
-  - /usr/local/bin/calculate_driver_results.R
+  - /usr/local/bin/calculate_mutation_models.R
 
 doc: >
   Using linear regression, this tool calculates the association
@@ -14,7 +14,7 @@ doc: >
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/driver_results:1.1
+    dockerPull: quay.io/cri-iatlas/calculate_mutation_models:1.3
 
 inputs:
 
@@ -67,13 +67,13 @@ inputs:
 
   - id: output_file
     type: string?
-    default: driver_results.feather
+    default: mutation_models.feather
     inputBinding:
       prefix: --output_file
     doc: >
-      File path where the results from the analysis will be produced. 
-      The following columns are provided: mutation, group, feature, n_wt, 
-      n_mut, p_value, fold_change, log10_pvalue, and log10_fold_change.
+      File path where the mutation models will be stored. The following
+      columns are provided: mutation, group, feature, n_wt, n_mut, 
+      p_value, fold_change, log10_pvalue, and log10_fold_change.
       File format is specified using `output_file_type`.
 
   - id: output_file_type
@@ -180,7 +180,7 @@ inputs:
 
 outputs:
 
-  - id: driver_results
+  - id: mutation_models
     type: File
     outputBinding:
       glob: $(inputs.output_file)
