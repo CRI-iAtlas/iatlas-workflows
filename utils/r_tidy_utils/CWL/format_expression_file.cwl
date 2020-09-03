@@ -8,7 +8,7 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/r_tidy_utils:1.0
+    dockerPull: quay.io/cri-iatlas/r_tidy_utils:1.0.1
 
 requirements:
 - class: InlineJavascriptRequirement
@@ -19,36 +19,60 @@ inputs:
 - id: input_file
   type: File
   inputBinding:
-    prefix: -i
-
-- id: sample_name
-  type: string
-  inputBinding:
-    prefix: -s
-
+    prefix: --input_file
+    
 - id: output_file
   type: string
-  default: "output.tsv"
+  default: "expression.feather"
   inputBinding:
-    prefix: -o
+    prefix: --output_file
+    
+- id: input_file_type
+  type: string
+  default: "feather"
+  inputBinding:
+    prefix: --input_file_type
+    
+- id: output_file_type
+  type: string
+  default: "feather"
+  inputBinding:
+    prefix: --output_file_type
 
 - id: parse_method
   type: string
-  default: kallisto
+  default: "long_expression"
   inputBinding:
-    prefix: -m
+    prefix: --parse_method
+
+- id: expression_column
+  type: string
+  default: "expression"
+  inputBinding:
+    prefix: --expression_column
+
+- id: sample_column
+  type: string
+  default: "sample"
+  inputBinding:
+    prefix: --sample_column  
+
+- id: sample_name
+  type: string?
+  inputBinding:
+    prefix: --sample_name
 
 - id: kallisto_expr_column
   type: string
   default: tpm
   inputBinding:
-    prefix: -e
+    prefix: --kallisto_expr_column
 
 - id: kallisto_gene_column
   type: string
   default: value6
   inputBinding:
-    prefix: -g
+    prefix: --kallisto_gene_column
 
       
 outputs:
