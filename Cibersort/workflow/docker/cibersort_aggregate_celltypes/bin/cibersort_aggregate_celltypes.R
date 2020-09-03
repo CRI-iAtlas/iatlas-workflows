@@ -161,7 +161,7 @@ if(args$output_file_type == "feather") {
 
 cibersort_df <- args$cibersort_file %>%
     read_func(.) %>% 
-    dplyr::select(c("Mixture", CIBERSORT_CELLTYPES)) %>% 
+    dplyr::select(dplyr::all_of(c("Mixture", CIBERSORT_CELLTYPES))) %>% 
     tidyr::pivot_longer(
         names_to = "celltype", values_to = "fraction", -"Mixture"
     ) %>%
