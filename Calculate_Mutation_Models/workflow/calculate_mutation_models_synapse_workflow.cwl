@@ -20,7 +20,6 @@ inputs:
   groups_synapse_id: string
   mutations_synapse_id: string
   output_parent_synapse_id: string
-  output_name_on_synapse: string?
   input_file_type: string?
   output_file: string?
   output_file_type: string?
@@ -99,7 +98,7 @@ steps:
       - id: parentid
         source: output_parent_synapse_id
       - id: name
-        source: output_name_on_synapse
+        source: output_file 
       # The following is commented out until the following PR is merged.
       # Only then can these arguments be used. Update the CWL URL accordingly.
       # https://github.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/pull/30
