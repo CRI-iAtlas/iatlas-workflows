@@ -3,6 +3,11 @@
 cwlVersion: v1.0
 class: Workflow
 
+requirements:
+  - class: StepInputExpressionRequirement
+  - class: InlineJavascriptRequirement
+  - class: MultipleInputFeatureRequirement
+
 doc: >
   Workflow for pulling input files for `calculate_mutation_models`
   from Synapse, running the analysis, and storing the output on
@@ -29,12 +34,16 @@ inputs:
   mutation_status_column: string?
   num_significant_digits: int?
 
-outputs: []
+outputs: 
+
+  - id: output_synapse_id
+    type: string
+    outputSource: syn_store/file_id
 
 steps:
 
   - id: syn_get_features
-    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-get-tool.cwl
     in: 
       synapse_config: synapse_config
       synapseid: features_synapse_id
@@ -42,7 +51,7 @@ steps:
       - filepath
   
   - id: syn_get_groups
-    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-get-tool.cwl
     in: 
       synapse_config: synapse_config
       synapseid: groups_synapse_id
@@ -50,7 +59,7 @@ steps:
       - filepath
   
   - id: syn_get_mutations
-    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-get-tool.cwl
     in: 
       synapse_config: synapse_config
       synapseid: mutations_synapse_id
@@ -80,12 +89,25 @@ steps:
       - mutation_models
 
   - id: syn_store
-    run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-store-tool.cwl
+    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-store-tool.cwl
     in: 
-      synapse_config: synapse_config
-      file_to_store: calculate_mutation_models/mutation_models
-      parentid: output_parent_synapse_id
-    out: []
+      - id: synapse_config
+        source: synapse_config
+      - id: file_to_store
+        source: calculate_mutation_models/mutation_models
+      - id: parentid
+        source: output_parent_synapse_id
+      - id: name
+        source: output_file 
+      # The following is commented out until the following PR is merged.
+      # Only then can these arguments be used. Update the CWL URL accordingly.
+      # https://github.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/pull/30
+      # - id: used
+      #   source: [features_synapse_id, groups_synapse_id, mutations_synapse_id]
+      # - id: executed
+      #   valueFrom: $(["https://github.com/CRI-iAtlas/iatlas-workflows/blob/v1.1/Calculate_Mutation_Models/workflow/steps/calculate_mutation_models/calculate_mutation_models.cwl"])
+    out: 
+      - file_id
 
 $namespaces:
   s: https://schema.org/
