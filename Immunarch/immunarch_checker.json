@@ -1,0 +1,50 @@
+{
+    "input_files_array": [
+        [
+            {
+                "path": "workflow/examples/pcawg_mixcr/S1.clonotypes.IGH.txt",
+                "class": "File"
+            },
+            {
+                "path": "workflow/examples/pcawg_mixcr/S1.clonotypes.IGL.txt",
+                "class": "File"
+            }
+        ],
+        [
+            {
+                "path": "workflow/examples/tcga_mixcr/s1_clones.txt",
+                "class": "File"
+            },
+            {
+                "path": "workflow/examples/tcga_mixcr/s2_clones.txt",
+                "class": "File"
+            }
+        ]
+    ],
+    "sample_names_array": [
+        [
+            "S1_IGH",
+            "S1_IGL"
+        ],
+        [
+            "S1",
+            "S2"
+        ]
+    ],
+    "output_file": "immunarch_metrics.test.tsv",
+    "output_file_type": "tsv",
+    "expected_output_file_array": [
+        {
+            "path": "workflow/examples/pcawg_mixcr/immunarch_metrics.tsv",
+            "class": "File"
+        },
+        {
+            "path": "workflow/examples/tcga_mixcr/immunarch_metrics.tsv",
+            "class": "File"
+        }
+    ],
+    "output_status_array": [
+        "status.pcawg_mixcr.txt",
+        "status.tcga_mixcr.txt"
+    ]
+}
