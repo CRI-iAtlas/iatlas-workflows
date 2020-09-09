@@ -2,9 +2,10 @@
 
 cwlVersion: v1.0
 class: CommandLineTool
+
 baseCommand: 
-- Rscript
-- /usr/local/bin/md5sum_checker.R
+  - Rscript
+  - /usr/local/bin/md5sum_checker.R
 
 doc: "check if MD5sums are the same"
 
@@ -12,24 +13,28 @@ hints:
   DockerRequirement:
     dockerPull: quay.io/cri-iatlas/r_tidy_utils:1.0
 
-stdout: status.txt
-
 inputs:
 
-- id: file1
-  type: File
-  inputBinding:
-    position: 1
+  - id: file1
+    type: File
+    inputBinding:
+      position: 1
+    
+  - id: file2
+    type: File
+    inputBinding:
+      position: 2
   
-- id: file2
-  type: File
-  inputBinding:
-    position: 2
+  - id: output_status
+    type: string
+    default: status.txt
+
+stdout: $(inputs.output_status)
       
 outputs:
 
-- id: status
-  type: stdout
+  - id: status
+    type: stdout
 
 $namespaces:
   s: https://schema.org/
