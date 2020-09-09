@@ -1,0 +1,18 @@
+{
+    "input_files": [
+        {
+            "path": "tcga_mixcr/s1_clones.txt",
+            "class": "File"
+        },
+        {
+            "path": "tcga_mixcr/s2_clones.txt",
+            "class": "File"
+        }
+    ],
+    "sample_names": [
+        "S1",
+        "S2"
+    ],
+    "output_file": "immunarch_metrics.test.tsv",
+    "output_file_type": "tsv"
+}

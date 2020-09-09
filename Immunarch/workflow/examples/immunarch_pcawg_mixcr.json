@@ -1,0 +1,18 @@
+{
+    "input_files": [
+        {
+            "path": "pcawg_mixcr/S1.clonotypes.IGH.txt",
+            "class": "File"
+        },
+        {
+            "path": "pcawg_mixcr/S1.clonotypes.IGL.txt",
+            "class": "File"
+        }
+    ],
+    "sample_names": [
+        "S1_IGH",
+        "S1_IGL"
+    ],
+    "output_file": "immunarch_metrics.test.tsv",
+    "output_file_type": "tsv"
+}
