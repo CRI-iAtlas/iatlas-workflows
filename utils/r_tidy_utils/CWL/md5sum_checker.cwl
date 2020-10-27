@@ -4,7 +4,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: 
 - Rscript
-- usr/local/bin/md5sum_checker.R
+- /usr/local/bin/md5sum_checker.R
 
 doc: "check if MD5sums are the same"
 

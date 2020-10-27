@@ -8,25 +8,42 @@ requirements:
 
 inputs:
 
-- id: input_id
-  type: string
-- id: output_file
-  type: string
-- id: sample_name
-  type: string
 - id: synapse_config
   type: File
 - id: destination_id
   type: string
-
+- id: input_id
+  type: string
+- id: output_file
+  type: string
+  default: "cibersort.feather"
+- id: input_file_type
+  type: string
+  default: "feather"
+- id: output_file_type
+  type: string
+  default: "feather"
+- id: parse_method
+  type: string
+  default: "long_expression"
+- id: expression_column
+  type: string
+  default: "expression"
+- id: sample_column
+  type: string
+  default: "sample"
   
-outputs: []
+outputs:
+
+- id: output_file_id
+  type: string
+  outputSource: syn_store/file_id
    
 
 steps:
 
 - id: syn_get
-  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
+  run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-get-tool.cwl
   in: 
   - id: synapse_config
     source: synapse_config
@@ -42,21 +59,30 @@ steps:
     source: syn_get/filepath
   - id: output_file
     source: output_file
-  - id: sample_name
-    source: sample_name
+  - id: input_file_type
+    source: input_file_type
+  - id: output_file_type
+    source: output_file_type
+  - id: parse_method
+    source: parse_method
+  - id: expression_column
+    source: expression_column
+  - id: sample_column
+    source: sample_column
   out:
-  - cell_counts_file
+  - aggregated_cibersort_file
 
 - id: syn_store
-  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-store-tool.cwl
+  run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-store-tool.cwl
   in: 
   - id: synapse_config
     source: synapse_config
   - id: file_to_store
-    source: cibersort/cell_counts_file
+    source: cibersort/aggregated_cibersort_file
   - id: parentid
     source: destination_id
-  out: []
+  out: 
+  - file_id
 
 $namespaces:
   s: https://schema.org/

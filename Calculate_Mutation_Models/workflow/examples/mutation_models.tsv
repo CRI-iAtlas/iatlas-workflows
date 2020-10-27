@@ -1,0 +1,3 @@
+mutation	group	feature	n_wt	n_mut	p_value	fold_change	log10_pvalue	log10_fold_change
+7157:Q136*	C1	B_cells_memory	2211	7	0.463375	2.01932	0.334067	-0.305204
+7157:Q136*	C1	leukocyte_fraction	2211	7	0.302512	0.793999	0.519258	0.10018

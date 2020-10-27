@@ -1,0 +1,22 @@
+{
+    "input_feature_file": {
+        "path": "workflow/examples/features.tsv",
+        "class": "File"
+    },
+    "input_group_file": {
+        "path": "workflow/examples/groups.tsv",
+        "class": "File"
+    },
+    "input_mutation_file": {
+        "path": "workflow/examples/mutations.tsv",
+        "class": "File"
+    },
+    "output_file": "mutation_models.test.tsv",
+    "input_file_type": "tsv",
+    "output_file_type": "tsv",
+    "num_significant_digits": 6,
+    "expected_output_file": {
+        "path": "workflow/examples/mutation_models.tsv",
+        "class": "File"
+    }
+}

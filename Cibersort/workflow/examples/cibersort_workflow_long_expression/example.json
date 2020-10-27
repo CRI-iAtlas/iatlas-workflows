@@ -1,0 +1,9 @@
+{
+  "input_file":{
+    "class": "File",
+    "path": "expression.tsv"
+  },
+  "output_file": "cibersort.tsv",
+  "input_file_type": "tsv",
+  "output_file_type": "tsv"
+}

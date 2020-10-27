@@ -15,7 +15,7 @@ requirements:
 
 hints:
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/cibersort:1.0
+  dockerPull: quay.io/cri-iatlas/cibersort:1.2.1
 
 inputs:
 
@@ -30,6 +30,26 @@ inputs:
   inputBinding:
     prefix: --sig_matrix_file
   doc: Path to reference matrix.
+  
+- id: output_file
+  type: string
+  default: "cibersort_results.feather"
+  inputBinding:
+    prefix: --output_file
+  
+- id: input_file_type
+  type: string
+  default: "feather"
+  inputBinding:
+    prefix: --input_file_type
+  doc: one of ["feather", "tsv", "csv"]
+  
+- id: output_file_type
+  type: string
+  default: "feather"
+  inputBinding:
+    prefix: --output_file_type
+  doc: one of ["feather", "tsv", "csv"]
 
 - id: perm
   type: int?
@@ -38,7 +58,8 @@ inputs:
   doc: No. permutations; set to >=100 to calculate p-values (default = 0)
 
 - id: no_quantile_normalization
-  type: boolean?
+  type: boolean
+  default: true
   inputBinding:
     prefix: --no_quantile_normalization
   doc: "Quantile normalization of input mixture (default = TRUE)"
@@ -60,9 +81,8 @@ outputs:
 - id: cibersort_file
   type: File
   outputBinding:
-    glob: "CIBERSORT-Results.txt"
-  doc: see output_string
-
+    glob: $(inputs.output_file)
+    
 $namespaces:
   s: https://schema.org/
 
@@ -71,6 +91,3 @@ s:author:
     s:identifier: https://orcid.org/0000-0002-0326-7494
     s:email: andrew.lamb@sagebase.org
     s:name: Andrew Lamb
-
-
-
