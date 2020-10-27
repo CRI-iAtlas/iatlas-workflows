@@ -1,5 +1,4 @@
 library(abcnet)
-library(dplyr)
 library(argparse)
 
 parser = argparse::ArgumentParser()
@@ -8,23 +7,26 @@ parser = argparse::ArgumentParser()
 
 parser$add_argument(
     "-e",
-    "--input_expression_file",
+    "--input_expression_files",
     type = "character",
-    required = TRUE
+    required = TRUE,
+    nargs = "+"
 )
 
 parser$add_argument(
     "-c",
-    "--input_celltype_file",
+    "--input_celltype_files",
     type = "character",
-    required = TRUE
+    required = TRUE,
+    nargs = "+"
 )
 
 parser$add_argument(
     "-g",
-    "--input_group_file",
+    "--input_group_files",
     type = "character",
-    required = TRUE
+    required = TRUE,
+    nargs = "+"
 )
 
 parser$add_argument(
@@ -170,8 +172,9 @@ if(args$output_file_type == "feather") {
     stop("Unsupported output file type")
 }
 
-group_tbl <- args$input_group_file %>% 
-    read_func() %>% 
+group_tbl <- args$input_group_files %>% 
+    purrr::map(read_func) %>%
+    dplyr::bind_rows() %>% 
     tidyr::unite(
         "group",
         args$group_name_cols,
@@ -184,8 +187,9 @@ group_tbl <- args$input_group_file %>%
     tidyr::drop_na() 
 
 
-expression_tbl <- args$input_expression_file %>% 
-    read_func() %>% 
+expression_tbl <- args$input_expression_files %>% 
+    purrr::map(read_func) %>%
+    dplyr::bind_rows() %>% 
     dplyr::select(
         "sample" = args$expression_sample_col,
         "node"   = args$expression_node_col,
@@ -194,8 +198,9 @@ expression_tbl <- args$input_expression_file %>%
     dplyr::mutate("node" = as.character(.data$node)) %>% 
     tidyr::drop_na()
 
-celltype_tbl <- args$input_celltype_file %>% 
-    read_func() %>% 
+celltype_tbl <- args$input_celltype_files %>% 
+    purrr::map(read_func) %>%
+    dplyr::bind_rows() %>% 
     dplyr::select(
         "sample" = args$celltype_sample_col,
         "node"   = args$celltype_node_col,
@@ -248,7 +253,6 @@ if (args$add_noise) {
     )
 }
 
-#Computing nodes scores
 nodes_scores <- abcnet::compute_abundance(
     dfn   = node_tbl, 
     node  = "node", 
@@ -259,7 +263,6 @@ nodes_scores <- abcnet::compute_abundance(
     gois  = genes
 ) 
     
-#Organizing the scores in a table
 abundance_scores <- nodes_scores %>% 
     abcnet::get_abundance_table(.) 
 
@@ -278,7 +281,8 @@ if(!is.null(node_label_tbl)){
 
 write_func(abundance_tbl, args$output_nodes_file)
     
-#Computing edges scores
+
+
 edges_scores <- nodes_scores %>% 
     abcnet::compute_concordance(scaffold, .)
 
