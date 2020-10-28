@@ -7,26 +7,23 @@ parser = argparse::ArgumentParser()
 
 parser$add_argument(
     "-e",
-    "--input_expression_files",
+    "--input_expression_file",
     type = "character",
-    required = TRUE,
-    nargs = "+"
+    required = TRUE
 )
 
 parser$add_argument(
     "-c",
-    "--input_celltype_files",
+    "--input_celltype_file",
     type = "character",
-    required = TRUE,
-    nargs = "+"
+    required = TRUE
 )
 
 parser$add_argument(
     "-g",
-    "--input_group_files",
+    "--input_group_file",
     type = "character",
-    required = TRUE,
-    nargs = "+"
+    required = TRUE
 )
 
 parser$add_argument(
@@ -172,9 +169,8 @@ if(args$output_file_type == "feather") {
     stop("Unsupported output file type")
 }
 
-group_tbl <- args$input_group_files %>% 
-    purrr::map(read_func) %>%
-    dplyr::bind_rows() %>% 
+group_tbl <- args$input_group_file %>% 
+    read_func() %>%
     tidyr::unite(
         "group",
         args$group_name_cols,
@@ -187,9 +183,8 @@ group_tbl <- args$input_group_files %>%
     tidyr::drop_na() 
 
 
-expression_tbl <- args$input_expression_files %>% 
-    purrr::map(read_func) %>%
-    dplyr::bind_rows() %>% 
+expression_tbl <- args$input_expression_file %>% 
+    read_func() %>%
     dplyr::select(
         "sample" = args$expression_sample_col,
         "node"   = args$expression_node_col,
@@ -198,9 +193,8 @@ expression_tbl <- args$input_expression_files %>%
     dplyr::mutate("node" = as.character(.data$node)) %>% 
     tidyr::drop_na()
 
-celltype_tbl <- args$input_celltype_files %>% 
-    purrr::map(read_func) %>%
-    dplyr::bind_rows() %>% 
+celltype_tbl <- args$input_celltype_file %>% 
+    read_func() %>%
     dplyr::select(
         "sample" = args$celltype_sample_col,
         "node"   = args$celltype_node_col,
@@ -279,10 +273,10 @@ if(!is.null(node_label_tbl)){
     )
 }
 
-write_func(abundance_tbl, args$output_nodes_file)
+abundance_tbl %>% 
+    print() %>% 
+    write_func(args$output_nodes_file)
     
-
-
 edges_scores <- nodes_scores %>% 
     abcnet::compute_concordance(scaffold, .)
 
@@ -293,4 +287,5 @@ edges_scores %>%
         "Group", args$group_name_cols, sep = args$group_name_seperator
     ) %>% 
     dplyr::inner_join(scaffold_all_cols, by = c("From", "To")) %>% 
+    print() %>% 
     write_func(args$output_edges_file)

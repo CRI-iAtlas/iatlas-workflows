@@ -13,20 +13,20 @@ hints:
 
 inputs:
 
-- id: input_expression_files
-  type: File[]
+- id: input_expression_file
+  type: File
   inputBinding:
-    prefix: --input_expression_files
+    prefix: --input_expression_file
   
-- id: input_celltype_files
-  type: File[]
+- id: input_celltype_file
+  type: File
   inputBinding:
-    prefix: --input_celltype_files
+    prefix: --input_celltype_file
   
-- id: input_group_files
-  type: File[]
+- id: input_group_file
+  type: File
   inputBinding:
-    prefix: --input_group_files
+    prefix: --input_group_file
   
 - id: input_scaffold_file
   type: File
