@@ -150,7 +150,7 @@ parser$add_argument(
 args <- parser$parse_args()
 
 if(args$input_file_type == "feather") {
-    read_func <- feather::read_feather
+    read_func <- arrow::read_feather
 } else if(args$input_file_type == "csv") {
     read_func <- readr::read_csv
 } else if(args$input_file_type == "tsv") {
@@ -160,7 +160,7 @@ if(args$input_file_type == "feather") {
 }
 
 if(args$output_file_type == "feather") {
-    write_func <- feather::write_feather
+    write_func <- arrow::write_feather
 } else if(args$input_file_type == "csv") {
     write_func <- readr::write_csv
 } else if(args$input_file_type == "tsv") {
@@ -226,12 +226,11 @@ if (args$log_expression) {
 
 if(!is.null(args$input_node_label_file)){
     node_label_tbl <- args$input_node_label_file %>% 
-        read_func() %>% 
-        dplyr::select("Node" = "node", "label") 
+        read_func() %>%
+        dplyr::rename("Node" = "node") 
 } else {
     node_label_tbl <- NULL 
 }
-
 
 node_tbl <- 
     dplyr::bind_rows(expression_tbl, celltype_tbl) %>% 

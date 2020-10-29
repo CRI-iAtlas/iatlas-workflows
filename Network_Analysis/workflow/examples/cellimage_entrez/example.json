@@ -15,10 +15,12 @@
         "path": "cellimage_scaffold.feather",
         "class": "File"
     },
+    "input_node_label_file": {
+        "path": "cellimage_node_labels.feather",
+        "class": "File"
+    },
     "expression_node_col": "entrez", 
     "expression_value_col": "rna_seq_expr", 
-    "celltype_node_col": "feature", 
-    "scaffold_from_col": "From", 
-    "scaffold_to_col": "To", 
+    "celltype_node_col": "feature",  
     "add_noise": true
 }

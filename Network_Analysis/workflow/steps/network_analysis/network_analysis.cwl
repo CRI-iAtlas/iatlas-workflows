@@ -153,7 +153,7 @@ outputs:
   outputBinding:
     glob: $(inputs.output_nodes_file)
     
-- id: output_edges_file
+- id: edges_file
   type: File
   outputBinding:
     glob: $(inputs.output_edges_file)
