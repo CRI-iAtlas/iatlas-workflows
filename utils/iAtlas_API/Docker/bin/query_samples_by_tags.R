@@ -55,7 +55,7 @@ result <- purrr::invoke(
 
 print(result)
 
-feather::write_feather(result, "samples_by_tags.feather")
+arrow::write_feather(result, "samples_by_tags.feather")
 
 
 

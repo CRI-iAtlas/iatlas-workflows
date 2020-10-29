@@ -1,6 +1,4 @@
 library(argparse)
-library(feather)
-library(iatlas.api.client)
 
 parser = argparse::ArgumentParser(description = "")
 
@@ -69,7 +67,7 @@ result <- purrr::invoke(
 
 print(result)
 
-feather::write_feather(result, "feature_values.feather")
+arrow::write_feather(result, "feature_values.feather")
 
 
 

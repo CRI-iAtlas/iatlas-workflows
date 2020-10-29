@@ -67,7 +67,7 @@ result <- purrr::invoke(
 
 print(result)
 
-feather::write_feather(result, "gene_expression.feather")
+arrow::write_feather(result, "gene_expression.feather")
 
 
 
