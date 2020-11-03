@@ -161,16 +161,16 @@ if(args$input_file_type == "feather") {
 
 if(args$output_file_type == "feather") {
     write_func <- arrow::write_feather
-} else if(args$input_file_type == "csv") {
+} else if(args$output_file_type == "csv") {
     write_func <- readr::write_csv
-} else if(args$input_file_type == "tsv") {
+} else if(args$output_file_type == "tsv") {
     write_func <- readr::write_tsv
 } else {
     stop("Unsupported output file type")
 }
 
 group_tbl <- args$input_group_file %>% 
-    read_func() %>%
+    read_func() %>% 
     tidyr::unite(
         "group",
         args$group_name_cols,
@@ -256,15 +256,10 @@ nodes_scores <- abcnet::compute_abundance(
     gois  = genes
 ) 
     
-abundance_scores <- nodes_scores %>% 
+abundance_tbl <- nodes_scores %>% 
     abcnet::get_abundance_table(.) 
 
-if(nrow(abundance_scores) == 0) stop("No abundance scores calculated")
-
-abundance_tbl <-abundance_scores %>% 
-    tidyr::separate(
-        "Group", args$group_name_cols, sep = args$group_name_seperator
-    ) 
+if(nrow(abundance_tbl) == 0) stop("No abundance scores calculated")
 
 if(!is.null(node_label_tbl)){
     abundance_tbl <- dplyr::left_join(
@@ -276,15 +271,13 @@ abundance_tbl %>%
     print() %>% 
     write_func(args$output_nodes_file)
     
-edges_scores <- nodes_scores %>% 
+edges_tbl <- nodes_scores %>% 
     abcnet::compute_concordance(scaffold, .)
 
-if(nrow(edges_scores) == 0) stop("No concordance scores calculated")
+if(nrow(edges_tbl) == 0) stop("No concordance scores calculated")
 
-edges_scores %>% 
-    tidyr::separate(
-        "Group", args$group_name_cols, sep = args$group_name_seperator
-    ) %>% 
+edges_tbl %>% 
     dplyr::inner_join(scaffold_all_cols, by = c("From", "To")) %>% 
     print() %>% 
     write_func(args$output_edges_file)
+

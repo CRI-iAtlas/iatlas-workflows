@@ -6,7 +6,6 @@ class: Workflow
 requirements:
   - class: StepInputExpressionRequirement
   - class: InlineJavascriptRequirement
-  - class: MultipleInputFeatureRequirement
 
 inputs:
 
@@ -26,6 +25,10 @@ inputs:
 
   - id: synapse_config
     type: File
+  - id: nodes_output_parent_synapse_id
+    type: string
+  - id: edges_output_parent_synapse_id
+    type: string
     
   - id: output_nodes_file
     type: string
@@ -51,18 +54,18 @@ inputs:
 
 outputs: 
 
-  - id: nodes_file
-    type: File
-    outputSource: network_analysis/nodes_file
+  - id: nodes_file_id
+    type: string
+    outputSource: syn_store_edges/file_id
     
-  - id: edges_file
-    type: File
-    outputSource: network_analysis/edges_file
+  - id: edges_file_id
+    type: string
+    outputSource: syn_store_nodes/file_id
 
 steps:
 
   - id: api_query_gene_expression
-    run: steps/utils/query_gene_expression.cwl
+    run: ../steps/utils/query_gene_expression.cwl
     in: 
       datasets: datasets
       gene_types: gene_types
@@ -71,7 +74,7 @@ steps:
       - output_file
       
   - id: api_query_feature_values
-    run: steps/utils/query_feature_values.cwl
+    run: ../steps/utils/query_feature_values.cwl
     in: 
       datasets: datasets
       features: features
@@ -80,7 +83,7 @@ steps:
       - output_file
       
   - id: api_query_groups
-    run: steps/utils/query_samples_by_tags.cwl
+    run: ../steps/utils/query_tag_samples2.cwl
     in: 
       datasets: datasets
       features: features
@@ -105,7 +108,7 @@ steps:
       - filepath
     
   - id: network_analysis
-    run: steps/network_analysis/network_analysis.cwl
+    run: ../steps/network_analysis/network_analysis.cwl
     in: 
     
       - id: input_expression_file
@@ -122,9 +125,9 @@ steps:
       - id: group_sample_col
         valueFrom: $("sample")
       - id: group_name_cols
-        valueFrom: $(["tag_name"])
+        source: parent_tags
       - id: group_name_seperator
-        valueFrom: $(":")
+        valueFrom: $("|")
       - id: celltype_value_col
         valueFrom: $("feature_value")
       - id: celltype_node_col
@@ -156,11 +159,39 @@ steps:
         source: output_file_type
       - id: min_group_size
         source: min_group_size
-        
+    
     out:
       - id: nodes_file
       - id: edges_file
 
+  - id: syn_store_nodes
+    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-store-tool.cwl
+    in: 
+      - id: synapse_config
+        source: synapse_config
+      - id: file_to_store
+        source: network_analysis/nodes_file
+      - id: parentid
+        source: nodes_output_parent_synapse_id
+      - id: name
+        source: output_nodes_file
+    out: 
+      - file_id
+
+  - id: syn_store_edges
+    run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-store-tool.cwl
+    in: 
+      - id: synapse_config
+        source: synapse_config
+      - id: file_to_store
+        source: network_analysis/edges_file
+      - id: parentid
+        source: edges_output_parent_synapse_id
+      - id: name
+        source: output_edges_file
+    out: 
+      - file_id
+        
 $namespaces:
   s: https://schema.org/
 
