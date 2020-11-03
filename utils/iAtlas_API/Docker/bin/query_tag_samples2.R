@@ -49,13 +49,13 @@ args <- parser$parse_args()
 argument_list <- purrr::map_if(args, is.null, ~return(NA)) 
 
 result <- purrr::invoke(
-    iatlas.api.client::query_samples_by_tag,
+    iatlas.api.client::query_tag_samples2,
     argument_list
 ) 
 
 print(result)
 
-arrow::write_feather(result, "samples_by_tags.feather")
+arrow::write_feather(result, "tag_samples.feather")
 
 
 

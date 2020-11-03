@@ -7,7 +7,7 @@ class: CommandLineTool
 
 baseCommand: 
 - Rscript
-- /usr/local/bin/query_samples_by_tags.R
+- /usr/local/bin/query_tag_samples2.R
 
 hints:
   DockerRequirement:
@@ -60,7 +60,7 @@ outputs:
 - id: output_file
   type: File
   outputBinding:
-    glob: "samples_by_tags.feather"
+    glob: "tag_samples.feather"
 
 $namespaces:
   s: https://schema.org/
