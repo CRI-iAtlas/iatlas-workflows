@@ -146,6 +146,22 @@ inputs:
   inputBinding:
     prefix: --log_expression
 
+- id: iatlas_output
+  type: boolean
+  default: false 
+  inputBinding:
+    prefix: --iatlas_output
+    
+- id: iatlas_dataset
+  type: string
+  inputBinding:
+    prefix: --iatlas_dataset
+
+- id: iatlas_network
+  type: string
+  inputBinding:
+    prefix: --iatlas_network
+
 outputs:
 
 - id: nodes_file

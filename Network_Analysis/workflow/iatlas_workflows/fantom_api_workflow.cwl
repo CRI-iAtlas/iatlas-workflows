@@ -56,7 +56,7 @@ steps:
       - id: parent_tags
         source: parent_tags
       - id: gene_types
-        valueFrom: $(["extra_cellular_network"])
+        valueFrom: $(["extracellular_network"])
       - id: features
         valueFrom: $(["B_cells_Aggregate2", "Dendritic_cells_Aggregate2", "Eosinophils_Aggregate2", "Macrophage_Aggregate2", "Mast_cells_Aggregate2", "Neutrophils_Aggregate2", "NK_cells_Aggregate2", "T_cells_CD4_Aggregate2", "T_cells_CD8_Aggregate2"])
         

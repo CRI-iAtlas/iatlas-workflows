@@ -145,6 +145,13 @@ steps:
       - id: scaffold_to_col
         valueFrom: $("to")
         
+      - id: iatlas_output
+        valueFrom: $(true)
+      - id: iatlas_dataset
+        source: datasets
+      - id: iatlas_network
+        source: gene_types
+        
       - id: add_noise
         source: add_noise
       - id: log_expression

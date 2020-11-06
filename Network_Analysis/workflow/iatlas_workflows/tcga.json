@@ -25,6 +25,6 @@
         "tcga_cellimage_tcga_study_edges.feather",
         "tcga_cellimage_tcga_subtype_edges.feather"
     ],
-    "nodes_output_parent_synapse_id": "syn23538654",
-    "edges_output_parent_synapse_id": "syn23538654"
+    "nodes_output_parent_synapse_id": "syn22126180",
+    "edges_output_parent_synapse_id": "syn22126181"
 }
