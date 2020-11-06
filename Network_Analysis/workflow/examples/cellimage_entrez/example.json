@@ -22,5 +22,8 @@
     "expression_node_col": "entrez", 
     "expression_value_col": "rna_seq_expr", 
     "celltype_node_col": "feature",  
-    "add_noise": true
+    "add_noise": true,
+    "iatlas_output": true,
+    "iatlas_dataset": "TCGA",
+    "iatlas_network": "cellimage_network"
 }
