@@ -1,0 +1,9 @@
+name	score	dataset	network	entrez	feature	tag_1	tag_2
+TCGA_cellimage_network_g1:g3_TNFSF18	1	TCGA	cellimage_network	NA	TNFSF18	g1	g3
+TCGA_cellimage_network_g2:g3_TNFSF18	0.6666666666666666	TCGA	cellimage_network	NA	TNFSF18	g2	g3
+TCGA_cellimage_network_g1:g3_TNFRSF18	0.5	TCGA	cellimage_network	NA	TNFRSF18	g1	g3
+TCGA_cellimage_network_g2:g3_TNFRSF18	1	TCGA	cellimage_network	NA	TNFRSF18	g2	g3
+TCGA_cellimage_network_g1:g3_Dendritic_cells	0.6666666666666666	TCGA	cellimage_network	NA	Dendritic_cells	g1	g3
+TCGA_cellimage_network_g2:g3_Dendritic_cells	1	TCGA	cellimage_network	NA	Dendritic_cells	g2	g3
+TCGA_cellimage_network_g1:g3_Macrophage	1	TCGA	cellimage_network	NA	Macrophage	g1	g3
+TCGA_cellimage_network_g2:g3_Macrophage	0.5	TCGA	cellimage_network	NA	Macrophage	g2	g3

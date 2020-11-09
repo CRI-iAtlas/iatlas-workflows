@@ -1,0 +1,30 @@
+{
+    "input_expression_file": {
+        "path": "expression.tsv",
+        "class": "File"
+    },
+    "input_celltype_file": {
+        "path": "cells.tsv",
+        "class": "File"
+    },
+    "input_group_file": {
+        "path": "groups.tsv",
+        "class": "File"
+    },
+    "input_scaffold_file": {
+        "path": "cellimage_scaffold.tsv",
+        "class": "File"
+    },
+    "input_file_type": "tsv",
+    "output_file_type": "tsv",
+    "output_nodes_file": "output_nodes.tsv",
+    "output_edges_file": "output_edges.tsv",
+    "group_name_cols": ["group1", "group2"], 
+    "expression_node_col": "gene", 
+    "expression_value_col": "expression", 
+    "celltype_node_col": "cell", 
+    "celltype_value_col": "fraction", 
+    "scaffold_from_col": "From", 
+    "scaffold_to_col": "To", 
+    "add_noise": true
+}

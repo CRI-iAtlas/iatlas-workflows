@@ -1,0 +1,26 @@
+{
+    "input_expression_file": {
+        "path": "expression.feather",
+        "class": "File"
+    },
+    "input_celltype_file": {
+        "path": "cells.feather",
+        "class": "File"
+    },
+    "input_group_file": {
+        "path": "groups.feather",
+        "class": "File"
+    },
+    "input_scaffold_file": {
+        "path": "fantom_scaffold.feather",
+        "class": "File"
+    },
+    "input_node_label_file": {
+        "path": "fantom_node_labels.feather",
+        "class": "File"
+    },
+    "expression_node_col": "entrez", 
+    "expression_value_col": "rna_seq_expr", 
+    "celltype_node_col": "feature", 
+    "add_noise": true
+}

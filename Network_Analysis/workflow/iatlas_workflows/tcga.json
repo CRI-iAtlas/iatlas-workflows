@@ -1,0 +1,30 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "~/.synapseConfig"
+    },
+    "datasets": ["TCGA"],
+    "parent_tags": [["Immune_Subtype"], ["TCGA_Study"], ["TCGA_Subtype"]],
+    "fantom_output_nodes_files": [
+        "tcga_fantom_immune_subtype_nodes.feather",
+        "tcga_fantom_tcga_study_nodes.feather",
+        "tcga_fantom_tcga_subtype_nodes.feather"
+    ],
+    "fantom_output_edges_files": [
+        "tcga_fantom_immune_subtype_edges.feather",
+        "tcga_fantom_tcga_study_edges.feather",
+        "tcga_fantom_tcga_subtype_edges.feather"
+    ],
+    "cellimage_output_nodes_files": [
+        "tcga_cellimage_immune_subtype_nodes.feather",
+        "tcga_cellimage_tcga_study_nodes.feather",
+        "tcga_cellimage_tcga_subtype_nodes.feather"
+    ],
+    "cellimage_output_edges_files": [
+        "tcga_cellimage_immune_subtype_edges.feather",
+        "tcga_cellimage_tcga_study_edges.feather",
+        "tcga_cellimage_tcga_subtype_edges.feather"
+    ],
+    "nodes_output_parent_synapse_id": "syn22126180",
+    "edges_output_parent_synapse_id": "syn22126181"
+}

@@ -1,0 +1,9 @@
+Node	group	UpBinRatio
+TNFSF18	g1	1
+TNFSF18	g2	0.5
+TNFRSF18	g1	0
+TNFRSF18	g2	1
+Dendritic_cells	g1	0.5
+Dendritic_cells	g2	1
+Macrophage	g1	1
+Macrophage	g2	0.5

@@ -1,0 +1,26 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "~/.synapseConfig"
+    },
+    "datasets": ["PCAWG"],
+    "parent_tags": [["Immune_Subtype"], ["PCAWG_Study"]],
+    "fantom_output_nodes_files": [
+        "pcawg_fantom_immune_subtype_nodes.feather",
+        "pcawg_fantom_pcawg_study_nodes.feather"
+    ],
+    "fantom_output_edges_files": [
+        "pcawg_fantom_immune_subtype_edges.feather",
+        "pcawg_fantom_pcawg_study_edges.feather"
+    ],
+    "cellimage_output_nodes_files": [
+        "pcawg_cellimage_immune_subtype_nodes.feather",
+        "pcawg_cellimage_pcawg_study_nodes.feather"
+    ],
+    "cellimage_output_edges_files": [
+        "pcawg_cellimage_immune_subtype_edges.feather",
+        "pcawg_cellimage_pcawg_study_edges.feather"
+    ],
+    "nodes_output_parent_synapse_id": "syn22126180",
+    "edges_output_parent_synapse_id": "syn22126181"
+}
