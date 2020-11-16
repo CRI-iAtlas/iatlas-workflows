@@ -11,8 +11,12 @@ inputs:
 
   - id: datasets
     type: string[]
+  - id: iatlas_dataset
+    type: string
   - id: gene_types
     type: string[]
+  - id: iatlas_network
+    type: string
   - id: parent_tags
     type: string[]
   - id: features
@@ -148,9 +152,9 @@ steps:
       - id: iatlas_output
         valueFrom: $(true)
       - id: iatlas_dataset
-        source: datasets
+        source: iatlas_dataset
       - id: iatlas_network
-        source: gene_types
+        source: iatlas_network
         
       - id: add_noise
         source: add_noise

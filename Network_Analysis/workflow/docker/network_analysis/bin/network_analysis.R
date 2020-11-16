@@ -179,7 +179,10 @@ if(args$input_file_type == "feather") {
 }
 
 if(args$output_file_type == "feather") {
-  write_func <- arrow::write_feather
+  write_func <- purrr::partial(
+    arrow::write_feather,
+    compression = "uncompressed"
+  )
 } else if(args$output_file_type == "csv") {
   write_func <- readr::write_csv
 } else if(args$output_file_type == "tsv") {
@@ -292,14 +295,14 @@ if(args$iatlas_output){
     dplyr::ungroup() %>% 
     dplyr::rename(
       "node"  = "Node",
-      "group"   = "Group",
+      "tag"   = "Group",
       "score" = "UpBinRatio"
     ) %>% 
     dplyr::mutate(
       "name" = stringr::str_c(
         args$iatlas_dataset,
         args$iatlas_network,
-        .data$group, 
+        .data$tag, 
         .data$node,
         sep = "_"
       ),
@@ -321,15 +324,8 @@ if(args$iatlas_output){
       "network",
       "entrez",
       "feature",
-      "group"
-    ))) %>% 
-    tidyr::separate(
-      "group",
-      into = c(
-        stringr::str_c("tag_", 1:length(args$group_name_cols))
-      ),
-      sep = args$group_name_seperator
-    )
+      "tag"
+    ))) 
 }
 
 abundance_tbl %>% 
@@ -381,7 +377,6 @@ if(args$iatlas_output){
     dplyr::select(tidyselect::any_of(c(
       "name", "score", "node1", "node2", "dataset", "network", "label"
     )))
-    
 }
 
 edges_tbl %>% 

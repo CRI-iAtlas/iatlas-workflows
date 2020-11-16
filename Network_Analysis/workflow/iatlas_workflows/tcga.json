@@ -1,9 +1,10 @@
 {
     "synapse_config": {
         "class": "File",
-        "path": "~/.synapseConfig"
+        "path": "/home/aelamb/.synapseConfig"
     },
     "datasets": ["TCGA"],
+    "iatlas_dataset": "TCGA",
     "parent_tags": [["Immune_Subtype"], ["TCGA_Study"], ["TCGA_Subtype"]],
     "fantom_output_nodes_files": [
         "tcga_fantom_immune_subtype_nodes.feather",

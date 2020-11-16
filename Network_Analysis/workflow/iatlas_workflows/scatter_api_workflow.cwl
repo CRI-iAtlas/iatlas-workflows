@@ -18,6 +18,9 @@ inputs:
     type:
       type: array
       items: string
+ 
+  - id: iatlas_dataset
+    type: string
     
   - id: parent_tags
     type:
@@ -79,6 +82,8 @@ steps:
         source: synapse_config
       - id: datasets
         source: datasets
+      - id: iatlas_dataset
+        source: iatlas_dataset
       - id: parent_tags
         source: parent_tags
       - id: nodes_output_parent_synapse_id
@@ -105,6 +110,8 @@ steps:
         source: synapse_config
       - id: datasets
         source: datasets
+      - id: iatlas_dataset
+        source: iatlas_dataset
       - id: parent_tags
         source: parent_tags
       - id: nodes_output_parent_synapse_id

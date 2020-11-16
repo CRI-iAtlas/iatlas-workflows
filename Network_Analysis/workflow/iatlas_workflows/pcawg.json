@@ -1,9 +1,10 @@
 {
     "synapse_config": {
         "class": "File",
-        "path": "~/.synapseConfig"
+        "path": "/home/aelamb/.synapseConfig"
     },
     "datasets": ["PCAWG"],
+    "iatlas_dataset": "PCAWG",
     "parent_tags": [["Immune_Subtype"], ["PCAWG_Study"]],
     "fantom_output_nodes_files": [
         "pcawg_fantom_immune_subtype_nodes.feather",

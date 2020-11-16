@@ -12,6 +12,8 @@ inputs:
 
   - id: datasets
     type: string[]
+  - id: iatlas_dataset
+    type: string
   - id: parent_tags
     type: string[]
 
@@ -53,10 +55,14 @@ steps:
     in: 
       - id: datasets
         source: datasets
+      - id: iatlas_dataset
+        source: iatlas_dataset
       - id: parent_tags
         source: parent_tags
       - id: gene_types
         valueFrom: $(["cellimage_network"])
+      - id: iatlas_network
+        valueFrom: $("cellimage_network")
       - id: features
         valueFrom: $(["Tumor_fraction", "T_cells_CD8_Aggregate2", "Macrophage_Aggregate2", "Dendritic_cells_Aggregate2"])
         

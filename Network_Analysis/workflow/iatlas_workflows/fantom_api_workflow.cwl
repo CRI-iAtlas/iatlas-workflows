@@ -12,6 +12,8 @@ inputs:
 
   - id: datasets
     type: string[]
+  - id: iatlas_dataset
+    type: string
   - id: parent_tags
     type: string[]
 
@@ -53,10 +55,14 @@ steps:
     in: 
       - id: datasets
         source: datasets
+      - id: iatlas_dataset
+        source: iatlas_dataset
       - id: parent_tags
         source: parent_tags
       - id: gene_types
         valueFrom: $(["extracellular_network"])
+      - id: iatlas_network
+        valueFrom: $("extracellular_network")
       - id: features
         valueFrom: $(["B_cells_Aggregate2", "Dendritic_cells_Aggregate2", "Eosinophils_Aggregate2", "Macrophage_Aggregate2", "Mast_cells_Aggregate2", "Neutrophils_Aggregate2", "NK_cells_Aggregate2", "T_cells_CD4_Aggregate2", "T_cells_CD8_Aggregate2"])
         
