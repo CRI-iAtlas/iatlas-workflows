@@ -1,0 +1,10 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "~/.synapseConfig"
+    },
+    "datasets": ["PCAWG"],
+    "gene_types": ["epic_gene"],
+    "output_file": "epic.tsv",
+    "destination_id": "syn18691267"
+}

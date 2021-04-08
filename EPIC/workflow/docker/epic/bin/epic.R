@@ -3,6 +3,8 @@ library(argparse)
 library(readr)
 library(tibble)
 library(magrittr)
+library(arrow)
+library(stringr)
 
 parser = ArgumentParser(description = "Deconvolute tumor samples with EPIC")
 
@@ -44,15 +46,22 @@ parser$add_argument(
 
 args <- parser$parse_args()
 
-bulk <- args$input_expression_file %>% 
-    file %>% 
-    readr::read_tsv() %>% 
+file <- args$input_expression_file
+if(stringr::str_detect(file, ".feather")){
+    expression <- arrow::read_feather(file)
+} else if(stringr::str_detect(file, ".tsv")){
+    expression <- readr::read_tsv(file)
+} else if(stringr::str_detect(file, ".csv")){
+    expression <- readr::read_csv(file)
+}
+
+expression <- expression %>% 
     as.data.frame() %>% 
     tibble::column_to_rownames(., colnames(.)[[1]]) %>% 
     as.matrix()
 
 result_obj <- EPIC(
-    bulk,
+    expression,
     reference = args$reference,
     scaleExprs = args$scaleExprs,
     withOtherCells = args$withOtherCells,
