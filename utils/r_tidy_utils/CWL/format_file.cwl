@@ -4,7 +4,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: 
 - Rscript
-- /usr/local/bin/format_expression_file.R
+- /usr/local/bin/format_file.R
 
 hints:
   DockerRequirement:
@@ -22,8 +22,7 @@ inputs:
     prefix: --input_file
     
 - id: output_file
-  type: string
-  default: "expression.feather"
+  type: string?
   inputBinding:
     prefix: --output_file
     
@@ -39,41 +38,34 @@ inputs:
   inputBinding:
     prefix: --output_file_type
 
-- id: parse_method
+- id: input_type
   type: string
-  default: "long_expression"
+  default: "long"
   inputBinding:
-    prefix: --parse_method
-
-- id: expression_column
+    prefix: --input_type
+    
+- id: output_type
   type: string
-  default: "expression"
+  default: "long"
   inputBinding:
-    prefix: --expression_column
+    prefix: --output_type
 
-- id: sample_column
+- id: name_column
   type: string
-  default: "sample"
+  default: "name"
   inputBinding:
-    prefix: --sample_column  
+    prefix: --name_column
 
-- id: sample_name
-  type: string?
-  inputBinding:
-    prefix: --sample_name
-
-- id: kallisto_expr_column
+- id: value_column
   type: string
-  default: tpm
+  default: "value"
   inputBinding:
-    prefix: --kallisto_expr_column
+    prefix: --value_column  
 
-- id: kallisto_gene_column
-  type: string
-  default: value6
+- id: id_columns
+  type: string[]?
   inputBinding:
-    prefix: --kallisto_gene_column
-
+    prefix: --id_columns
       
 outputs:
 
