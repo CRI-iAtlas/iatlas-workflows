@@ -13,7 +13,7 @@ parser$add_argument(
 parser$add_argument(
     "--output_file",
     type = "character",
-    default = NA_character_
+    default = "output.feather"
 )
 
 parser$add_argument(
@@ -25,7 +25,7 @@ parser$add_argument(
 parser$add_argument(
     "--output_file_type",
     type = "character",
-    default = NA_character_
+    default = NULL
 )
 
 parser$add_argument(
@@ -37,7 +37,7 @@ parser$add_argument(
 parser$add_argument(
     "--output_type",
     type = "character",
-    default = NA_character_
+    default = NULL
 )
 
 parser$add_argument(
@@ -61,12 +61,6 @@ parser$add_argument(
 
 args <- parser$parse_args()
 
-if(is.na(args$output_file)) {
-    output_file <- args$input_file
-} else {
-    output_file <- args$output_file
-}
-
 if(args$input_file_type == "feather") {
     read_func <- arrow::read_feather
 } else if(args$input_file_type == "csv") {
@@ -89,17 +83,20 @@ if(args$output_file_type == "feather") {
 
 expression_df <- read_func(args$input_file)
 
-if (is.na(args$output_type)) {
+if (is.null(args$output_type)) {
     expression_df <- expression_df
 } else if (args$input_type == args$output_type){
     expression_df <- expression_df
 } else if(args$input_type == "long") {
-    expression_df <- tidyr::pivot_wider(
-        data = expression_df,
-        id_cols = args$id_columns,
-        names_from = args$name_column,
-        values_from = args$value_column
-    )
+    expression_df  <- expression_df %>% 
+        dplyr::select(dplyr::all_of(c(
+            args$id_columns, args$name_column, args$value_column
+        ))) %>% 
+        tidyr::pivot_wider(
+            id_cols = args$id_columns,
+            names_from = args$name_column,
+            values_from = args$value_column
+        ) 
 } else if (args$input_type == "wide"){
     expression_df <- tidyr::pivot_longer(
         data = expression_df,

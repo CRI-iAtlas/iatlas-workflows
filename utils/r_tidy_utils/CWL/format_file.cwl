@@ -22,7 +22,8 @@ inputs:
     prefix: --input_file
     
 - id: output_file
-  type: string?
+  type: string
+  default: "output.feather"
   inputBinding:
     prefix: --output_file
     
@@ -69,7 +70,7 @@ inputs:
       
 outputs:
 
-- id: expression_file
+- id: output_file
   type: File
   outputBinding:
     glob: $(inputs.output_file)
