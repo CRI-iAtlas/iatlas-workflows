@@ -63,10 +63,11 @@ inputs:
   inputBinding:
     prefix: --value_column  
 
-- id: id_columns
-  type: string[]?
+- id: id_column
+  type: string[]
+  default: ["id"]
   inputBinding:
-    prefix: --id_columns
+    prefix: --id_column
       
 outputs:
 

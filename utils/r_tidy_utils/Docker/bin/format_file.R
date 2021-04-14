@@ -53,7 +53,7 @@ parser$add_argument(
 )
 
 parser$add_argument(
-    "--id_columns",
+    "--id_column",
     type = "character",
     nargs = "+",
     default = NULL
@@ -90,17 +90,17 @@ if (is.null(args$output_type)) {
 } else if(args$input_type == "long") {
     expression_df  <- expression_df %>% 
         dplyr::select(dplyr::all_of(c(
-            args$id_columns, args$name_column, args$value_column
+            args$id_column, args$name_column, args$value_column
         ))) %>% 
         tidyr::pivot_wider(
-            id_cols = args$id_columns,
+            id_cols = args$id_column,
             names_from = args$name_column,
             values_from = args$value_column
         ) 
 } else if (args$input_type == "wide"){
     expression_df <- tidyr::pivot_longer(
         data = expression_df,
-        cols = -c(args$id_columns),
+        cols = -c(args$id_column),
         names_to = args$name_column,
         values_to = args$value_column
     )
