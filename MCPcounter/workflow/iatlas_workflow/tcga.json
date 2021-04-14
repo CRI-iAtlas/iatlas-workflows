@@ -1,0 +1,8 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "/home/alamb/.synapseConfigOld"
+    },
+    "datasets": ["TCGA"],
+    "output_file": "tcga_mcpcounter.feather"
+}

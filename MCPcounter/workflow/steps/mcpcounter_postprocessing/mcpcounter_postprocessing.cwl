@@ -20,7 +20,7 @@ inputs:
   inputBinding:
     prefix: --input_mcpcounter_file
     
-- id: output_file
+- id: output_file_string
   type: string
   default: "output.tsv"
   inputBinding:
@@ -32,7 +32,7 @@ outputs:
 - id: cell_score_file
   type: File
   outputBinding:
-    glob: $(inputs.output_file)
+    glob: $(inputs.output_file_string)
 
 $namespaces:
   s: https://schema.org/
