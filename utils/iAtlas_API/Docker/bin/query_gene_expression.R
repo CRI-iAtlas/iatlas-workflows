@@ -66,7 +66,11 @@ result <- purrr::invoke(
 
 print(result)
 
-arrow::write_feather(result, "gene_expression.feather")
+arrow::write_feather(
+    result, 
+    "gene_expression.feather",
+    compression = "uncompressed"
+)
 
 
 

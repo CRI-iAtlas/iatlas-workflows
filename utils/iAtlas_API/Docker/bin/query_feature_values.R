@@ -67,7 +67,11 @@ result <- purrr::invoke(
 
 print(result)
 
-arrow::write_feather(result, "feature_values.feather")
+arrow::write_feather(
+    result, 
+    "feature_values.feather", 
+    compression = "uncompressed"
+)
 
 
 

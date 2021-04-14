@@ -72,7 +72,9 @@ if(args$input_file_type == "feather") {
 }
 
 if(args$output_file_type == "feather") {
-    write_func <- arrow::write_feather
+    write_func <- purrr::partial(
+        arrow::write_feather, compression = "uncompressed"
+    )
 } else if(args$output_file_type == "csv") {
     write_func <- readr::write_csv
 } else if(args$output_file_type == "tsv") {

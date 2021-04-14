@@ -55,7 +55,11 @@ result <- purrr::invoke(
 
 print(result)
 
-arrow::write_feather(result, "tag_samples.feather")
+arrow::write_feather(
+    result, 
+    "tag_samples.feather",
+    compression = "uncompressed"
+)
 
 
 
