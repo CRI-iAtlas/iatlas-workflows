@@ -1,0 +1,8 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "/home/alamb/.synapseConfigOld"
+    },
+    "datasets": ["PCAWG"],
+    "output_file": "pcawg_epic.feather"
+}
