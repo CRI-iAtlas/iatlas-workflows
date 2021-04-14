@@ -58,7 +58,7 @@ if(stringr::str_detect(file, ".feather")){
 expression <- expression %>% 
     as.data.frame() %>% 
     tibble::column_to_rownames(., colnames(.)[[1]]) %>% 
-    as.matrix()
+    as.matrix() 
 
 result_obj <- EPIC(
     expression,
