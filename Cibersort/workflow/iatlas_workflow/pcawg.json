@@ -4,5 +4,5 @@
         "path": "/home/alamb/.synapseConfigOld"
     },
     "datasets": ["PCAWG"],
-    "output_file": "pcawg_epic.feather"
+    "output_file": "pcawg_cibersort.feather"
 }

@@ -4,5 +4,5 @@
         "path": "/home/alamb/.synapseConfigOld"
     },
     "datasets": ["TCGA"],
-    "output_file": "tcga_epic.feather"
+    "output_file": "tcga_cibersort.feather"
 }

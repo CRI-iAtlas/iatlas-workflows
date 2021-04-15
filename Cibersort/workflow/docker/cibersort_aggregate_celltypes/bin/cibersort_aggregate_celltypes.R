@@ -125,42 +125,10 @@ parser$add_argument(
     default = "aggregated_cibersort_results.feather"
 )
 
-parser$add_argument(
-    "--input_file_type",
-    type = "character",
-    default = "feather"
-)
-
-parser$add_argument(
-    "--output_file_type",
-    type = "character",
-    default = "feather"
-)
-
 args <- parser$parse_args()
 
-if(args$input_file_type == "feather") {
-    read_func <- feather::read_feather
-} else if(args$input_file_type == "csv") {
-    read_func <- readr::read_csv
-} else if(args$input_file_type == "tsv") {
-    read_func <- readr::read_tsv
-} else {
-    stop("Unsupported input file type")
-}
-
-if(args$output_file_type == "feather") {
-    write_func <- feather::write_feather
-} else if(args$output_file_type == "csv") {
-    write_func <- readr::write_csv
-} else if(args$output_file_type == "tsv") {
-    write_func <- readr::write_tsv
-} else {
-    stop("Unsupported output file type")
-}
-
 cibersort_df <- args$cibersort_file %>%
-    read_func(.) %>% 
+    readr::read_tsv(.) %>% 
     dplyr::select(dplyr::all_of(c("Mixture", CIBERSORT_CELLTYPES))) %>% 
     tidyr::pivot_longer(
         names_to = "celltype", values_to = "fraction", -"Mixture"
@@ -184,10 +152,10 @@ for (new_column in names(AGGREGATE_LIST)) {
 
 cibersort_df %>% 
     tidyr::pivot_longer(
-        names_to = "celltype", values_to = "fraction", -"sample"
+        names_to = "feature", values_to = "value", -"sample"
     ) %>%
     print() %>% 
-    write_func(args$output_file)
+    readr::write_tsv(args$output_file)
 
 
 

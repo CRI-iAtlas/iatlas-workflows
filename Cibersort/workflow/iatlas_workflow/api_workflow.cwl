@@ -19,7 +19,6 @@ inputs:
   
 outputs: []
    
-
 steps:
 
   - id: api_query
@@ -55,7 +54,7 @@ steps:
   - id: cibersort
     run: ../steps/cibersort/cibersort.cwl
     in:
-    - id: input_expression_file
+    - id: mixture_file
       source: format_expression/output_file
     out: 
     - cibersort_file
@@ -63,28 +62,20 @@ steps:
   - id: postprocessing
     run: ../steps/cibersort_aggregate_celltypes/cibersort_aggregate_celltypes.cwl
     in:
-    - id: input_cibersort_file
+    - id: cibersort_file
       source: cibersort/cibersort_file
-    - id: output_file_string
-      source: output_file
     out: 
-    - cell_counts_file
-
+    - aggregated_cibersort_file
+    
   - id: format_cell_counts
     run: ../steps/r_tidy_utils/format_file.cwl
     in: 
       - id: input_file
-        source: postprocessing/cell_counts_file
+        source: postprocessing/aggregated_cibersort_file
       - id: output_file
         source: output_file
       - id: input_file_type
         valueFrom: $("tsv")
-      - id: input_type
-        valueFrom: $("wide")
-      - id: name_column
-        valueFrom: $("feature")
-      - id: id_column
-        valueFrom: $(["sample"])
     out:
       - output_file
 

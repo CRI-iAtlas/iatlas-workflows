@@ -15,7 +15,7 @@ requirements:
 
 hints:
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/cibersort:1.2.1
+  dockerPull: quay.io/cri-iatlas/cibersort:1.3
 
 inputs:
 
@@ -30,26 +30,6 @@ inputs:
   inputBinding:
     prefix: --sig_matrix_file
   doc: Path to reference matrix.
-  
-- id: output_file
-  type: string
-  default: "cibersort_results.feather"
-  inputBinding:
-    prefix: --output_file
-  
-- id: input_file_type
-  type: string
-  default: "feather"
-  inputBinding:
-    prefix: --input_file_type
-  doc: one of ["feather", "tsv", "csv"]
-  
-- id: output_file_type
-  type: string
-  default: "feather"
-  inputBinding:
-    prefix: --output_file_type
-  doc: one of ["feather", "tsv", "csv"]
 
 - id: perm
   type: int?
@@ -81,7 +61,7 @@ outputs:
 - id: cibersort_file
   type: File
   outputBinding:
-    glob: $(inputs.output_file)
+    glob: "CIBERSORT-Results.txt"
     
 $namespaces:
   s: https://schema.org/
