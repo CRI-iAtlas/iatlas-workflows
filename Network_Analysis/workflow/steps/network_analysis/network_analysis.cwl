@@ -9,7 +9,7 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/network_analysis:1.0
+    dockerPull: quay.io/cri-iatlas/network_analysis:1.1
 
 inputs:
 
@@ -153,12 +153,12 @@ inputs:
     prefix: --iatlas_output
     
 - id: iatlas_dataset
-  type: string
+  type: string?
   inputBinding:
     prefix: --iatlas_dataset
 
 - id: iatlas_network
-  type: string
+  type: string?
   inputBinding:
     prefix: --iatlas_network
 

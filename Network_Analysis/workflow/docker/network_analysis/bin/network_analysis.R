@@ -6,21 +6,18 @@ parser = argparse::ArgumentParser()
 # required args
 
 parser$add_argument(
-  "-e",
   "--input_expression_file",
   type = "character",
   required = TRUE
 )
 
 parser$add_argument(
-  "-c",
   "--input_celltype_file",
   type = "character",
   required = TRUE
 )
 
 parser$add_argument(
-  "-g",
   "--input_group_file",
   type = "character",
   required = TRUE
@@ -254,6 +251,8 @@ if(!is.null(args$input_node_label_file)){
   node_label_tbl <- NULL 
 }
 
+print(node_label_tbl)
+
 node_tbl <- 
   dplyr::bind_rows(expression_tbl, celltype_tbl) %>% 
   dplyr::inner_join(group_tbl, by = "sample") %>% 
@@ -284,14 +283,17 @@ abundance_tbl <- nodes_scores %>%
 if(nrow(abundance_tbl) == 0) stop("No abundance scores calculated")
 
 if(!is.null(node_label_tbl)){
+  print(abundance_tbl)
   abundance_tbl <- dplyr::left_join(
     abundance_tbl, node_label_tbl, by = "Node"
   )
+  print(abundance_tbl)
 }
 
 if(args$iatlas_output){
 
   abundance_tbl <- abundance_tbl %>% 
+    print() %>% 
     dplyr::ungroup() %>% 
     dplyr::rename(
       "node"  = "Node",
@@ -315,6 +317,7 @@ if(args$iatlas_output){
         NA_character_
       )
     ) %>% 
+    print() %>% 
     dplyr::select(tidyselect::any_of(c(
       "name",
       "score",
@@ -324,7 +327,8 @@ if(args$iatlas_output){
       "network",
       "entrez",
       "feature",
-      "tag"
+      "tag",
+      "label"
     ))) 
 }
 
@@ -380,6 +384,5 @@ if(args$iatlas_output){
 }
 
 edges_tbl %>% 
-  print() %>% 
   write_func(args$output_edges_file)
 

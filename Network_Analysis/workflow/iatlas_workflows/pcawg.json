@@ -1,7 +1,7 @@
 {
     "synapse_config": {
         "class": "File",
-        "path": "/home/aelamb/.synapseConfig"
+        "path": "/home/alamb/.synapseConfigOld"
     },
     "datasets": ["PCAWG"],
     "iatlas_dataset": "PCAWG",
