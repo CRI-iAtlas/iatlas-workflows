@@ -3,6 +3,7 @@
         "class": "File",
         "path": "/home/alamb/.synapseConfigOld"
     },
-    "datasets": ["TCGA"],
+    "cohorts": ["TCGA"],
+    "destination_id": "syn18492281",
     "output_file": "tcga_epic.feather"
 }
