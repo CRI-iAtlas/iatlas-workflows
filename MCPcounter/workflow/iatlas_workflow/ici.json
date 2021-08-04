@@ -1,0 +1,18 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "/home/alamb/.synapseConfigOld"
+    },
+    "cohorts": [
+        "Gide_Cell_2019", 
+        "HugoLo_IPRES_2016", 
+        "IMmotion150", 
+        "IMVigor210",
+        "Liu_NatMed_2019",
+        "Prins_GBM_2019",
+        "Riaz_Nivolumab_2017",
+        "VanAllen_antiCTLA4_2015"
+    ],
+    "destination_id": "syn26030476",
+    "output_file": "ici_mcpcounter.feather"
+}
