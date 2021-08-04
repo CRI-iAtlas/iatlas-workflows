@@ -9,12 +9,14 @@ requirements:
 
 inputs:
 
-  - id: datasets
+  - id: cohorts
     type: string[]
   - id: output_file
     type: string
   - id: synapse_config
     type: File
+  - id: destination_id
+    type: string
 
   
 outputs: []
@@ -24,8 +26,8 @@ steps:
   - id: api_query
     run: ../steps/utils/query_gene_expression.cwl
     in: 
-      - id: datasets
-        source: datasets
+      - id: cohorts
+        source: cohorts
       - id: gene_types
         valueFrom: $(["cibersort_gene"])
     out:
@@ -87,7 +89,7 @@ steps:
     - id: file_to_store
       source: format_cell_counts/output_file
     - id: parentid
-      valueFrom: $("syn22125635")
+      source: destination_id
     out: []
 
 $namespaces:

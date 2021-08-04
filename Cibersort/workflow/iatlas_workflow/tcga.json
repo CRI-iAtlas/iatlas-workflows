@@ -3,6 +3,7 @@
         "class": "File",
         "path": "/home/alamb/.synapseConfigOld"
     },
-    "datasets": ["TCGA"],
+    "cohorts": ["TCGA"],
+    "destination_id": "syn26030473",
     "output_file": "tcga_cibersort.feather"
 }
