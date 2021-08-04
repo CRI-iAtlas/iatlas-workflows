@@ -3,35 +3,28 @@ library(argparse)
 parser = argparse::ArgumentParser(description = "")
 
 parser$add_argument(
-    "--datasets",
+    "--cohorts",
     default = NULL,
     type = "character",
     nargs = "+"
 )
 
 parser$add_argument(
-    "--parent_tags",
+    "--mutations",
     default = NULL,
     type = "character",
     nargs = "+"
 )
 
 parser$add_argument(
-    "--tags",
+    "--entrez",
     default = NULL,
-    type = "character",
+    type = "integer",
     nargs = "+"
 )
 
 parser$add_argument(
-    "--features",
-    default = NULL,
-    type = "character",
-    nargs = "+"
-)
-
-parser$add_argument(
-    "--feature_classes",
+    "--codes",
     default = NULL,
     type = "character",
     nargs = "+"
@@ -44,20 +37,34 @@ parser$add_argument(
     nargs = "+"
 )
 
+parser$add_argument(
+    "--types",
+    default = NULL,
+    type = "character",
+    nargs = "+"
+)
+
+parser$add_argument(
+    "--status",
+    default = NULL,
+    type = "character",
+    nargs = "+"
+)
+
 args <- parser$parse_args()
 
 argument_list <- purrr::map_if(args, is.null, ~return(NA)) 
 
 result <- purrr::invoke(
-    iatlas.api.client::query_tag_samples2,
+    iatlas.api.client::query_mutation_statuses,
     argument_list
-) 
+)
 
 print(result)
 
 arrow::write_feather(
-    result, 
-    "tag_samples.feather",
+    result,
+    "mutations.feather",
     compression = "uncompressed"
 )
 

@@ -11,14 +11,14 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/iatlas_api:1.2
+    dockerPull: quay.io/cri-iatlas/iatlas_api:1.3
 
 inputs:
 
-- id: datasets
+- id: cohorts
   type: string[]?
   inputBinding:
-    prefix: --datasets
+    prefix: --cohorts
     
 - id: entrez
   type: int[]?
@@ -40,21 +40,11 @@ inputs:
   inputBinding:
     prefix: --min_rnaseq_expr
     
-- id: parent_tags
-  type: string[]?
-  inputBinding:
-    prefix: --parent_tags
-    
 - id: samples
   type: string[]?
   inputBinding:
     prefix: --samples
     
-- id: tags
-  type: string[]?
-  inputBinding:
-    prefix: --tags
-
 outputs:
 
 - id: output_file

@@ -7,13 +7,18 @@ class: CommandLineTool
 
 baseCommand: 
 - Rscript
-- /usr/local/bin/query_tag_samples2.R
+- /usr/local/bin/query_tag_samples.R
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/iatlas_api:1.2
+    dockerPull: quay.io/cri-iatlas/iatlas_api:1.3
 
 inputs:
+
+- id: cohorts
+  type: string[]?
+  inputBinding:
+    prefix: --cohorts
 
 - id: datasets
   type: string[]?
@@ -30,16 +35,6 @@ inputs:
   inputBinding:
     prefix: --tags
 
-- id: features
-  type: string[]?
-  inputBinding:
-    prefix: --features
-
-- id: feature_classes
-  type: string[]?
-  inputBinding:
-    prefix: --feature_classes
-    
 - id: samples
   type: string[]?
   inputBinding:

@@ -3,7 +3,7 @@ library(argparse)
 parser = argparse::ArgumentParser(description = "")
 
 parser$add_argument(
-    "--datasets",
+    "--cohorts",
     default = NULL,
     type = "character",
     nargs = "+"
@@ -36,21 +36,7 @@ parser$add_argument(
 )
 
 parser$add_argument(
-    "--parent_tags",
-    default = NULL,
-    type = "character",
-    nargs = "+"
-)
-
-parser$add_argument(
     "--samples",
-    default = NULL,
-    type = "character",
-    nargs = "+"
-)
-
-parser$add_argument(
-    "--tags",
     default = NULL,
     type = "character",
     nargs = "+"

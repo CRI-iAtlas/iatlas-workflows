@@ -11,24 +11,14 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/iatlas_api:1.2
+    dockerPull: quay.io/cri-iatlas/iatlas_api:1.3
 
 inputs:
 
-- id: datasets
+- id: cohorts
   type: string[]?
   inputBinding:
-    prefix: --datasets
-    
-- id: parent_tags
-  type: string[]?
-  inputBinding:
-    prefix: --parent_tags
-    
-- id: tags
-  type: string[]?
-  inputBinding:
-    prefix: --tags
+    prefix: --cohorts
     
 - id: samples
   type: string[]?
