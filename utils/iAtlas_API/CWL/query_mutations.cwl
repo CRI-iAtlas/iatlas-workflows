@@ -7,7 +7,7 @@ class: CommandLineTool
 
 baseCommand: 
 - Rscript
-- /usr/local/bin/query_feature_values.R
+- /usr/local/bin/query_mutations.R
 
 hints:
   DockerRequirement:
@@ -29,38 +29,28 @@ inputs:
   type: string[]?
   inputBinding:
     prefix: --tags
-
-- id: features
-  type: string[]?
-  inputBinding:
-    prefix: --features
-
-- id: feature_classes
-  type: string[]?
-  inputBinding:
-    prefix: --feature_classes
     
 - id: samples
   type: string[]?
   inputBinding:
     prefix: --samples
-    
-- id: min_value
-  type: double?
-  inputBinding:
-    prefix: --min_value
 
-- id: max_value
-  type: double?
+- id: types
+  type: string[]?
   inputBinding:
-    prefix: --max_value
+    prefix: --types
     
+- id: status
+  type: string[]?
+  inputBinding:
+    prefix: --status
+
 outputs:
 
 - id: output_file
   type: File
   outputBinding:
-    glob: "feature_values.feather"
+    glob: "mutations.feather"
 
 $namespaces:
   s: https://schema.org/

@@ -62,4 +62,8 @@ if(!is.null(args$input_gene_file)){
 
 result <- 
     do.call(MCPcounter::MCPcounter.estimate, arg_list) %>% 
-    write.table(args$output_file, quote = F, sep = "\t")
+    as.data.frame() %>%
+    tibble::rownames_to_column("feature") %>% 
+    dplyr::as_tibble() %>% 
+    print() %>% 
+    readr::write_tsv(args$output_file)

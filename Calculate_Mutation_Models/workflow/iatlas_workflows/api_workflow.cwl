@@ -49,50 +49,34 @@ outputs:
 steps:
 
   - id: api_query_feature_values
-    run: steps/utils/query_feature_values.cwl
+    run: ../steps/utils/query_feature_values.cwl
     in: 
       datasets: datasets
-      features: features
-      parent_tags: parent_tags
     out:
       - output_file
       
   - id: api_query_groups
-    run: steps/utils/query_samples_by_tags.cwl
+    run: ../steps/utils/query_tag_samples2.cwl
     in: 
       datasets: datasets
-      features: features
-      parent_tags: parent_tags
     out:
       - output_file
       
   - id: api_query_mutation_status
-    run: steps/utils/query_samples_by_tags.cwl
-    in: 
+    run: ../steps/utils/query_mutations.cwl
+    in:
       datasets: datasets
-      features: features
       parent_tags: parent_tags
+      types: mutation_types
     out:
       - output_file
+      
   - id: calculate_mutation_models
-    run: steps/calculate_mutation_models/calculate_mutation_models.cwl
+    run: ../steps/calculate_mutation_models/calculate_mutation_models.cwl
     in: 
-      input_feature_file: syn_get_features/filepath
-      input_group_file: syn_get_groups/filepath
-      input_mutation_file: syn_get_mutations/filepath
-      input_file_type: input_file_type
-      output_file: output_file
-      output_file_type: output_file_type
-      feature_sample_column: feature_sample_column
-      feature_name_column: feature_name_column
-      feature_value_column: feature_value_column
-      group_sample_column: group_sample_column
-      group_name_column: group_name_column
-      mutation_name_columns: mutation_name_columns
-      mutation_name_separator: mutation_name_separator
-      mutation_sample_column: mutation_sample_column
-      mutation_status_column: mutation_status_column
-      num_significant_digits: num_significant_digits
+      input_feature_file: api_query_feature_values/output_file
+      input_group_file: api_query_groups/output_file
+      input_mutation_file: api_query_mutation_status/output_file
     out:
       - mutation_models
 

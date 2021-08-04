@@ -96,7 +96,7 @@ steps:
     - id: file_to_store
       source: format_cell_counts/output_file
     - id: parentid
-      valueFrom: $("syn22125617")
+      valueFrom: $("syn22125635")
     out: []
 
 $namespaces:

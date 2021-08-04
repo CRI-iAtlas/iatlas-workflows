@@ -31,13 +31,6 @@ format_cell_types <- function(cells){
 }
 
 args$input_mcpcounter_file %>% 
-    read.table(sep = "\t", stringsAsFactors = F) %>%
-    magrittr::set_rownames(
-        ., 
-        format_cell_types(rownames(.))
-    ) %>% 
-    t %>% 
-    as.data.frame() %>% 
-    tibble::rownames_to_column("sample") %>% 
-    tibble::as_tibble() %>% 
+    readr::read_tsv() %>% 
+    dplyr::mutate("feature" = format_cell_types(feature)) %>% 
     readr::write_tsv(., args$output_file)

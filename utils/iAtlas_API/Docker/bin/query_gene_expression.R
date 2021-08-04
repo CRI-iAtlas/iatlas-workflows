@@ -12,7 +12,8 @@ parser$add_argument(
 parser$add_argument(
     "--entrez",
     default = NULL,
-    type = "integer"
+    type = "integer",
+    nargs = "+"
 )
 
 parser$add_argument(

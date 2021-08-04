@@ -24,16 +24,9 @@ parser$add_argument(
 )
 
 parser$add_argument(
-    "--features",
+    "--entrez",
     default = NULL,
-    type = "character",
-    nargs = "+"
-)
-
-parser$add_argument(
-    "--feature_classes",
-    default = NULL,
-    type = "character",
+    type = "integer",
     nargs = "+"
 )
 
@@ -45,15 +38,17 @@ parser$add_argument(
 )
 
 parser$add_argument(
-    "--min_value",
+    "--types",
     default = NULL,
-    type = "double"
+    type = "character",
+    nargs = "+"
 )
 
 parser$add_argument(
-    "--max_value",
+    "--status",
     default = NULL,
-    type = "double"
+    type = "character",
+    nargs = "+"
 )
 
 args <- parser$parse_args()
@@ -61,7 +56,7 @@ args <- parser$parse_args()
 argument_list <- purrr::map_if(args, is.null, ~return(NA)) 
 
 result <- purrr::invoke(
-    iatlas.api.client::query_feature_values,
+    iatlas.api.client::query_mutations,
     argument_list
 )
 
@@ -69,7 +64,7 @@ print(result)
 
 arrow::write_feather(
     result,
-    "feature_values.feather",
+    "mutations.feather",
     compression = "uncompressed"
 )
 

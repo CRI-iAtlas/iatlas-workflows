@@ -1,0 +1,11 @@
+{
+  "datasets": ["TCGA"],
+  "mutation_types": ["driver_mutation"],
+  "parent_tags": ["immune_subtype"],
+  "output_parent_synapse_id": "syn22126170",
+  "output_file": "tcga_immune_subtype_driver_mutations",
+  "synapse_config": {
+        "class": "File",
+        "path": "/home/alamb/.synapseConfigOld"
+  },
+}

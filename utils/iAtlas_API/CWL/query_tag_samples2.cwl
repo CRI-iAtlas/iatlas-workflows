@@ -11,7 +11,7 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/iatlas_api:1.1
+    dockerPull: quay.io/cri-iatlas/iatlas_api:1.2
 
 inputs:
 

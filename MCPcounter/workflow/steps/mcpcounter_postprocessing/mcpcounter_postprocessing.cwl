@@ -11,7 +11,7 @@ requirements:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/mcpcounter_postprocessing:1.1
+    dockerPull: quay.io/cri-iatlas/mcpcounter_postprocessing:1.2
 
 inputs:
 

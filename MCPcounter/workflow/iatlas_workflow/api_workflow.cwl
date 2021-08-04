@@ -84,9 +84,9 @@ steps:
       - id: input_type
         valueFrom: $("wide")
       - id: name_column
-        valueFrom: $("feature")
+        valueFrom: $("sample")
       - id: id_column
-        valueFrom: $(["sample"])
+        valueFrom: $(["feature"])
     out:
       - output_file
 
@@ -98,7 +98,7 @@ steps:
     - id: file_to_store
       source: format_cell_scores/output_file
     - id: parentid
-      valueFrom: $("syn22125617")
+      valueFrom: $("syn22125635")
     out: []
 
 $namespaces:
