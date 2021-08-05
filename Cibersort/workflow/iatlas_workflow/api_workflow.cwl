@@ -38,6 +38,8 @@ steps:
     in: 
       - id: input_file
         source: api_query/output_file
+      - id: drop_na
+        valueFrom: $(true)
       - id: output_file
         valueFrom: $("expression.tsv")
       - id: output_file_type

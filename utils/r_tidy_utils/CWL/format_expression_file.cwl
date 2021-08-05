@@ -8,7 +8,7 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/r_tidy_utils:1.1
+    dockerPull: quay.io/cri-iatlas/r_tidy_utils:1.1.1
 
 requirements:
 - class: InlineJavascriptRequirement
@@ -44,6 +44,12 @@ inputs:
   default: "long_expression"
   inputBinding:
     prefix: --parse_method
+    
+- id: drop_na
+  type: boolean
+  default: false 
+  inputBinding:
+    prefix: --drop_na
 
 - id: expression_column
   type: string

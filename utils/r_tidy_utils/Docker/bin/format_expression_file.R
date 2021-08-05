@@ -34,6 +34,12 @@ parser$add_argument(
     default = "long_expression"
 )
 
+parser$add_argument(
+    "--drop_na",
+    action = "store_true", 
+    default = FALSE
+)
+
 # long expression arguments
 
 parser$add_argument(
@@ -121,6 +127,10 @@ if (args$parse_method == "long_expression"){
         dplyr::ungroup() 
 } else {
     stop("Method doesn't exist")
+}
+
+if (args$drop_na){
+    expression_df <- tidyr::drop_na(expression_df)
 }
 
 write_func(expression_df, args$output_file)

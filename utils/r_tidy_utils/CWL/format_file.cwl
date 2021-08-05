@@ -8,7 +8,7 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/r_tidy_utils:1.1
+    dockerPull: quay.io/cri-iatlas/r_tidy_utils:1.1.1
 
 requirements:
 - class: InlineJavascriptRequirement
@@ -68,6 +68,12 @@ inputs:
   default: ["id"]
   inputBinding:
     prefix: --id_column
+
+- id: drop_na
+  type: boolean
+  default: false 
+  inputBinding:
+    prefix: --drop_na
       
 outputs:
 

@@ -59,6 +59,12 @@ parser$add_argument(
     default = NULL
 )
 
+parser$add_argument(
+    "--drop_na",
+    action = "store_true", 
+    default = FALSE
+)
+
 args <- parser$parse_args()
 
 if(args$input_file_type == "feather") {
@@ -108,6 +114,10 @@ if (is.null(args$output_type)) {
     )
 } else {
     stop("Unsupported input or output type")
+}
+
+if (args$drop_na){
+    expression_df <- tidyr::drop_na(expression_df)
 }
 
 write_func(expression_df, args$output_file)
