@@ -14,7 +14,7 @@ inputs:
   - id: synapse_config
     type: File
   
-  - id: datasets
+  - id: cohorts
     type:
       type: array
       items: string
@@ -80,8 +80,8 @@ steps:
     in: 
       - id: synapse_config
         source: synapse_config
-      - id: datasets
-        source: datasets
+      - id: cohorts
+        source: cohorts
       - id: iatlas_dataset
         source: iatlas_dataset
       - id: parent_tags
@@ -108,8 +108,8 @@ steps:
     in: 
       - id: synapse_config
         source: synapse_config
-      - id: datasets
-        source: datasets
+      - id: cohorts
+        source: cohorts
       - id: iatlas_dataset
         source: iatlas_dataset
       - id: parent_tags

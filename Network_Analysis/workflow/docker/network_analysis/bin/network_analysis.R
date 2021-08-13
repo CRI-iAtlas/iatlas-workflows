@@ -68,16 +68,9 @@ parser$add_argument(
 )
 
 parser$add_argument(
-  "--group_name_cols",
+  "--group_name_col",
   type = "character",
-  default = "group",
-  nargs = "+"
-)
-
-parser$add_argument(
-  "--group_name_seperator",
-  type = "character",
-  default = ":"
+  default = "group"
 )
 
 parser$add_argument(
@@ -190,14 +183,9 @@ if(args$output_file_type == "feather") {
 
 group_tbl <- args$input_group_file %>% 
   read_func() %>% 
-  tidyr::unite(
-    "group",
-    args$group_name_cols,
-    sep = args$group_name_seperator
-  ) %>%
   dplyr::select(
     "sample" = args$group_sample_col,
-    "group"
+    "group"  = args$group_name_col
   ) %>%
   tidyr::drop_na() 
 
@@ -251,7 +239,6 @@ if(!is.null(args$input_node_label_file)){
   node_label_tbl <- NULL 
 }
 
-print(node_label_tbl)
 
 node_tbl <- 
   dplyr::bind_rows(expression_tbl, celltype_tbl) %>% 
@@ -283,17 +270,14 @@ abundance_tbl <- nodes_scores %>%
 if(nrow(abundance_tbl) == 0) stop("No abundance scores calculated")
 
 if(!is.null(node_label_tbl)){
-  print(abundance_tbl)
   abundance_tbl <- dplyr::left_join(
     abundance_tbl, node_label_tbl, by = "Node"
   )
-  print(abundance_tbl)
 }
 
 if(args$iatlas_output){
 
   abundance_tbl <- abundance_tbl %>% 
-    print() %>% 
     dplyr::ungroup() %>% 
     dplyr::rename(
       "node"  = "Node",
@@ -317,7 +301,6 @@ if(args$iatlas_output){
         NA_character_
       )
     ) %>% 
-    print() %>% 
     dplyr::select(tidyselect::any_of(c(
       "name",
       "score",
@@ -384,5 +367,6 @@ if(args$iatlas_output){
 }
 
 edges_tbl %>% 
+  print() %>% 
   write_func(args$output_edges_file)
 

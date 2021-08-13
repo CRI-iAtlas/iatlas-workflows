@@ -10,7 +10,7 @@ requirements:
 
 inputs:
 
-  - id: datasets
+  - id: cohorts
     type: string[]
   - id: iatlas_dataset
     type: string
@@ -53,8 +53,8 @@ steps:
   - id: network_analysis
     run: api_workflow.cwl
     in: 
-      - id: datasets
-        source: datasets
+      - id: cohorts
+        source: cohorts
       - id: iatlas_dataset
         source: iatlas_dataset
       - id: parent_tags

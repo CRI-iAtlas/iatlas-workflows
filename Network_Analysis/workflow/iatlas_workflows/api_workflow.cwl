@@ -9,7 +9,7 @@ requirements:
 
 inputs:
 
-  - id: datasets
+  - id: cohorts
     type: string[]
   - id: iatlas_dataset
     type: string
@@ -71,26 +71,23 @@ steps:
   - id: api_query_gene_expression
     run: ../steps/utils/query_gene_expression.cwl
     in: 
-      datasets: datasets
+      cohorts: cohorts
       gene_types: gene_types
-      parent_tags: parent_tags
     out:
       - output_file
       
   - id: api_query_feature_values
     run: ../steps/utils/query_feature_values.cwl
     in: 
-      datasets: datasets
+      cohorts: cohorts
       features: features
-      parent_tags: parent_tags
     out:
       - output_file
       
   - id: api_query_groups
-    run: ../steps/utils/query_tag_samples2.cwl
+    run: ../steps/utils/query_tag_samples.cwl
     in: 
-      datasets: datasets
-      features: features
+      cohorts: cohorts
       parent_tags: parent_tags
     out:
       - output_file
@@ -127,11 +124,9 @@ steps:
         source: syn_get_node_labels/filepath
         
       - id: group_sample_col
-        valueFrom: $("sample")
-      - id: group_name_cols
-        source: parent_tags
-      - id: group_name_seperator
-        valueFrom: $("|")
+        valueFrom: $("sample_name")
+      - id: group_name_col
+        valueFrom: $("tag_name")
       - id: celltype_value_col
         valueFrom: $("feature_value")
       - id: celltype_node_col
