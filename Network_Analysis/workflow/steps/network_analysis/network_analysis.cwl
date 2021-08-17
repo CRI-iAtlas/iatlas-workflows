@@ -9,7 +9,7 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/network_analysis:1.2
+    dockerPull: quay.io/cri-iatlas/network_analysis:1.3
 
 inputs:
 
@@ -68,11 +68,17 @@ inputs:
   inputBinding:
     prefix: --group_sample_col
     
-- id: group_name_col
-  type: string
-  default: "group"
+- id: group_name_cols
+  type: string[]
+  default: ["group"]
   inputBinding:
-    prefix: --group_name_col
+    prefix: --group_name_cols
+
+- id: group_name_seperator
+  type: string
+  default: ":"
+  inputBinding:
+    prefix: --group_name_seperator
 
 - id: expression_sample_col
   type: string

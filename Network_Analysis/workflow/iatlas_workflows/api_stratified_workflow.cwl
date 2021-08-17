@@ -91,6 +91,14 @@ steps:
       parent_tags: parent_tags
     out:
       - output_file
+      
+  - id: format_groups
+    run: ../steps/utils/pivot_wider.cwl
+    in: 
+      cohorts: cohorts
+      parent_tags: parent_tags
+    out:
+      - output_file
 
   - id: syn_get_scaffold
     run: https://raw.githubusercontent.com/Sage-Bionetworks-Workflows/dockstore-tool-synapseclient/v1.0/cwl/synapse-get-tool.cwl

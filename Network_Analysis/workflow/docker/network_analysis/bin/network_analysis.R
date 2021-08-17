@@ -68,9 +68,16 @@ parser$add_argument(
 )
 
 parser$add_argument(
-  "--group_name_col",
+  "--group_name_cols",
   type = "character",
-  default = "group"
+  default = "group",
+  nargs = "+"
+)
+
+parser$add_argument(
+  "--group_name_seperator",
+  type = "character",
+  default = ":"
 )
 
 parser$add_argument(
@@ -183,9 +190,14 @@ if(args$output_file_type == "feather") {
 
 group_tbl <- args$input_group_file %>% 
   read_func() %>% 
+  tidyr::unite(
+    "group",
+    args$group_name_cols,
+    sep = args$group_name_seperator
+  ) %>%
   dplyr::select(
     "sample" = args$group_sample_col,
-    "group"  = args$group_name_col
+    "group"
   ) %>%
   tidyr::drop_na() 
 

@@ -1,0 +1,13 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "/home/alamb/.synapseConfigOld"
+    },
+    "cohorts": ["TCGA"],
+    "iatlas_dataset": "TCGA",
+    "parent_tags": ["Immune_Subtype", "TCGA_Study"],
+    "output_nodes_file": "tcga_fantom_stratified_nodes.feather",
+    "output_edges_file": "tcga_fantom_stratified_edges.feather",
+    "nodes_output_parent_synapse_id": "syn23538654",
+    "edges_output_parent_synapse_id": "syn23538654"
+}
