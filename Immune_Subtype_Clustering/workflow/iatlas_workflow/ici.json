@@ -1,0 +1,22 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "/home/alamb/.synapseConfigOld"
+    },
+    "cohorts": [
+         "Choueiri_CCR_2016",
+         "Gide_Cell_2019",
+         "HugoLo_IPRES_2016",
+         "IMmotion150",
+         "IMVigor210",
+         "Kim_NatMed_2018",
+         "Liu_NatMed_2019",
+         "Miao_Science_2018",
+         "Prins_GBM_2019",
+         "Riaz_Nivolumab_2017",
+         "VanAllen_antiCTLA4_2015",
+         "Zhao_NatMed_2019" 
+    ],
+    "destination_id": "syn26066919",
+    "output_file": "immune_subtypes.tsv"
+}
