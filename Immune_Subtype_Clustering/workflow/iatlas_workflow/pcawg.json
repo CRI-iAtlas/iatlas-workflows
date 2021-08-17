@@ -1,0 +1,9 @@
+{
+    "synapse_config": {
+        "class": "File",
+        "path": "/home/alamb/.synapseConfigOld"
+    },
+    "cohorts": ["PCAWG"],
+    "destination_id": "syn26066919",
+    "output_file": "immune_subtypes.tsv"
+}
