@@ -8,34 +8,29 @@ requirements:
 
 inputs:
 
-- id: input_id
-  type: string
-- id: synapse_config
-  type: File
-- id: destination_id
-  type: string
-- id: output_file
-  type: string?
-- id: input_file_delimeter
-  type: string?
-- id: input_gene_column
-  type: string?
-
+  - id: cohorts
+    type: string[]
+  - id: output_file
+    type: string
+  - id: synapse_config
+    type: File
+  - id: destination_id
+    type: string
   
 outputs: []
    
 
 steps:
 
-- id: syn_get
-  run: https://raw.githubusercontent.com/Sage-Bionetworks/synapse-client-cwl-tools/v0.1/synapse-get-tool.cwl
-  in: 
-  - id: synapse_config
-    source: synapse_config
-  - id: synapseid
-    source: input_id
-  out:
-  - filepath
+  - id: api_query
+    run: ../steps/utils/query_gene_expression.cwl
+    in: 
+      - id: cohorts
+        source: cohorts
+      - id: gene_types
+        valueFrom: $(["mcpcounter_gene"])
+    out:
+      - output_file
 
 - id: clustering
   run: steps/immune_subtype_clustering/immune_subtype_clustering.cwl

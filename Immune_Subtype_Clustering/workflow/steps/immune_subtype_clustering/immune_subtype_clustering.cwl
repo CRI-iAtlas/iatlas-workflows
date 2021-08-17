@@ -11,7 +11,7 @@ requirements:
 
 hints:
 - class: DockerRequirement
-  dockerPull: quay.io/cri-iatlas/immune_subtype_clustering:1.0
+  dockerPull: quay.io/cri-iatlas/immune_subtype_clustering:1.1
 
 inputs:
 
