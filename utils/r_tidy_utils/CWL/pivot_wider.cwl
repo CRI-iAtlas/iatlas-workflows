@@ -38,6 +38,12 @@ inputs:
   default: "feather"
   inputBinding:
     prefix: --output_file_type
+    
+- id: id_column
+  type: string[]
+  default: ["id"]
+  inputBinding:
+    prefix: --id_column
 
 - id: name_column
   type: string

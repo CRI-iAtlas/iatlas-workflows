@@ -29,6 +29,13 @@ parser$add_argument(
 )
 
 parser$add_argument(
+    "--id_column",
+    type = "character",
+    nargs = "+",
+    default = NULL
+)
+
+parser$add_argument(
     "--value_column",
     type = "character",
     default = "value"
@@ -74,6 +81,7 @@ tbl <- read_func(args$input_file)
 
 tbl <- tidyr::pivot_wider(
     data = tbl,
+    id_cols = args$id_column,
     names_from = args$name_column,
     values_from = args$value_column
 )
@@ -81,6 +89,8 @@ tbl <- tidyr::pivot_wider(
 if (args$drop_na){
     tbl <- tidyr::drop_na(tbl)
 }
+
+print(tbl)
 
 write_func(tbl, args$output_file)
     

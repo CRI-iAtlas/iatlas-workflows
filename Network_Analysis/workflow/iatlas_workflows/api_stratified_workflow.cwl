@@ -71,8 +71,10 @@ steps:
   - id: api_query_gene_expression
     run: ../steps/utils/query_gene_expression.cwl
     in: 
-      cohorts: cohorts
-      gene_types: gene_types
+      - id: cohorts
+        source: cohorts
+      - id: gene_types
+        source: gene_types
     out:
       - output_file
       
@@ -85,7 +87,7 @@ steps:
       - output_file
       
   - id: api_query_groups
-    run: ../steps/utils/query_tag_samples.cwl
+    run: ../steps/utils/query_tag_samples_parents.cwl
     in: 
       cohorts: cohorts
       parent_tags: parent_tags
@@ -95,8 +97,15 @@ steps:
   - id: format_groups
     run: ../steps/utils/pivot_wider.cwl
     in: 
-      cohorts: cohorts
-      parent_tags: parent_tags
+      - id: input_file
+        source: api_query_groups/output_file
+      - id: id_column
+        valueFrom: $(["sample_name"])
+      - id: name_column
+        valueFrom: $("parent_tag_name")
+      - id: value_column
+        valueFrom: $("tag_name")
+      
     out:
       - output_file
 
@@ -125,7 +134,7 @@ steps:
       - id: input_celltype_file
         source: api_query_feature_values/output_file
       - id: input_group_file
-        source: api_query_groups/output_file
+        source: format_groups/output_file
       - id: input_scaffold_file
         source: syn_get_scaffold/filepath
       - id: input_node_label_file
@@ -134,7 +143,7 @@ steps:
       - id: group_sample_col
         valueFrom: $("sample_name")
       - id: group_name_cols
-        valueFrom: $(["tag_name"])
+        source: parent_tags
       - id: celltype_value_col
         valueFrom: $("feature_value")
       - id: celltype_node_col
