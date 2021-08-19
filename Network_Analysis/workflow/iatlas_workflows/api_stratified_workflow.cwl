@@ -81,8 +81,10 @@ steps:
   - id: api_query_feature_values
     run: ../steps/utils/query_feature_values.cwl
     in: 
-      cohorts: cohorts
-      features: features
+      - id: cohorts
+        source: cohorts
+      - id: features
+        source: features
     out:
       - output_file
       
