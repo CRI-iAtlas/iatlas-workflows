@@ -14,7 +14,7 @@ doc: >
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/calculate_mutation_models:1.3
+    dockerPull: quay.io/cri-iatlas/calculate_mutation_models:1.4
 
 inputs:
 

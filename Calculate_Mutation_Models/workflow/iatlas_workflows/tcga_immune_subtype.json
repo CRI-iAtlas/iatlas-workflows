@@ -1,8 +1,8 @@
 {
-  "datasets": ["TCGA"],
+  "cohorts": ["TCGA_Immune_Subtype"],
   "mutation_types": ["driver_mutation"],
-  "parent_tags": ["immune_subtype"],
-  "output_parent_synapse_id": "syn22126170",
+  "parent_tags": ["Immune_Subtype"],
+  "output_parent_synapse_id": "syn26071245",
   "output_file": "tcga_immune_subtype_driver_mutations",
   "synapse_config": {
         "class": "File",

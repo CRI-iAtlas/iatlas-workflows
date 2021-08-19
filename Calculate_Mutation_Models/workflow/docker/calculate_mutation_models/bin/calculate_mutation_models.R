@@ -105,7 +105,7 @@ parser$add_argument(
 args <- parser$parse_args()
 
 if(args$input_file_type == "feather") {
-  read_func <- feather::read_feather
+  read_func <- arrow::read_feather
 } else if(args$input_file_type == "csv") {
   read_func <- readr::read_csv
 } else if(args$input_file_type == "tsv") {
@@ -115,7 +115,7 @@ if(args$input_file_type == "feather") {
 }
 
 if(args$output_file_type == "feather") {
-  write_func <- feather::write_feather
+  write_func <- arrow::write_feather
 } else if(args$output_file_type == "csv") {
   write_func <- readr::write_csv
 } else if(args$output_file_type == "tsv") {
@@ -205,7 +205,9 @@ calculate_metrics <- function(.feature, .mutation, .group){
   ) %>%
     tidyr::drop_na() %>% 
     dplyr::select("value", "status") 
-  
+  if(length(unique(data$status)) != 2) {
+    return(dplyr::tibble())
+  }
   dplyr::tibble(
     "p_value" = calculate_lm_pvalue(data),
     "fold_change" = calculate_fold_change(data),

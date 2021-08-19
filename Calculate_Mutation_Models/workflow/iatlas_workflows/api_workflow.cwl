@@ -17,7 +17,7 @@ doc: >
 inputs:
 
   # API paramters
-  datasets: string[]
+  cohorts: string[]
   mutation_types: string[]
   parent_tags: string[]
   
@@ -51,22 +51,22 @@ steps:
   - id: api_query_feature_values
     run: ../steps/utils/query_feature_values.cwl
     in: 
-      datasets: datasets
+      cohorts: cohorts
     out:
       - output_file
       
   - id: api_query_groups
-    run: ../steps/utils/query_tag_samples2.cwl
+    run: ../steps/utils/query_tag_samples.cwl
     in: 
-      datasets: datasets
+      cohorts: cohorts
+      parent_tags: parent_tags
     out:
       - output_file
       
   - id: api_query_mutation_status
-    run: ../steps/utils/query_mutations.cwl
+    run: ../steps/utils/query_mutation_statuses.cwl
     in:
-      datasets: datasets
-      parent_tags: parent_tags
+      cohorts: cohorts
       types: mutation_types
     out:
       - output_file
@@ -74,9 +74,26 @@ steps:
   - id: calculate_mutation_models
     run: ../steps/calculate_mutation_models/calculate_mutation_models.cwl
     in: 
-      input_feature_file: api_query_feature_values/output_file
-      input_group_file: api_query_groups/output_file
-      input_mutation_file: api_query_mutation_status/output_file
+      - id: input_feature_file
+        source: api_query_feature_values/output_file
+      - id: input_group_file
+        source: api_query_groups/output_file
+      - id: input_mutation_file
+        source: api_query_mutation_status/output_file
+      - id: feature_name_column
+        valueFrom: $("feature_name")
+      - id: feature_value_column
+        valueFrom: $("feature_value")
+      - id: group_sample_column
+        valueFrom: $("sample_name")
+      - id: group_name_column
+        valueFrom: $("tag_name")
+      - id: mutation_name_columns
+        valueFrom: $(["mutation_name"])
+      - id: mutation_sample_column
+        valueFrom: $("sample_name")
+      - id: mutation_status_column
+        valueFrom: $("mutation_status")
     out:
       - mutation_models
 
