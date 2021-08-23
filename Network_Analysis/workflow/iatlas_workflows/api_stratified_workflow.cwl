@@ -107,6 +107,8 @@ steps:
         valueFrom: $("parent_tag_name")
       - id: value_column
         valueFrom: $("tag_name")
+      - id: drop_na
+        valueFrom: $(true)
       
     out:
       - output_file
