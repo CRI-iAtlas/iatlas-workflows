@@ -51,23 +51,28 @@ steps:
   - id: api_query_feature_values
     run: ../steps/utils/query_feature_values.cwl
     in: 
-      cohorts: cohorts
+      - id: cohorts
+        source: cohorts
     out:
       - output_file
       
   - id: api_query_groups
     run: ../steps/utils/query_tag_samples.cwl
     in: 
-      cohorts: cohorts
-      parent_tags: parent_tags
+      - id: cohorts
+        source: cohorts
+      - id: parent_tags
+        source: parent_tags
     out:
       - output_file
       
   - id: api_query_mutation_status
     run: ../steps/utils/query_mutation_statuses.cwl
     in:
-      cohorts: cohorts
-      types: mutation_types
+      - id: cohorts
+        source: cohorts
+      - id: types
+        source: mutation_types
     out:
       - output_file
       
