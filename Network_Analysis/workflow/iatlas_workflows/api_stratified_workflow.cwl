@@ -81,8 +81,10 @@ steps:
   - id: api_query_feature_values
     run: ../steps/utils/query_feature_values.cwl
     in: 
-      cohorts: cohorts
-      features: features
+      - id: cohorts
+        source: cohorts
+      - id: features
+        source: features
     out:
       - output_file
       
@@ -105,6 +107,8 @@ steps:
         valueFrom: $("parent_tag_name")
       - id: value_column
         valueFrom: $("tag_name")
+      - id: drop_na
+        valueFrom: $(true)
       
     out:
       - output_file

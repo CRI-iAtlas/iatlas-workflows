@@ -276,6 +276,7 @@ nodes_scores <- abcnet::compute_abundance(
   gois  = genes
 ) 
 
+
 abundance_tbl <- nodes_scores %>% 
   abcnet::get_abundance_table(.) 
 
@@ -369,14 +370,13 @@ if(args$iatlas_output){
         .data$tag, 
         .data$to,
         sep = "_"
-      ),
-      "dataset" = args$iatlas_dataset,
-      "network" = args$iatlas_network
+      )
     ) %>% 
     dplyr::select(tidyselect::any_of(c(
-      "name", "score", "node1", "node2", "dataset", "network", "label"
+      "name", "score", "node1", "node2", "label"
     )))
 }
+
 
 edges_tbl %>% 
   print() %>% 

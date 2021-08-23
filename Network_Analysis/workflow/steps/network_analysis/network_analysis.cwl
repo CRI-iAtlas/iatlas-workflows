@@ -9,7 +9,7 @@ baseCommand:
 
 hints:
   DockerRequirement:
-    dockerPull: quay.io/cri-iatlas/network_analysis:1.3
+    dockerPull: quay.io/cri-iatlas/network_analysis:1.4
 
 inputs:
 
