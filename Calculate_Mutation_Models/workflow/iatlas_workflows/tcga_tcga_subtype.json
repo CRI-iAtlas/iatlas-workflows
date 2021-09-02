@@ -1,9 +1,9 @@
 {
   "cohorts": ["TCGA_Immune_Subtype"],
   "mutation_types": ["driver_mutation"],
-  "parent_tags": ["Immune_Subtype"],
+  "parent_tags": ["TCGA_Subtype"],
   "output_parent_synapse_id": "syn26071245",
-  "output_file": "tcga_immune_subtype_driver_mutations.feather",
+  "output_file": "tcga_tcga_subtype_driver_mutations.feather",
   "synapse_config": {
         "class": "File",
         "path": "/home/alamb/.synapseConfigOld"
