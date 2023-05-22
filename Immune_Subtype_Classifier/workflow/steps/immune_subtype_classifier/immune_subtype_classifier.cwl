@@ -2,7 +2,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: 
 - Rscript
-- /usr/local/bin/immune_subtype_clustering.R
+- /usr/local/bin/immune_subtype_classifier.R
 
 doc: "Call Immune subtype classifier on expression data."
 
