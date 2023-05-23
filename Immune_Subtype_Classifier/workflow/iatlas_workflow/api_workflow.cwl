@@ -52,8 +52,8 @@ steps:
     out:
       - output_file
   
-  - id: clustering
-    run: ../steps/immune_subtype_clustering/immune_subtype_clustering.cwl
+  - id: classification
+    run: ../steps/immune_subtype_classifier/immune_subtype_classifier.cwl
     in: 
     - id: input_file
       source: format_file/output_file

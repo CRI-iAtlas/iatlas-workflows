@@ -4,7 +4,7 @@ baseCommand:
 - Rscript
 - /usr/local/bin/immune_subtype_clustering.R
 
-doc: "Call Immune subtype clusters on expression data."
+doc: "Call Immune subtype classifier on expression data."
 
 requirements:
 - class: InlineJavascriptRequirement
